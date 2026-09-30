@@ -830,10 +830,165 @@ body {
 }
 
 /* ===========================
+   STORY SECTION HEADINGS
+=========================== */
+.story-section {
+  margin-top: 6px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.section-heading-line {
+  flex: 1;
+  height: 1px;
+  background: var(--section-color, rgba(255,255,255,0.07));
+}
+
+.section-heading-text {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--section-color, rgba(255,255,255,0.25));
+  white-space: nowrap;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--section-color, rgba(255,255,255,0.08));
+  background: rgba(0,0,0,0.4);
+  position: relative;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.section-heading-text::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: var(--section-bg, transparent);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Per-character section colors */
+.xavi-modal    .section-heading-text  { --section-color: rgba(74,127,203,0.9);  --section-bg: #4a7fcb; color: #8cbbf0; }
+.mishi-modal   .section-heading-text  { --section-color: rgba(212,95,165,0.9); --section-bg: #d45fa5; color: #f08cc0; }
+.leo-modal     .section-heading-text  { --section-color: rgba(78,184,122,0.9);  --section-bg: #4eb87a; color: #8cf0b0; }
+.jorgito-modal .section-heading-text  { --section-color: rgba(184,74,74,0.9);   --section-bg: #b84a4a; color: #f08c8c; }
+.madre-modal   .section-heading-text  { --section-color: rgba(138,127,170,0.9); --section-bg: #8a7faa; color: #c4bcdb; }
+
+.xavi-modal    .section-heading-line  { background: rgba(74,127,203,0.35); }
+.mishi-modal   .section-heading-line  { background: rgba(212,95,165,0.35); }
+.leo-modal     .section-heading-line  { background: rgba(78,184,122,0.35); }
+.jorgito-modal .section-heading-line  { background: rgba(184,74,74,0.35); }
+.madre-modal   .section-heading-line  { background: rgba(138,127,170,0.35); }
+
+/* ===========================
+   AUDIO BUTTON
+=========================== */
+.audio-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 12px;
+  transition: all 0.3s ease;
+  vertical-align: middle;
+}
+
+.audio-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+
+.audio-btn.playing {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  color: #fff;
+  animation: pulseAudio 2s infinite;
+}
+
+@keyframes pulseAudio {
+  0% { box-shadow: 0 0 0 0 rgba(201,162,39, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(201,162,39, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,162,39, 0); }
+}
+
+/* ===========================
+   VOICE SELECTOR
+=========================== */
+.voice-controls-wrapper {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1050; /* Above modals to stay clickable */
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.voice-icon {
+  color: var(--text-muted);
+}
+
+.voice-select {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  outline: none;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  cursor: pointer;
+  max-width: 150px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* ===========================
    RESPONSIVE — TABLET
 =========================== */
 @media (max-width: 768px) {
   .site-header { padding: 36px 16px 28px; }
+
+  /* Move voice controls below header to avoid overlapping */
+  .voice-controls-wrapper {
+    position: absolute; /* Flow relative to page top on mobile */
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+  
+  /* When a modal opens, we want voice controls inside the modal space or hidden.
+     Actually, a fixed position bottom right is better for mobile so it's always accessible but out of the way of the close button. */
+  .voice-controls-wrapper {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    right: 50%;
+    transform: translateX(50%);
+  }
 
   /* Gen-1: stack vertically */
   .gen-1 {

@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Los Mascapitos — Árbol Genealógico</title>
-  <meta name="description" content="El lore de los Mascapitos: árbol genealógico interactivo de una familia forjada por el destino.">
+  <meta name="description"
+    content="El lore de los Mascapitos: árbol genealógico interactivo de una familia forjada por el destino.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <!-- Particles Background -->
   <div class="particles" id="particles"></div>
+
+  <!-- Voice Selector Floating -->
+  <div class="voice-controls-wrapper">
+    <svg class="voice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+      <line x1="12" y1="19" x2="12" y2="22"></line>
+    </svg>
+    <select id="voice-select" class="voice-select">
+      <option value="">Cargando voces...</option>
+    </select>
+  </div>
 
   <!-- Header -->
   <header class="site-header">
@@ -49,7 +67,7 @@
         <!-- CSS diamond badge -->
         <div class="mystery-badge">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L13 7L7 13L1 7Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.15)"/>
+            <path d="M7 1L13 7L7 13L1 7Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.15)" />
           </svg>
         </div>
       </div>
@@ -109,8 +127,9 @@
         <!-- CSS warning badge -->
         <div class="warning-badge" aria-label="Peligro">
           <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
-            <path d="M9 1L17 15H1L9 1Z" stroke="#cc4444" stroke-width="1.5" fill="rgba(184,74,74,0.15)"/>
-            <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter" font-weight="700">!</text>
+            <path d="M9 1L17 15H1L9 1Z" stroke="#cc4444" stroke-width="1.5" fill="rgba(184,74,74,0.15)" />
+            <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter"
+              font-weight="700">!</text>
           </svg>
         </div>
       </div>
@@ -121,10 +140,10 @@
         <div class="b-center">
           <!-- CSS broken X -->
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round"/>
-            <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round"/>
-            <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round"/>
-            <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+            <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+            <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+            <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
           </svg>
         </div>
         <div class="b-line b-line-right"></div>
@@ -155,9 +174,10 @@
       <!-- Lock icon label -->
       <div class="secret-label">
         <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style="vertical-align:middle;margin-right:5px">
-          <rect x="1" y="5" width="8" height="7" rx="1.5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2" fill="rgba(78,184,122,0.08)"/>
-          <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2" stroke-linecap="round"/>
-          <circle cx="5" cy="8.5" r="1" fill="rgba(78,184,122,0.7)"/>
+          <rect x="1" y="5" width="8" height="7" rx="1.5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2"
+            fill="rgba(78,184,122,0.08)" />
+          <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2" stroke-linecap="round" />
+          <circle cx="5" cy="8.5" r="1" fill="rgba(78,184,122,0.7)" />
         </svg>
         Secreto familiar
       </div>
@@ -206,8 +226,8 @@
         <div class="modal-title-block">
           <div class="modal-icon madre-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2L18 10L10 18L2 10Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.12)"/>
-              <circle cx="10" cy="10" r="2" fill="rgba(138,127,170,0.5)"/>
+              <path d="M10 2L18 10L10 18L2 10Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.12)" />
+              <circle cx="10" cy="10" r="2" fill="rgba(138,127,170,0.5)" />
             </svg>
           </div>
           <h2 class="modal-name">??? <span class="unknown-name-tag">Desconocida</span></h2>
@@ -217,6 +237,13 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">I. El Origen</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           No tiene nombre en esta historia. No porque nadie lo sepa, sino porque <strong>eligió no tenerlo</strong>.
           Decidió no existir en la vida de Mishi desde antes de que naciera.
@@ -256,8 +283,8 @@
         <div class="modal-title-block">
           <div class="modal-icon xavi-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2L18 10L10 18L2 10Z" fill="rgba(74,127,203,0.15)" stroke="#4a7fcb" stroke-width="1.3"/>
-              <path d="M10 5L15 10L10 15L5 10Z" fill="rgba(74,127,203,0.25)"/>
+              <path d="M10 2L18 10L10 18L2 10Z" fill="rgba(74,127,203,0.15)" stroke="#4a7fcb" stroke-width="1.3" />
+              <path d="M10 5L15 10L10 15L5 10Z" fill="rgba(74,127,203,0.25)" />
             </svg>
           </div>
           <h2 class="modal-name">Xavi</h2>
@@ -267,6 +294,13 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">I. La Consecuencia</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           A los <strong>15 años</strong>, la vida le lanzó una verdad sin anestesia: iba a ser padre.
           No fue un plan. Fue una noche, una chica, y la consecuencia más grande de su vida.
@@ -297,6 +331,14 @@
           Y luego Mishi lo abrazaba sin razón, de esa forma desordenada que tienen los niños,
           y la pregunta desaparecía. <em>Siempre desaparecía.</em>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">II. El Hombre que Aguantó</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Nunca quiso que su hija sufriera por amor. Él sabía lo que era eso:
           querer a alguien que no te elige, esperar una llamada que nunca llega,
@@ -311,8 +353,8 @@
           Un día, después de meses, Xavi lo llamó aparte. Le sirvió un café.
           Lo miró fijo y le dijo:<br>
           <em>«Yo sufrí por amor cuando era joven. Sufrí mucho. Y juré que mi hija no iba a pasar por eso.
-          Si estás aquí es porque veo algo en ti. No me falles. No le falles a ella.
-          Porque si lo haces… no va a haber forma de arreglarlo.»</em><br>
+            Si estás aquí es porque veo algo en ti. No me falles. No le falles a ella.
+            Porque si lo haces… no va a haber forma de arreglarlo.»</em><br>
           Jorgito sostuvo la mirada y respondió: <em>«Nunca lo haré.»</em>
           Xavi le creyó. Con todo. Sin reservas. <em>Eso fue su error más grande.</em>
         </p>
@@ -326,6 +368,14 @@
           Pero lloró. Con las manos en el rostro, en silencio, pensando que por fin
           <em>había cumplido su parte.</em>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">III. La Traición</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text highlight-text">
           Lo que vino después le rompió algo que todavía no ha terminado de sanar.
           Le avisaron por teléfono. Una llamada de Mishi, con la voz partida:
@@ -371,13 +421,13 @@
           <div class="modal-icon mishi-icon">
             <!-- CSS petal / flower mark -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <ellipse cx="10" cy="5"  rx="2.5" ry="4" fill="rgba(212,95,165,0.3)" transform="rotate(0  10 10)"/>
-              <ellipse cx="10" cy="5"  rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(60 10 10)"/>
-              <ellipse cx="10" cy="5"  rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(120 10 10)"/>
-              <ellipse cx="10" cy="5"  rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(180 10 10)"/>
-              <ellipse cx="10" cy="5"  rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(240 10 10)"/>
-              <ellipse cx="10" cy="5"  rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(300 10 10)"/>
-              <circle cx="10" cy="10" r="3" fill="rgba(212,95,165,0.5)"/>
+              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.3)" transform="rotate(0  10 10)" />
+              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(60 10 10)" />
+              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(120 10 10)" />
+              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(180 10 10)" />
+              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(240 10 10)" />
+              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(300 10 10)" />
+              <circle cx="10" cy="10" r="3" fill="rgba(212,95,165,0.5)" />
             </svg>
           </div>
           <h2 class="modal-name">Mishi</h2>
@@ -387,6 +437,13 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">I. La Chispa</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Nació de una negociación. Sobrevivió al abandono de una madre que nunca la eligió.
           Y aun así, <strong>Mishi es la mujer más viva de la sala</strong>.
@@ -418,6 +475,14 @@
           y la felicidad todavía encima del anillo imaginario.
           <em>Nadie más lo supo. Nadie más tenía que saberlo.</em>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">II. El Secreto</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text highlight-text">
           Semanas después, sola en el baño con una prueba en la mano, Mishi vio dos líneas
           y sintió que el aire se le iba del cuerpo. No porque no quisiera a ese bebé.
@@ -435,6 +500,14 @@
           cerró la puerta y lloró en silencio con la cara enterrada en la almohada.
           <strong>Cargó sola con el secreto. Nueve meses.</strong>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">III. El Golpe</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Luego vino lo de Jorgito. La llamada. La estación de policía.
           Verlo ahí, con las muñecas esposadas y los ojos rojos de no haber dormido,
@@ -452,9 +525,9 @@
           más duras que ha vivido. Antes de la sentencia, él pidió hablar.
           Y habló. Le habló a ella directamente, con el juez escuchando y la sala en silencio:
           <em>«Mishi. El dinero que junté es para Leo. No me lo guardes, úsalo para él.
-          Sé que no me vas a perdonar y no lo espero. Pero necesitaba que supieras
-          que todo lo que hice fue por él. Por ustedes. Me equivoqué de camino.
-          Pero la razón siempre fue la misma.»</em>
+            Sé que no me vas a perdonar y no lo espero. Pero necesitaba que supieras
+            que todo lo que hice fue por él. Por ustedes. Me equivoqué de camino.
+            Pero la razón siempre fue la misma.»</em>
           Ella no lloró en público. Esperó a llegar a su carro para hacerlo.
           Y lloró tanto que no pudo arrancar en veinte minutos.
         </p>
@@ -466,6 +539,14 @@
           Largo. Despacio. Con todo el peso de lo que no pudo decirle.
           <em>No lo perdonó ese día. Pero tampoco pudo dejarlo ir sin eso.</em>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">IV. El Eco del Pasado</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Han pasado diez años. Crió a Leo sola — con ayuda de Xavi, que no sabe que es su abuelo,
           pero que ama a ese niño con una intensidad que Mishi no puede explicar sin sentir culpa.
@@ -505,7 +586,7 @@
             <!-- Star shape -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M10 2l2.2 5h5.3l-4.3 3.1 1.6 5.2L10 12.4l-4.8 2.9 1.6-5.2L2.5 7h5.3z"
-                    fill="rgba(78,184,122,0.25)" stroke="#4eb87a" stroke-width="1.2" stroke-linejoin="round"/>
+                fill="rgba(78,184,122,0.25)" stroke="#4eb87a" stroke-width="1.2" stroke-linejoin="round" />
             </svg>
           </div>
           <h2 class="modal-name">Leo</h2>
@@ -515,6 +596,13 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">I. El Mundo Inocente</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Leo no entiende de secretos. Para él, el mundo es un lugar <strong>enorme y emocionante</strong>,
           lleno de personas por conocer y aventuras por vivir. Tiene diez años y todavía cree
@@ -528,6 +616,14 @@
           <em>No sabe que es el centro de una bomba de tiempo familiar.</em>
           No sabe que cada vez que reí, Mishi lo mira y por un instante no puede respirar bien.
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">II. La Pregunta Guardada</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text highlight-text">
           Sabe que tiene un papá. Su mamá nunca le mintió en eso. Le dijo que estaba lejos,
           que las cosas fueron complicadas, que algún día lo entendería.
@@ -542,7 +638,7 @@
           Mishi tardó tanto en responder que Leo pensó que no iba a hacerlo.
           Luego ella lo miró fijo y le dijo:
           <em>«No. Tu papá no era mala persona. Cometió errores muy grandes.
-          Pero nunca fue mala persona.»</em>
+            Pero nunca fue mala persona.»</em>
           Leo asintió. No pidió más. Pero esa respuesta la cargó con él durante semanas.
         </p>
         <p class="modal-text">
@@ -555,6 +651,14 @@
           Leo contaba los segundos que duraba el abrazo. Llegaron a treinta y dos.
           <em>El más largo que le ha dado en su vida.</em>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">III. Un Rostro Familiar</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Ahora hay un hombre que apareció cerca del trabajo de su mamá.
           Un hombre de mirada cansada y manos grandes que la mira de una forma
@@ -593,9 +697,9 @@
           <div class="modal-icon jorgito-icon">
             <!-- Crossed blades / danger mark -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <line x1="3"  y1="3"  x2="17" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round"/>
-              <line x1="17" y1="3"  x2="3"  y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="10" cy="10" r="3.5" stroke="#b84a4a" stroke-width="1.2" fill="rgba(184,74,74,0.1)"/>
+              <line x1="3" y1="3" x2="17" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round" />
+              <line x1="17" y1="3" x2="3" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round" />
+              <circle cx="10" cy="10" r="3.5" stroke="#b84a4a" stroke-width="1.2" fill="rgba(184,74,74,0.1)" />
             </svg>
           </div>
           <h2 class="modal-name">Jorgito</h2>
@@ -605,6 +709,13 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">I. La Cima</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Llevaba cuatro años con Mishi cuando todo se rompió. Cuatro años construyendo algo
           que él no sabía que existía hasta que lo tuvo: una familia. Un lugar al que llegar.
@@ -632,10 +743,18 @@
           Por un momento — sólo un momento — fue la persona más feliz del mundo.
           <strong>Luego la realidad lo alcanzó de golpe.</strong>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">II. El Miedo y el Error</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           No tenía dinero. No tenía un trabajo estable. Tenía un colchón, una mochila
           y una novia que llevaba un hijo suyo dentro.
-          Trabajó turnos dobles. Buscó changas. Vendió lo poco que tenía.
+          Trabajó turnos dobles.Vendió lo poco que tenía.
           Cada vez que juntaba algo, se iba en renta, en comida, en lo básico.
           Y cada vez que hacía los números, le faltaba. <em>Siempre le faltaba.</em>
           La angustia lo comía por dentro mientras Mishi cargaba sola el secreto frente a Xavi.
@@ -661,6 +780,14 @@
           Lo primero que pensó fue en Mishi. En Leo. <em>En que quizás todavía podía salvar algo.</em>
           El remordimiento llegó después, como siempre llega — cuando ya es demasiado tarde para irse.
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">III. El Disparo</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text highlight-text">
           El segundo fue distinto desde el principio. La víctima no se dejó. Gritaba.
           Pedía ayuda. Llamaba a alguien por su nombre. <em>Tenía nombre.</em>
@@ -678,12 +805,20 @@
           La policía lo encontró de pie, con las manos a los lados, la vista fija en el suelo.
           Todavía mirando.
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">IV. La Sentencia</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           En la estación, cuando Mishi entró, Jorgito intentó levantarse pero las esposas
-          lo jalaron de vuelta. Se puso de rodillas en el suelo — esposa y todo — y no pudo
+          lo jalaron de vuelta. Se puso de rodillas en el suelo — esposado — y no pudo
           sostener la mirada de ella. Bajó la cabeza y dijo:
           <em>«Lo siento. Lo siento mucho. Te fallé. Le fallé a Xavi.
-          Fallé a la persona que más me importa en el mundo. Lo siento.»</em>
+            Fallé a la persona que más me importa en el mundo. Lo siento.»</em>
           Mishi no dijo nada. Se quedó parada frente a él, con los brazos cruzados,
           con los ojos secos porque los tenía así desde que recibió la llamada.
           Jorgito le pidió que le dijera algo. Cualquier cosa. Que lo insultara si quería.
@@ -710,20 +845,20 @@
           Antes de que la sentencia fuera oficial, pidió hablar. Le concedieron tres minutos.
           Primero habló con la familia de la víctima, que estaba sentada al frente:
           <em>«No puedo pedirles que me perdonen. No tengo ese derecho.
-          Lo que vi esa noche no lo voy a olvidar mientras viva.
-          No pude hacer más y eso me va a pesar siempre. Lo siento de verdad.»</em>
+            Lo que vi esa noche no lo voy a olvidar mientras viva.
+            No pude hacer más y eso me va a pesar siempre. Lo siento de verdad.»</em>
           Luego giró hacia donde estaba Mishi y la miró directo:
           <em>«Mishi. El dinero que junté está guardado. Es para Leo. No es mío, nunca lo fue.
-          Sé que no me vas a perdonar. No te lo pido. Solo necesitaba que supieras
-          que la razón siempre fue él. Siempre fueron ustedes.
-          Me equivoqué de camino. Pero la razón nunca cambió.»</em>
+            Sé que no me vas a perdonar. No te lo pido. Solo necesitaba que supieras
+            que la razón siempre fue él. Siempre fueron ustedes.
+            Me equivoqué de camino. Pero la razón nunca cambió.»</em>
           La sala estaba en silencio. Mishi no movió un músculo.
         </p>
         <p class="modal-text">
           Antes de que se lo llevaran, la familia de la víctima se acercó.
           La madre lo abrazó en medio del juzgado. Le dijo al oído:
           <em>«Gracias a ti, el que lo hizo está preso. Eso no me devuelve a mi hijo.
-          Pero sé que tú no quisiste que pasara.»</em>
+            Pero sé que tú no quisiste que pasara.»</em>
           Jorgito se quebró ahí. Frente a todos. Sin poder evitarlo.
           Luego Mishi se acercó. No dijo nada. Lo tomó de la cara con las dos manos
           y le dio un beso. Largo. Despacio. Con todo el peso de cuatro años, de una propuesta,
@@ -738,6 +873,14 @@
           creciendo, aprendiendo a caminar, aprendiendo a hablar. Sin él.
           <strong>Cada día adentro fue un día que su hijo creció sin padre.</strong>
         </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">V. El Regreso</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
         <p class="modal-text">
           Salió en la mañana. No había nadie esperandolo en la puerta.
           Caminó por la ciudad con una bolsa de plástico con sus cosas.
@@ -768,4 +911,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
