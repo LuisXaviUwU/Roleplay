@@ -106,9 +106,36 @@
       <div class="connector-dot"></div>
     </div>
 
-    <!-- ══════════════ GENERATION 2: Mishi + Jorgito ══════════════ -->
+    <!-- ══════════════ GENERATION 2: Mishi + Jorgito + Barto ══════════════ -->
     <section class="generation gen-2">
       <div class="gen-label">Segunda Generación</div>
+
+      <!-- Barto -->
+      <div class="member-card side-card barto-card" id="card-barto" onclick="openModal('barto')">
+        <div class="card-glow barto-glow"></div>
+        <div class="avatar-ring barto-ring">
+          <img src="img/barto.png" alt="Barto" class="avatar-img" />
+          <div class="avatar-overlay">
+            <span class="view-hint">Ver historia</span>
+          </div>
+        </div>
+        <div class="member-info">
+          <h2 class="member-name">Barto</h2>
+          <p class="member-role">El Asesino</p>
+          <div class="member-age">29 años</div>
+        </div>
+      </div>
+
+      <!-- Connector: Barto <-> Jorgito -->
+      <div class="h-connector barto-connector" aria-hidden="true" style="margin: 0 -15px;">
+        <div class="h-line h-line-left" style="border-color: rgba(255,255,255,0.1);"></div>
+        <div class="h-center">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+             <path d="M7 1L13 7L7 13L1 7Z" stroke="#888" stroke-width="1.5" fill="rgba(100,100,100,0.15)"/>
+          </svg>
+        </div>
+        <div class="h-line h-line-right" style="border-color: rgba(255,255,255,0.1);"></div>
+      </div>
 
       <!-- Jorgito -->
       <div class="member-card side-card jorgito-card" id="card-jorgito" onclick="openModal('jorgito')">
@@ -904,6 +931,109 @@
           lo único que me mantuvo en pie fue saber que Leo existía.
           <span class="quote-mark">"</span>
           <span class="quote-attr">— Jorgito, frente a Mishi, después de diez años</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Barto -->
+  <div class="modal-overlay" id="modal-barto" onclick="closeModalOutside(event, 'barto')">
+    <div class="modal-card barto-modal">
+      <button class="modal-close" onclick="closeModal('barto')">✕</button>
+      <div class="modal-header">
+        <div class="modal-avatar-ring barto-ring">
+          <img src="img/barto.png" alt="Barto" class="modal-avatar" />
+        </div>
+        <div class="modal-title-block">
+          <div class="modal-icon barto-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <!-- Cuchillo / Criminal icon -->
+              <path d="M14.5 5.5L5.5 14.5M14.5 5.5C15.5 6.5 15.5 8 14.5 9L9 14.5C8 15.5 6.5 15.5 5.5 14.5M14.5 5.5C13.5 4.5 12 4.5 11 5.5L5.5 11C4.5 12 4.5 13.5 5.5 14.5M5.5 14.5L3 17" stroke="#d48c3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(212,140,59,0.2)"/>
+            </svg>
+          </div>
+          <h2 class="modal-name">Barto</h2>
+          <p class="modal-subtitle">El Asesino — 29 años</p>
+          <div class="modal-badge barto-badge">EL VILLANO</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-body">
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">I. El Veneno en el Oído</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
+        <p class="modal-text">
+          Barto nunca vio en Jorgito a un hermano; vio una herramienta útil. Mientras Jorgito se ahogaba en la desesperación por demostrarle a Xavi que podía mantener a Mishi y al bebé que venía en camino, Barto escuchaba, analizaba y envenenaba. 
+        </p>
+        <p class="modal-text highlight-text">
+          <em>«Estás jugando a la casita con las reglas de un viejo que te odia»</em>, le decía mientras fumaban en la esquina. <em>«Xavi te va a aplastar. Tienes que llegar con billetes en la mano, no con promesas sudadas de un sueldo miserable. Yo tengo la forma. Fácil, rápido, sin que nadie salga herido.»</em>
+        </p>
+        <p class="modal-text">
+          Jorgito, ciego de angustia y miedo al rechazo, cedió. No sabía que para Barto, él solo era el escudo perfecto por si las cosas salían mal. El chico bueno del que nadie sospecharía.
+        </p>
+        
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">II. El Accidente</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
+        <p class="modal-text">
+          El plan era secuestrar a un empresario local. Barto le juró a Jorgito que el arma estaba descargada, que solo era "para asustar". Pero Barto mintió; siempre la llevaba lista para matar.
+        </p>
+        <p class="modal-text">
+          La noche del golpe, todo se salió de control y la víctima empezó a gritar. Jorgito, invadido por el pánico, intentó detener el secuestro y arrebatarle el arma a Barto para cancelar todo. <strong>En medio del caos, Barto y Jorgito empezaron a pelear y forcejear por la pistola.</strong>
+        </p>
+        <p class="modal-text highlight-text">
+          Fue durante esa violenta pelea física entre ambos que el arma se disparó por accidente. Un solo tiro rompió la noche. El empresario cayó muerto al instante.
+        </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">III. La Traición a Sangre Fría</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
+        <p class="modal-text">
+          Jorgito cayó de rodillas junto al cuerpo, temblando, repitiendo: <em>«¿Qué hicimos? ¿Qué hicimos?»</em> Las sirenas de la policía ya empezaban a aullar a lo lejos.
+        </p>
+        <p class="modal-text">
+          Barto se acercó a su "hermano". Lejos de entrar en pánico, limpió el cañón de la pistola con la manga de su chamarra para borrar sus huellas, y con fuerza se la puso a Jorgito en las manos. 
+        </p>
+        <p class="modal-text">
+          <em>«Escúchame bien, hermanito»</em>, le susurró Barto al oído, con un tono perturbadoramente calmado. <em>«Tú tienes una novia bonita y un suegro que te odia. Si corres ahora, te van a cazar como a un perro rabioso. Te vas a quedar aquí. Vas a decir que fue un accidente. Que estabas solo. Hazlo por tu hijo, o yo mismo me encargo de ir a buscar a Mishi.»</em>
+        </p>
+        <p class="modal-text highlight-text">
+          Antes de que Jorgito pudiera procesar la amenaza y la traición, Barto desapareció saltando la barda trasera hacia la oscuridad, dejando a su amigo como carnada para la policía.
+        </p>
+
+        <div class="story-section">
+          <div class="section-heading">
+            <div class="section-heading-line"></div>
+            <span class="section-heading-text">IV. Entre las Rejas</span>
+            <div class="section-heading-line"></div>
+          </div>
+        </div>
+        <p class="modal-text">
+          Aunque intentó huir cobardemente, la justicia terminó alcanzando a Barto unos meses después. Fue capturado, condenado y enviado a prisión, el mismo infierno de concreto donde Jorgito cumple su condena.
+        </p>
+        <p class="modal-text">
+          Pero a diferencia de su "hermano", que vive atormentado por la culpa y el dolor de haber perdido a Mishi y a Leo, Barto se adaptó a la cárcel como una rata a las alcantarillas. Rápidamente se abrió paso en el patio, extorsionando y manipulando a otros reclusos. Para él, la prisión no es un castigo; es solo su nueva zona de confort.
+        </p>
+        <p class="modal-text highlight-text">
+          Se cruza con Jorgito a veces entre los pasillos, pero no hay disculpas, solo una sonrisa cínica y vacía. No siente remordimiento. Para él, la vida de su amigo fue simplemente un precio barato a pagar.
+        </p>
+
+        <div class="modal-quote">
+          <span class="quote-mark">"</span>
+          La lealtad es un cuento que los idiotas se inventan para no sentirse tan solos cuando se hunden. Yo aprendí a respirar bajo el lodo.
+          <span class="quote-mark">"</span>
+          <span class="quote-attr">— Barto, desde la prisión</span>
         </div>
       </div>
     </div>

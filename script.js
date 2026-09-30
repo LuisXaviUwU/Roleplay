@@ -128,7 +128,13 @@ const customAudioMap = {
   'jorgito-4': 'audio/Capitulo5Jorgito.m4a',
   
   // La Madre
-  'madre-0': 'audio/Capitulo1Mujer.m4a'
+  'madre-0': 'audio/Capitulo1Mujer.m4a',
+  
+  // Barto
+  'barto-0': 'audio/Capitulo1Barto.m4a',
+  'barto-1': 'audio/Capitulo2Barto.m4a',
+  'barto-2': 'audio/Capitulo3Barto.m4a',
+  'barto-3': 'audio/Capitulo4Barto.m4a'
 };
 
 function populateVoices() {
