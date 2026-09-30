@@ -1,0 +1,214 @@
+
+/* ===========================
+   STORY ACCORDION STYLES
+=========================== */
+.story-header-top {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.story-header-deco {
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.story-subheader {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+/* Main toggle button */
+.story-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--gold-dim), rgba(201,162,39,0.15));
+  border: 1px solid var(--gold-dim);
+  border-radius: 50px;
+  color: var(--gold-light);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.3s ease;
+  margin: 0 auto;
+}
+.story-toggle-btn:hover {
+  background: linear-gradient(135deg, rgba(201,162,39,0.3), rgba(201,162,39,0.1));
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(201,162,39,0.2);
+  transform: translateY(-2px);
+}
+.toggle-chevron {
+  transition: transform 0.4s ease;
+}
+.toggle-icon {
+  font-size: 1.1rem;
+}
+
+/* Wrapper that collapses */
+.story-chapters-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.story-chapters-wrapper.story-open {
+  max-height: 8000px;
+}
+
+/* Chapter list */
+.story-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 32px;
+}
+
+/* Each chapter */
+.chapter {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0;
+  overflow: hidden;
+  background: transparent;
+  transition: background 0.3s ease;
+}
+.chapter + .chapter {
+  border-top: none;
+}
+.chapter:first-child {
+  border-radius: 12px 12px 0 0;
+}
+.chapter:last-child {
+  border-radius: 0 0 12px 12px;
+}
+
+/* Chapter header (clickable) */
+.chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.02);
+  transition: background 0.25s ease;
+  user-select: none;
+}
+.chapter-header:hover {
+  background: rgba(201,162,39,0.06);
+}
+.chapter-header-active {
+  background: rgba(201,162,39,0.08) !important;
+}
+
+.chapter-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-dim);
+  min-width: 44px;
+  line-height: 1;
+}
+.chapter-header-active .chapter-num {
+  color: var(--gold-light);
+}
+
+.chapter-header-text {
+  flex: 1;
+}
+.chapter-kicker {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+.chapter-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+.chapter-header-active .chapter-title {
+  color: var(--gold-light);
+}
+
+.chapter-chevron {
+  color: var(--text-muted);
+  transition: transform 0.4s ease, color 0.3s ease;
+  flex-shrink: 0;
+}
+.chapter-header-active .chapter-chevron {
+  color: var(--gold-light);
+}
+
+/* Chapter body (hidden by default) */
+.chapter-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+  padding: 0 28px;
+  border-top: 1px solid transparent;
+}
+.chapter-body.chapter-open {
+  max-height: 3000px;
+  padding: 24px 28px 32px;
+  border-top: 1px solid rgba(201,162,39,0.12);
+}
+
+.chapter-body .chapter-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+.chapter-body .chapter-text:last-of-type {
+  margin-bottom: 0;
+}
+.chapter-body .chapter-text em {
+  color: var(--text-primary);
+  font-style: italic;
+}
+.chapter-body .chapter-text strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* In-chapter quote */
+.chapter-quote {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: rgba(201,162,39,0.05);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chapter-quote .quote-mark {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.4rem;
+  color: var(--gold-dim);
+  line-height: 1;
+}
+.chapter-quote .quote-attr {
+  font-style: normal;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-top: 4px;
+}

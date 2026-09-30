@@ -336,3 +336,104 @@ closeModal = function(id) {
   stopActive();
   _origClose(id);
 };
+
+/* ---- Story Accordion ---- */
+function toggleStory() {
+  const wrapper = document.getElementById('story-chapters-wrapper');
+  const chevron = document.getElementById('story-chevron');
+  const text    = document.getElementById('story-toggle-text');
+  const isOpen  = wrapper.classList.toggle('story-open');
+  chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  text.textContent = isOpen ? 'Cerrar historia' : 'Leer la historia';
+}
+
+function toggleChapter(n) {
+  const body   = document.getElementById('chapter-body-' + n);
+  const chev   = document.getElementById('chev-' + n);
+  const header = body.previousElementSibling;
+  const isOpen = body.classList.toggle('chapter-open');
+  chev.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  header.classList.toggle('chapter-header-active', isOpen);
+  if (isOpen) {
+    // Close other chapters
+    for (let i = 1; i <= 8; i++) {
+      if (i === n) continue;
+      const ob = document.getElementById('chapter-body-' + i);
+      const oc = document.getElementById('chev-' + i);
+      const oh = ob ? ob.previousElementSibling : null;
+      if (ob) ob.classList.remove('chapter-open');
+      if (oc) oc.style.transform = 'rotate(0deg)';
+      if (oh) oh.classList.remove('chapter-header-active');
+    }
+  }
+}
+
+/* ---- Chapter Audio Players ---- */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.chapter-audio-player').forEach(playerEl => {
+    const src = playerEl.dataset.src;
+    if (!src) return;
+
+    const btn = playerEl.querySelector('.chapter-play-btn');
+    const progressBar = playerEl.querySelector('.audio-progress-bar');
+    const timeEl = playerEl.querySelector('.audio-time');
+
+    btn.addEventListener('click', () => {
+      // Toggle pause/resume if this player is already active
+      if (activePlayer && activePlayer.playerEl === playerEl) {
+        if (activePlayer.audioEl.paused) {
+          activePlayer.audioEl.play();
+          playerEl.classList.add('active');
+          btn.classList.add('playing');
+          btn.innerHTML = pauseIcon();
+        } else {
+          activePlayer.audioEl.pause();
+          playerEl.classList.remove('active');
+          btn.classList.remove('playing');
+          btn.innerHTML = playIcon();
+        }
+        return;
+      }
+
+      // Stop any currently playing audio
+      stopActive();
+
+      const audio = new Audio(src);
+      const player = { playerEl, btn, progressBar, timeEl, audioEl: audio, isTTS: false };
+
+      audio.addEventListener('loadedmetadata', () => {
+        progressBar.max = audio.duration;
+        timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
+        progressBar.value = audio.currentTime;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.setProperty('--progress', `${pct}%`);
+        timeEl.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+      });
+
+      audio.addEventListener('ended', () => {
+        playerEl.classList.remove('active');
+        btn.classList.remove('playing');
+        btn.innerHTML = playIcon();
+        progressBar.value = 0;
+        progressBar.style.setProperty('--progress', '0%');
+        timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
+        activePlayer = null;
+      });
+
+      progressBar.addEventListener('input', () => {
+        audio.currentTime = parseFloat(progressBar.value);
+      });
+
+      audio.play();
+      playerEl.classList.add('active');
+      btn.classList.add('playing');
+      btn.innerHTML = pauseIcon();
+      activePlayer = player;
+    });
+  });
+});
+

@@ -13,25 +13,13 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="story_accordion.css">
 </head>
 
 <body>
 
   <!-- Particles Background -->
   <div class="particles" id="particles"></div>
-
-  <!-- Voice Selector Floating -->
-  <div class="voice-controls-wrapper">
-    <svg class="voice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-      <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-      <line x1="12" y1="19" x2="12" y2="22"></line>
-    </svg>
-    <select id="voice-select" class="voice-select">
-      <option value="">Cargando voces...</option>
-    </select>
-  </div>
 
   <!-- Header -->
   <header class="site-header">
@@ -43,86 +31,172 @@
   </header>
 
   <!-- Tree Container -->
-  <main class="tree-wrapper">
+  <main class="tree-wrapper main-layout">
+    <div class="family-tree-column">
 
-    <!-- ══════════════ GENERATION 1: Xavi + Madre ══════════════ -->
-    <section class="generation gen-1">
-      <div class="gen-label">Primera Generación</div>
+      <!-- ══════════════ GENERATION 1: Xavi + Madre ══════════════ -->
+      <section class="generation gen-1">
+        <div class="gen-label">Primera Generación</div>
 
-      <!-- Madre Desconocida -->
-      <div class="member-card unknown-card" id="card-madre" onclick="openModal('madre')">
-        <div class="card-glow madre-glow"></div>
-        <div class="avatar-ring madre-ring">
-          <img src="img/mujer.png" alt="Madre Desconocida" class="avatar-img unknown-img" />
-          <div class="unknown-filter"></div>
-          <div class="avatar-overlay">
-            <span class="view-hint">Ver historia</span>
+        <!-- Madre Desconocida -->
+        <div class="member-card unknown-card" id="card-madre" onclick="openModal('madre')">
+          <div class="card-glow madre-glow"></div>
+          <div class="avatar-ring madre-ring">
+            <img src="img/mujer.png" alt="Madre Desconocida" class="avatar-img unknown-img" />
+            <div class="unknown-filter"></div>
+            <div class="avatar-overlay">
+              <span class="view-hint">Ver historia</span>
+            </div>
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">???</h2>
+            <p class="member-role">La Madre Ausente</p>
+            <div class="member-age">Identidad desconocida</div>
+            <div class="member-tags">
+              <span class="member-tag tag-mystery">Identidad oculta</span>
+              <span class="member-tag tag-mystery">Sin contacto</span>
+            </div>
+          </div>
+          <!-- CSS diamond badge -->
+          <div class="mystery-badge">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1L13 7L7 13L1 7Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.15)" />
+            </svg>
           </div>
         </div>
-        <div class="member-info">
-          <h2 class="member-name">???</h2>
-          <p class="member-role">La Madre</p>
-          <div class="member-age">Identidad desconocida</div>
-          <div class="member-tags">
-            <span class="member-tag tag-mystery">Madre de Mishi</span>
-            <span class="member-tag tag-mystery">Abandonó la familia</span>
+
+        <!-- Horizontal connector: Madre <-> Xavi -->
+        <div class="h-connector" aria-hidden="true">
+          <div class="h-line h-line-left"></div>
+          <div class="h-center">
+            <!-- CSS heart shape -->
+            <div class="css-heart dimmed-heart"></div>
+          </div>
+          <div class="h-line h-line-right"></div>
+        </div>
+
+        <!-- Xavi -->
+        <div class="member-card" id="card-xavi" onclick="openModal('xavi')">
+          <div class="card-glow xavi-glow"></div>
+          <div class="avatar-ring xavi-ring">
+            <img src="img/xavi.png" alt="Xavi" class="avatar-img" />
+            <div class="avatar-overlay">
+              <span class="view-hint">Ver historia</span>
+            </div>
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Xavi</h2>
+            <p class="member-role">El Patriarca</p>
+            <div class="member-age">43 años</div>
+            <div class="member-tags">
+              <span class="member-tag tag-family">Padre soltero desde los 15</span>
+              <span class="member-tag tag-drama">Traicionado por Jorgito</span>
+            </div>
+          </div>
+          <div class="pulse-ring xavi-pulse"></div>
+        </div>
+      </section>
+
+      <!-- Connector: Gen1 → Mishi -->
+      <div class="connector-wrap">
+        <div class="connector-line"></div>
+        <div class="connector-dot"></div>
+      </div>
+
+      <!-- ══════════════ GENERATION 2: Mishi (center) + Underworld Sidebar ══════════════ -->
+      <section class="gen2-wrapper">
+
+        <!-- ===== FAMILY COLUMN (center): Gen label + Mishi ===== -->
+        <div class="family-column">
+          <div class="gen-label-inline">Segunda Generación</div>
+
+          <!-- Broken connector above Mishi: Jorgito(left) ✕ Mishi -->
+          <div class="broken-connector" aria-hidden="true">
+            <div class="b-line b-line-left"></div>
+            <div class="b-center">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+                <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+                <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+                <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="b-line b-line-right"></div>
+          </div>
+
+          <!-- Mishi -->
+          <div class="member-card center-card" id="card-mishi" onclick="openModal('mishi')">
+            <div class="card-glow mishi-glow"></div>
+            <div class="avatar-ring mishi-ring">
+              <img src="img/mishi.png" alt="Mishi" class="avatar-img" />
+              <div class="avatar-overlay">
+                <span class="view-hint">Ver historia</span>
+              </div>
+            </div>
+            <div class="member-info">
+              <h2 class="member-name">Mishi</h2>
+              <p class="member-role">La Hija — El corazón</p>
+              <div class="member-age">28 años</div>
+              <div class="member-tags">
+                <span class="member-tag tag-drama">Guarda el secreto de Leo</span>
+                <span class="member-tag tag-family">Hija de Xavi</span>
+              </div>
+            </div>
+            <div class="pulse-ring mishi-pulse"></div>
           </div>
         </div>
-        <!-- CSS diamond badge -->
-        <div class="mystery-badge">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L13 7L7 13L1 7Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.15)" />
+
+      </section>
+
+      <!-- Connector: Mishi → Leo (secreto) -->
+      <div class="connector-wrap secret-connector-wrap">
+        <div class="connector-line connector-secret"></div>
+        <div class="connector-dot connector-dot-secret"></div>
+        <!-- Lock icon label -->
+        <div class="secret-label">
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style="vertical-align:middle;margin-right:5px">
+            <rect x="1" y="5" width="8" height="7" rx="1.5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2"
+              fill="rgba(78,184,122,0.08)" />
+            <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2"
+              stroke-linecap="round" />
+            <circle cx="5" cy="8.5" r="1" fill="rgba(78,184,122,0.7)" />
           </svg>
+          Secreto familiar
         </div>
       </div>
 
-      <!-- Horizontal connector: Madre <-> Xavi -->
-      <div class="h-connector" aria-hidden="true">
-        <div class="h-line h-line-left"></div>
-        <div class="h-center">
-          <!-- CSS heart shape -->
-          <div class="css-heart dimmed-heart"></div>
-        </div>
-        <div class="h-line h-line-right"></div>
-      </div>
-
-      <!-- Xavi -->
-      <div class="member-card" id="card-xavi" onclick="openModal('xavi')">
-        <div class="card-glow xavi-glow"></div>
-        <div class="avatar-ring xavi-ring">
-          <img src="img/xavi.png" alt="Xavi" class="avatar-img" />
-          <div class="avatar-overlay">
-            <span class="view-hint">Ver historia</span>
+      <!-- ══════════════ GENERATION 3: Leo ══════════════ -->
+      <section class="generation gen-3">
+        <div class="gen-label">El Nieto Secreto</div>
+        <div class="member-card secret-card" id="card-leo" onclick="openModal('leo')">
+          <div class="card-glow leo-glow"></div>
+          <div class="avatar-ring leo-ring">
+            <img src="img/Leo.png" alt="Leo" class="avatar-img" />
+            <div class="avatar-overlay">
+              <span class="view-hint">Ver historia</span>
+            </div>
           </div>
-        </div>
-        <div class="member-info">
-          <h2 class="member-name">Xavi</h2>
-          <p class="member-role">El Padre</p>
-          <div class="member-age">43 años</div>
-          <div class="member-tags">
-            <span class="member-tag tag-family">Padre de Mishi</span>
-            <span class="member-tag tag-family">Abuelo de Leo</span>
-            <span class="member-tag tag-drama">Sin saber que Leo existe</span>
+          <div class="member-info">
+            <h2 class="member-name">Leo</h2>
+            <p class="member-role">El Nieto Secreto</p>
+            <div class="member-age">10 años</div>
+            <div class="member-tags">
+              <span class="member-tag tag-mystery">Desconocido por Xavi</span>
+              <span class="member-tag tag-family">Sangre Mascapito</span>
+            </div>
           </div>
+          <div class="pulse-ring leo-pulse"></div>
+          <div class="secret-badge">?</div>
         </div>
-        <div class="pulse-ring xavi-pulse"></div>
-      </div>
-    </section>
+      </section>
+    </div> <!-- /family-tree-column -->
 
-    <!-- Connector: Gen1 → Mishi -->
-    <div class="connector-wrap">
-      <div class="connector-line"></div>
-      <div class="connector-dot"></div>
-    </div>
-
-    <!-- ══════════════ GENERATION 2: Mishi (center) + Underworld Sidebar ══════════════ -->
-    <section class="gen2-wrapper">
-
-      <!-- ===== UNDERWORLD PANEL (left): Barto + Jorgito ===== -->
+    <!-- ===== UNDERWORLD PANEL (right) ===== -->
+    <div class="others-column">
       <div class="underworld-panel">
         <div class="underworld-label">
           <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style="margin-right:5px;">
-            <path d="M7 1L13 7L7 13L1 7Z" stroke="#888" stroke-width="1.5" fill="rgba(100,100,100,0.15)"/>
+            <path d="M7 1L13 7L7 13L1 7Z" stroke="#888" stroke-width="1.5" fill="rgba(100,100,100,0.15)" />
           </svg>
           Mundo Criminal
         </div>
@@ -138,18 +212,18 @@
           </div>
           <div class="member-info">
             <h2 class="member-name">Jorgito</h2>
-            <p class="member-role">El Pretendiente</p>
-            <div class="member-age">28 años</div>
+            <p class="member-role">El Caído</p>
+            <div class="member-age">28 años · Recién liberado</div>
             <div class="member-tags">
-              <span class="member-tag tag-drama">Ex de Mishi</span>
-              <span class="member-tag tag-drama">Padre de Leo</span>
-              <span class="member-tag tag-dark">En prisión</span>
+              <span class="member-tag tag-dark">Ex-presidiario</span>
+              <span class="member-tag tag-drama">Regresó buscando a Mishi</span>
             </div>
           </div>
           <div class="warning-badge" aria-label="Peligro">
             <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
               <path d="M9 1L17 15H1L9 1Z" stroke="#cc4444" stroke-width="1.5" fill="rgba(184,74,74,0.15)" />
-              <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter" font-weight="700">!</text>
+              <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter"
+                font-weight="700">!</text>
             </svg>
           </div>
         </div>
@@ -158,7 +232,7 @@
         <div class="peer-connector">
           <div class="peer-line"></div>
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L13 7L7 13L1 7Z" stroke="#666" stroke-width="1.5" fill="rgba(80,80,80,0.15)"/>
+            <path d="M7 1L13 7L7 13L1 7Z" stroke="#666" stroke-width="1.5" fill="rgba(80,80,80,0.15)" />
           </svg>
           <div class="peer-line"></div>
         </div>
@@ -174,105 +248,573 @@
           </div>
           <div class="member-info">
             <h2 class="member-name">Barto</h2>
-            <p class="member-role">El Asesino</p>
-            <div class="member-age">29 años</div>
+            <p class="member-role">El Villano</p>
+            <div class="member-age">29 años · En prisión</div>
             <div class="member-tags">
-              <span class="member-tag tag-dark">“Amigo” de Jorgito</span>
-              <span class="member-tag tag-dark">El verdadero culpable</span>
-              <span class="member-tag tag-dark">En prisión</span>
+              <span class="member-tag tag-dark">Asesino</span>
+              <span class="member-tag tag-dark">Sin remordimiento</span>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- ===== FAMILY COLUMN (center): Gen label + Mishi ===== -->
-      <div class="family-column">
-        <div class="gen-label-inline">Segunda Generación</div>
-
-        <!-- Broken connector above Mishi: Jorgito(left) ✕ Mishi -->
-        <div class="broken-connector" aria-hidden="true">
-          <div class="b-line b-line-left"></div>
-          <div class="b-center">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-              <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-              <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-              <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div class="b-line b-line-right"></div>
-        </div>
-
-        <!-- Mishi -->
-        <div class="member-card center-card" id="card-mishi" onclick="openModal('mishi')">
-          <div class="card-glow mishi-glow"></div>
-          <div class="avatar-ring mishi-ring">
-            <img src="img/mishi.png" alt="Mishi" class="avatar-img" />
-            <div class="avatar-overlay">
-              <span class="view-hint">Ver historia</span>
-            </div>
-          </div>
-          <div class="member-info">
-            <h2 class="member-name">Mishi</h2>
-            <p class="member-role">La Hija</p>
-            <div class="member-age">28 años</div>
-            <div class="member-tags">
-              <span class="member-tag tag-family">Hija de Xavi</span>
-              <span class="member-tag tag-drama">Madre de Leo</span>
-              <span class="member-tag tag-drama">Ex de Jorgito</span>
-            </div>
-          </div>
-          <div class="pulse-ring mishi-pulse"></div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- Connector: Mishi → Leo (secreto) -->
-    <div class="connector-wrap secret-connector-wrap">
-      <div class="connector-line connector-secret"></div>
-      <div class="connector-dot connector-dot-secret"></div>
-      <!-- Lock icon label -->
-      <div class="secret-label">
-        <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style="vertical-align:middle;margin-right:5px">
-          <rect x="1" y="5" width="8" height="7" rx="1.5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2"
-            fill="rgba(78,184,122,0.08)" />
-          <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2" stroke-linecap="round" />
-          <circle cx="5" cy="8.5" r="1" fill="rgba(78,184,122,0.7)" />
-        </svg>
-        Secreto familiar
-      </div>
-    </div>
-
-    <!-- ══════════════ GENERATION 3: Leo ══════════════ -->
-    <section class="generation gen-3">
-      <div class="gen-label">El Nieto Secreto</div>
-      <div class="member-card secret-card" id="card-leo" onclick="openModal('leo')">
-        <div class="card-glow leo-glow"></div>
-        <div class="avatar-ring leo-ring">
-          <img src="img/Leo.png" alt="Leo" class="avatar-img" />
-          <div class="avatar-overlay">
-            <span class="view-hint">Ver historia</span>
-          </div>
-        </div>
-        <div class="member-info">
-          <h2 class="member-name">Leo</h2>
-          <p class="member-role">El Nieto Secreto</p>
-          <div class="member-age">10 años</div>
-          <div class="member-tags">
-            <span class="member-tag tag-family">Hijo de Mishi</span>
-            <span class="member-tag tag-drama">Hijo de Jorgito</span>
-            <span class="member-tag tag-mystery">Desconocido por Xavi</span>
-          </div>
-        </div>
-        <div class="pulse-ring leo-pulse"></div>
-        <div class="secret-badge">?</div>
-      </div>
-    </section>
+    </div> <!-- /others-column -->
 
   </main>
 
+
+  <!-- ══════════════ CRÓNICA: CAPÍTULOS ══════════════ -->
+  <section class="unified-story" id="historia">
+    <div class="story-header">
+      <div class="story-header-top">
+        <div class="story-header-deco">⚜</div>
+        <h2>La Crónica de los Mascapitos</h2>
+        <p class="story-subheader">Una historia de amor, traición y secretos que el tiempo no pudo enterrar</p>
+        <div class="header-line"></div>
+      </div>
+      <button class="story-toggle-btn" id="story-toggle-btn" onclick="toggleStory()">
+        <span class="toggle-icon">📖</span>
+        <span id="story-toggle-text">Leer la historia</span>
+        <svg class="toggle-chevron" id="story-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="story-chapters-wrapper" id="story-chapters-wrapper">
+      <div class="story-chapters">
+
+        <!-- Capítulo 1 -->
+        <div class="chapter" id="chapter-1">
+          <div class="chapter-header" onclick="toggleChapter(1)">
+            <div class="chapter-num">01</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">El origen</span>
+              <h3 class="chapter-title">El peso de una decisión</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-1" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-1">
+            <div class="chapter-audio-player" data-src="audio/Capitulo1.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">A los quince años, el mundo debería reducirse a clases, amigos y el primer atisbo de
+              libertad. Para Xavi, el mundo se derrumbó una tarde de martes con dos líneas rojas en una prueba de
+              embarazo. El silencio en aquella habitación minúscula fue aplastante. No hubo gritos, ni histeria, solo el
+              peso muerto de una realidad que ninguno de los dos estaba preparado para cargar.</p>
+            <p class="chapter-text">Ella lo miró con ojos vacíos, despojados de cualquier instinto maternal o de culpa.
+              Sus palabras cortaron el aire frío como el filo de una navaja oxidada: <em>«No la quiero. No voy a ser
+                madre. Y si nace, me desvinculo. Para siempre.»</em> El terror paralizó el pecho de Xavi. Era solo un
+              adolescente; sus propias manos temblaban, sus bolsillos estaban vacíos y su familia lo miraba como si
+              hubiera arruinado su vida para siempre. Sus padres le dijeron que lo abandonarían si seguía adelante con
+              ese bebé. Que ya era suficiente con lo que habían sacrificado por él. Que un niño no podía criar a un
+              niño.</p>
+            <p class="chapter-text">Con la voz rota y los ojos inundados, Xavi hizo el pacto que definiría cada día del
+              resto de su existencia: <em>«Déjamela a mí. Yo me haré cargo.»</em> Ella no dudó ni un segundo. Impuso su
+              única y cruel condición: desaparecer con precisión quirúrgica. No habría visitas, ni cumpleaños
+              compartidos, ni explicaciones. Sería como si jamás hubiera existido en sus vidas. Xavi aceptó, tragándose
+              el nudo de dolor y miedo que amenazaba con ahogarlo.</p>
+            <p class="chapter-text">Cuando Mishi llegó al mundo, la madre cruzó la puerta del hospital sin mirar atrás
+              ni una sola vez. Jamás volteó a ver el rostro de su hija. Dejó a un niño asustado de quince años
+              sosteniendo a un bebé que lloraba desconsoladamente, buscando un calor que le acababan de negar. Esa
+              primera noche, solo en un cuarto rentado que olía a encierro y humedad, Xavi se deslizó por la pared hasta
+              caer al suelo con su hija en brazos. Lloró de pánico, de soledad, de impotencia absoluta. Sentía que se
+              asfixiaba bajo una responsabilidad imposible para un cuerpo tan joven.</p>
+            <p class="chapter-text">Pero cuando la pequeña Mishi dejó de llorar y su diminuta mano se aferró con fuerza
+              a la camisa sudada de Xavi, él supo que no había marcha atrás. Esa misma noche en el piso frío, el niño
+              murió para que el padre pudiera nacer. Y así comenzó la historia de los Mascapitos: no con un himno de
+              gloria, sino con un llanto silencioso y un pacto entre un hombre que todavía no era hombre y una niña que
+              todavía no era nadie.</p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              Hay personas que marcan tu vida sin estar en ella. Ella lo hizo al irse.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Xavi, cuando Mishi preguntó por su madre siendo niña</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 2 -->
+        <div class="chapter" id="chapter-2">
+          <div class="chapter-header" onclick="toggleChapter(2)">
+            <div class="chapter-num">02</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">La familia</span>
+              <h3 class="chapter-title">El hombre que aguantó</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-2" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-2">
+            <div class="chapter-audio-player" data-src="audio/Capitulo2.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">Xavi creció criando a Mishi. No hay otra forma de decirlo. Trabajó turnos dobles en
+              empleos que lo doblaban por dentro: fábricas con olor a metal y aceite quemado, bodegas donde el frío de
+              las madrugadas le calaba los huesos, y luego, con el tiempo, un pequeño negocio que levantó con manos
+              callosas y años de cuentas al ras. Nunca pidió ayuda. El orgullo y el dolor son a veces la misma cosa.</p>
+            <p class="chapter-text">Mishi creció sin madre y sin lujos, pero nunca le faltó lo importante. Xavi aprendió
+              a trenzarle el cabello mirando videos en el teléfono. Aprendió a preparar tamales porque a ella le
+              gustaban. Asistió a cada festival escolar con la camisa planchada aunque hubiera llegado del trabajo tres
+              horas antes. Era torpe en las cosas que los padres aprenden de sus propios padres, y exquisitamente
+              dedicado en las que nadie le había enseñado.</p>
+            <p class="chapter-text">Hubo noches en que Mishi lloraba sin razón aparente —esa tristeza sin nombre que
+              tienen los niños cuando sienten una ausencia que no saben cómo describir— y Xavi se quedaba sentado en el
+              borde de su cama en silencio, sin decir nada, simplemente presente. Porque no había palabras que llenaran
+              el hueco de una madre que eligió no serlo. Solo compañía. Solo el calor de no estar solo.</p>
+            <p class="chapter-text">Con los años, Mishi se convirtió en la mujer más viva de cualquier habitación en la
+              que entrara. Alegre, directa, traviesa. Con una risa que llenaba espacios y una honestidad que a veces
+              incomodaba. Y Xavi la miraba con esa mezcla extraña de orgullo y vértigo que solo entienden los padres que
+              saben que lo que construyeron es frágil y poderoso a la vez. <strong>Ella era su obra más importante. Y
+                también su mayor miedo.</strong></p>
+            <p class="chapter-text">A los catorce años, Mishi llegó a casa hablando de un chico. Xavi sintió algo helado
+              recorrerse por el pecho. No era celos. Era reconocimiento. Sabía perfectamente lo que significaba querer a
+              alguien con esa intensidad adolescente que no distingue entre entrega y destrucción. Lo había vivido. Lo
+              había pagado. Y había decidido, en silencio, que su hija no pagaría ese precio.</p>
+            <p class="chapter-text">El chico se llamaba Jorgito. Y Xavi lo sometió a meses de escrutinio silencioso. Le
+              hacía preguntas difíciles en la cena, lo dejaba incómodo a propósito, medía sus reacciones ante la
+              injusticia y el miedo. Y Jorgito aguantó. Siempre respondió con respeto. Nunca levantó la guardia de
+              manera defensiva. Y eso, para un hombre que había aprendido que el amor sin carácter destruye, valió más
+              que cualquier promesa.</p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              Yo sufrí por amor cuando era joven. Sufrí mucho. Y juré que mi hija no iba a pasar por eso. Si estás aquí
+              es porque veo algo en ti. No me falles. No le falles a ella.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Xavi a Jorgito, antes de darle su bendición</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 3 -->
+        <div class="chapter" id="chapter-3">
+          <div class="chapter-header" onclick="toggleChapter(3)">
+            <div class="chapter-num">03</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">El amor</span>
+              <h3 class="chapter-title">La noche que lo cambió todo</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-3" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-3">
+            <div class="chapter-audio-player" data-src="audio/Capitulo3.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">La noche de los dieciocho años de Mishi fue la noche más feliz en la vida de Xavi.
+              Había planeado cada detalle durante semanas con el presupuesto justo y la voluntad de quien sabe que el
+              dinero no alcanza pero el amor sí. La sala estaba llena de gente que quería de verdad a su hija. Había
+              música. Había risas. Y había un pastel que Xavi había encargado con un mes de anticipación porque quería
+              que todo estuviera perfecto.</p>
+            <p class="chapter-text">Entonces Jorgito pidió el micrófono. El silencio que cayó sobre la sala fue el tipo
+              de silencio que solo existe cuando algo importante está a punto de ocurrir. Se arrodilló frente a Mishi y
+              le preguntó si quería casarse con él. Ella dijo que sí antes de que él terminara la pregunta. Xavi tuvo
+              que salir al patio. Se quedó solo bajo el cielo nocturno con las manos en el rostro y los hombros
+              sacudiéndose en silencio. <em>No quería que lo vieran. Pero lloró como no había llorado desde aquella
+                primera noche en el cuarto rentado con Mishi recién nacida en brazos.</em></p>
+            <p class="chapter-text">Esa noche, cuando la fiesta comenzaba a apagarse y la música se volvía más lenta,
+              fue Mishi quien tomó a Jorgito de la mano. Con esa sonrisa traviesa que él nunca había podido resistir, le
+              susurró que quería que esa noche fuera solo de los dos. Jorgito intentó razonar. Le dijo que deberían
+              esperar. Mishi lo miró fijo y sonrió. Y él no pudo decir que no.</p>
+            <p class="chapter-text">Un hotel. Un cuarto con sábanas blancas y la ciudad de fondo. Una noche que ninguno
+              de los dos planeó y que los dos recordarían para siempre por razones completamente distintas.</p>
+            <p class="chapter-text">Semanas después, sola en el baño de su casa a las tres de la mañana con una prueba
+              de embarazo en la mano, Mishi vio dos líneas y sintió que el aire se le iba del cuerpo. No porque no
+              quisiera a ese bebé. Sino porque supo, en ese instante exacto, que tendría que decírselo a su padre. Y que
+              eso iba a romperle algo que tardó toda una vida en construir. <strong>Ensayó la conversación mil veces.
+                Mil veces se le cerró la garganta.</strong> Recordaba la cara de Xavi llorando de alegría en el patio. Y
+              no podía. No podía ser quien le borrara esa cara.</p>
+            <p class="chapter-text">Cargó sola con el secreto durante nueve meses. Nueve meses de miradas desviadas, de
+              conversaciones incompletas, de noches llorando en silencio con la cara enterrada en la almohada para que
+              Xavi no la escuchara. El embarazo casi no se notó. Hubo días que agradeció eso como nunca agradeció nada.
+              Y hubo días en que lo odió, porque la hacía sentir que estaba borrando a Leo antes de que existiera.</p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              Papá me salvó sin pedirme nada. Lo menos que puedo hacer es protegerlo… aunque sea de la verdad.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Mishi, acariciando su vientre en la oscuridad</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 4 -->
+        <div class="chapter" id="chapter-4">
+          <div class="chapter-header" onclick="toggleChapter(4)">
+            <div class="chapter-num">04</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">La traición</span>
+              <h3 class="chapter-title">El veneno en el oído</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-4" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-4">
+            <div class="chapter-audio-player" data-src="audio/Capitulo4.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">Jorgito no dormía. La desesperación no llegó de golpe; fue una humedad lenta que se
+              coló por las paredes de su cordura, manchando todo lo que tocaba. Trabajaba catorce horas diarias en el
+              puerto, descargando cajas que le reventaban la espalda y le dejaban las manos en carne viva. Regresaba a
+              casa oliendo a sudor y pescado podrido, solo para sentarse en la orilla de la cama y contar billetes
+              arrugados que nunca, jamás, sumaban lo suficiente. El bebé venía en camino. El alquiler de ese diminuto
+              departamento no daba tregua, y los médicos pedían adelantos para el parto que él simplemente no tenía.
+              Pero por encima del dinero, estaba el peso aplastante de la mirada de Xavi.</p>
+            <p class="chapter-text">Xavi no era un hombre de palabras suaves. Su amor era exigente. Había aceptado a
+              Jorgito, le había entregado a su única hija, pero bajo la promesa silenciosa de que él sería el muro que
+              la protegería de las miserias que Xavi mismo había sufrido. Cada vez que iba a cenar a la casa, Jorgito
+              sentía que los ojos de su suegro le escaneaban el alma, midiendo si era lo suficientemente hombre, lo
+              suficientemente fuerte. El miedo a fracasar, a ver la decepción en esos ojos y la lástima en los de Mishi,
+              lo estaba enloqueciendo. Había empezado a perder peso, a fumar compulsivamente y a mentir sobre horas
+              extras que en realidad pasaba caminando por la ciudad, buscando cualquier oportunidad que lo salvara de la
+              ruina.</p>
+            <p class="chapter-text">Ahí fue cuando Barto tendió la trampa. Barto no era el amigo leal de la infancia que
+              aparentaba; era un sociópata con una habilidad espeluznante para leer las fracturas en el alma de los
+              demás y meter el dedo en la herida hasta hacerla sangrar. Lo acorraló una noche, bajo la luz amarilla y
+              parpadeante de una farola rota, mientras Jorgito lloraba de pura impotencia tras ser rechazado para un
+              préstamo bancario. <em>«Te estás ahogando por seguir las reglas de un mundo que no está hecho para
+                nosotros, hermano»</em>, le susurró Barto, exhalando el humo de su cigarro lentamente, como si tuviera
+              todo el tiempo del mundo. <em>«Tú crees que Xavi te va a perdonar si dejas que su hija pase hambre? ¿Crees
+                que te va a respetar cuando nazca su nieto en un hospital público de mala muerte? Xavi te va a aplastar
+                en el momento en que se dé cuenta de que no sirves. Tienes que llegar con billetes en la mano, no con
+                los nudillos reventados por sueldos miserables.»</em></p>
+            <p class="chapter-text">Barto dejó que las palabras hicieran efecto, envenenando las inseguridades de
+              Jorgito durante semanas. Le pagaba las cervezas, le prestaba pequeñas cantidades para que Mishi no
+              sospechara, y poco a poco, lo fue aislando. Hasta que finalmente lanzó el anzuelo. <em>«Yo tengo el golpe
+                perfecto. Un empresario corrupto de la zona norte que guarda efectivo en su caja fuerte. Nadie sale
+                herido. Solo entramos, le damos un susto, cobramos nuestra parte de un dinero que de por sí es sucio, y
+                te aseguras el futuro de tu hijo. ¿Qué clase de padre vas a ser si ni siquiera tienes los huevos para
+                protegerlos?»</em></p>
+            <p class="chapter-text">Jorgito resistió hasta donde pudo. Su moral peleó una batalla campal contra su
+              desesperación, pero el cansancio extremo y el amor distorsionado por la urgencia nublaron su juicio por
+              completo. Aceptó. Lo que Barto no le dijo fue que, para él, Jorgito no era un cómplice; era su póliza de
+              seguro. El chico bueno, con cara de idiota y sin antecedentes penales. El chivo expiatorio perfecto si las
+              cosas salían mal. Barto le juró por su madre muerta que el arma que llevarían estaba vacía, que solo era
+              un trozo de metal frío para intimidar. Pero Barto mentía como respiraba: <strong>el cargador siempre
+                estuvo lleno, y él siempre, desde el primer segundo, estuvo dispuesto a jalar el gatillo.</strong></p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              La lealtad es un cuento que los idiotas se inventan para no sentirse tan solos cuando se hunden.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Barto, en la oscuridad del callejón</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 5 -->
+        <div class="chapter" id="chapter-5">
+          <div class="chapter-header" onclick="toggleChapter(5)">
+            <div class="chapter-num">05</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">La caída</span>
+              <h3 class="chapter-title">Un disparo en la oscuridad</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-5">
+            <div class="chapter-audio-player" data-src="audio/Capitulo5.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">La noche del golpe, el aire pesaba como plomo. La ciudad parecía contener la
+              respiración mientras Jorgito y Barto esperaban en el callejón trasero de las oficinas del empresario.
+              Jorgito temblaba incontrolablemente. La adrenalina le quemaba las venas y el sudor frío le empapaba la
+              camisa. Había vomitado dos veces antes de llegar. Quería echarse atrás, quería correr de vuelta a los
+              brazos de Mishi, confesarle a Xavi que era un fracasado y suplicar perdón. Pero Barto lo sujetaba del
+              brazo con una fuerza brutal, repitiéndole al oído que ya no había marcha atrás, que pensara en los fajos
+              de billetes que asegurarían la cuna de su bebé.</p>
+            <p class="chapter-text">Cuando el empresario finalmente salió, caminando despacio hacia su auto de lujo con
+              un maletín en la mano, todo se desmoronó en fracción de segundos. Barto saltó de las sombras empuñando el
+              arma. Pero el hombre, lejos de acobardarse, reaccionó llevado por el pánico. Empezó a gritar pidiendo
+              auxilio y se lanzó contra Barto. Jorgito sintió que el corazón se le detenía; la realidad lo abofeteó con
+              una violencia indescriptible. ¡Esto no era lo que habían planeado! En un arranque de desesperación ciega,
+              Jorgito se abalanzó sobre Barto intentando arrebatarle el revólver. Quería cancelar aquella locura, quería
+              salvar la vida de ese hombre y la suya propia.</p>
+            <p class="chapter-text">El forcejeo fue caótico, un remolino de brazos, insultos y respiraciones agitadas. Y
+              entonces... el estruendo. Un disparo seco, ensordecedor, que pareció rasgar el tejido mismo de la noche.
+              El fogonazo iluminó brevemente el callejón, revelando los rostros desfigurados por el horror. El olor acre
+              y metálico de la pólvora quemada inundó el aire de inmediato. El empresario retrocedió dos pasos,
+              llevándose las manos al pecho, antes de desplomarse como un peso muerto. Su cabeza golpeó el asfalto con
+              un sonido húmedo y terrible que Jorgito jamás podría borrar de su memoria.</p>
+            <p class="chapter-text">El silencio que le siguió fue el más atroz y espeso que haya existido. <em>La sangre
+                oscura, casi negra bajo la luz enferma de las lámparas de sodio, comenzó a extenderse rápidamente,
+                buscando las alcantarillas.</em> Jorgito cayó de rodillas, las manos hundidas en el cabello,
+              hiperventilando. «¡¿Qué hicimos?! ¡Por el amor de Dios, ¿qué hicimos?!», sollozaba con la voz destrozada.
+              A lo lejos, rompiendo la noche, el aullido histérico de las sirenas ya empezaba a acercarse.</p>
+            <p class="chapter-text">Barto no tembló. Su frialdad fue monstruosa, casi alienígena. Con movimientos
+              precisos, calculados y rápidos, limpió la empuñadura del revólver con el interior de su chaqueta. Se
+              acercó a Jorgito, lo tomó por la garganta con una fuerza que le cortó la respiración, y le metió el arma a
+              la fuerza en las manos, manchándolas con la sangre que ya cubría el suelo. La voz de Barto no era de
+              pánico, era hielo puro y afilado: <em>«Escúchame bien, escoria inútil. Tú tienes a una noviecita
+                embarazada en casa y a un suegro que te odia a muerte. Si abres la boca o intentas correr, la policía te
+                va a cazar como a un perro rabioso. Y si hablas de mí, te juro por Dios que yo mismo me encargo de ir a
+                buscar a Mishi esta misma noche y le saco a ese bebé del vientre a golpes. Te vas a quedar aquí. Vas a
+                decir que fue un robo que salió mal. Que estabas solo. Hazlo por ellos.»</em></p>
+            <p class="chapter-text">El terror absoluto paralizó a Jorgito. Antes de que su cerebro pudiera procesar la
+              magnitud de la condena, Barto se esfumó entre las sombras, saltando la barda con la agilidad de un
+              depredador. Lo dejó ahí, abandonado, hincado en un charco caliente de sangre, sosteniendo el arma aún
+              humeante. Cuando las luces rojas y azules de las patrullas inundaron el callejón, cegándolo, y los
+              oficiales le gritaron con las armas en alto que se tirara al suelo, Jorgito no opuso resistencia. Solo
+              cerró los ojos, soltó el arma y supo que su vida, y todo lo que amaba, acababa de terminar para siempre.</p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              El sonido de una bala no dura más que un segundo, pero su eco es capaz de destruir la vida de tres generaciones en una misma noche.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Reflexión del detective a cargo de la escena del crimen</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 6 -->
+        <div class="chapter" id="chapter-6">
+          <div class="chapter-header" onclick="toggleChapter(6)">
+            <div class="chapter-num">06</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">El quiebre</span>
+              <h3 class="chapter-title">La sentencia</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-6" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-6">
+            <div class="chapter-audio-player" data-src="audio/Capitulo6.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">El sonido del teléfono a las tres de la mañana fue el heraldo indiscutible de la
+              tragedia. Xavi contestó adormilado, frotándose los ojos, solo para escuchar al otro lado la voz de Mishi
+              hecha pedazos, aguda y casi irreconocible por el llanto ahogado que no le dejaba respirar: <em>«Papá... a
+                Jorgito se lo llevaron. La policía está en su departamento. Hay un muerto, papá... dicen que hay un
+                muerto.»</em> El mundo de Xavi se detuvo. Condujo hasta la comisaría sintiendo que el pecho le iba a
+              estallar, saltándose los semáforos en rojo en medio de la lluvia fina de la madrugada. Pero al llegar, no
+              logró entrar. Se quedó paralizado en la acera de enfrente, con el agua calándole los huesos, mirando las
+              puertas de cristal de la delegación manchadas por los destellos rojizos de las torretas. El hombre al que
+              le había entregado a su niña, la luz de sus ojos. El muchacho por el que había apostado todo su respeto.
+              Era un asesino.</p>
+            <p class="chapter-text">El dolor de Xavi no se convirtió en llanto, sino en un desprecio helado e
+              implacable. Se negó rotundamente a asistir al juicio. No dejó de trabajar un solo día; de hecho, trabajaba
+              más horas, con una furia silenciosa que mantenía a todos a raya. Cuando el abogado de oficio que le
+              asignaron a Jorgito lo interceptó en la calle días después, suplicándole que fuera a verlo porque el chico
+              estaba perdiendo la cabeza en su celda y rogaba hablar con él, Xavi no titubeó. Lo miró con una frialdad
+              cortante. <em>«Dile que le di mi confianza cuando no era nadie. Que lo traté como a un hijo. Y que, a
+                partir de hoy, él no existe para mí. Está tan muerto como el hombre al que le disparó.»</em> Con esas
+              palabras, Xavi dio media vuelta y no volvió a pronunciar su nombre. <strong>Para un hombre que creció
+                endurecido por la vida, la traición no te deprime; simplemente te cierra el corazón para
+                siempre.</strong></p>
+            <p class="chapter-text">Mishi, por el contrario, sí estuvo en el juicio. Soportó los horrores del proceso
+              judicial, las fotos de la escena del crimen y los testimonios con una firmeza estoica y casi aterradora.
+              Se sentaba todos los días en la segunda fila, sola, aferrando su bolso contra su vientre plano, donde
+              latía el secreto más pesado del mundo: llevaba dos meses de embarazo y los médicos le habían advertido que
+              el estrés estaba poniendo en riesgo al bebé. Miraba la nuca rapada de Jorgito, su espalda encorvada bajo
+              el traje naranja del penal, y sentía que el mundo giraba a una velocidad nauseabunda. El día de la
+              sentencia final, el aire en la sala era denso, asfixiante. Antes de que el juez bajara el martillo para
+              dictar los diez años de prisión sin derecho a fianza, a Jorgito le concedieron la última palabra.</p>
+            <p class="chapter-text">Él se levantó lentamente, arrastrando las cadenas de los pies. Primero, buscó la
+              mirada de la familia de la víctima, que lloraba desconsolada en la primera fila. Con la voz rota y los
+              ojos hundidos, se dirigió a ellos: <em>«No hay nada que pueda decir para devolverles lo que les quité. Fui
+                un cobarde y un imbécil. Llevo la sangre de su padre en mis manos, y les pido perdón, aunque sé que
+                no lo merezco. Ojalá mi vida en esta cárcel les traiga algo de paz.»</em> El murmullo en la sala se apagó
+              ante la crudeza de sus palabras. Luego, Jorgito giró el rostro. Buscó desesperadamente los ojos de Mishi
+              entre la multitud. <em>«Mishi...»</em>, su voz tembló aún más. <em>«El dinero que logré juntar antes de
+                esto, úsalo para el bebé. Es todo para Leo. Sé que nunca vas a perdonarme, y te juro por mi alma que no
+                te pido que lo hagas. Pero necesitaba que escucharas de mi propia boca que me equivoqué de camino, pero
+                la razón... la razón siempre fueron ustedes. Tenía tanto miedo de perderlos, que terminé arruinándolo todo.
+                Te amo.»</em></p>
+            <p class="chapter-text">El silencio en la corte fue absoluto, pesado como una lápida. Mishi no derramó una
+              sola lágrima ahí dentro. Aguantó la respiración, clavando las uñas en sus propias palmas hasta hacerse
+              sangre, mientras el juez leía la condena y los guardias procedían a esposarlo de las manos. Antes de que
+              se lo llevaran por el pasillo central, en medio del murmullo cargado de odio de los presentes y el
+              tintineo metálico de las cadenas, algo en Mishi se rompió por completo. Ignorando las advertencias del
+              juez, rompió el cordón de seguridad.</p>
+            <p class="chapter-text">Caminó hacia él con pasos ciegos, apartando a un guardia. Jorgito se encogió,
+              esperando un golpe, un reclamo, un escupitajo. Pero Mishi no pronunció palabra. Lo tomó del rostro con
+              ambas manos, arañándole las mejillas, cerró los ojos y lo besó frente a toda la corte. Fue un beso
+              desesperado, brutal, salado por las lágrimas que finalmente estallaron. Un adiós cargado de furia, de un
+              dolor infinito, de reclamos mudos y de la promesa silenciosa de un hijo que él no vería nacer ni crecer.
+              Los guardias los separaron a la fuerza, arrastrando a Jorgito hacia la puerta blindada. Él no dejó de
+              mirarla hasta que la puerta se cerró con un eco metálico. <em>Ella no lo perdonó ese día, y tal vez nunca
+                lo haría, pero simplemente no podía dejar que se pudriera una década en la oscuridad de una celda sin
+                saber que el amor que se tuvieron, a pesar de todo el horror, había sido genuinamente real.</em></p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              A veces, el mayor castigo no son las cadenas de hierro que te amarran las manos, sino la mirada rota de la mujer que amas cuando se cierran las puertas para siempre.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Jorgito, en su primera noche en la celda de aislamiento</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 7 -->
+        <div class="chapter" id="chapter-7">
+          <div class="chapter-header" onclick="toggleChapter(7)">
+            <div class="chapter-num">07</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">El nacimiento</span>
+              <h3 class="chapter-title">La gran mentira</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-7" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-7">
+            <div class="chapter-audio-player" data-src="audio/Capitulo7.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">Los meses que siguieron a la condena de Jorgito fueron un infierno silencioso, pero
+              quien cargó con el verdadero peso fue Mishi. Xavi se había vuelto más estricto, sumergido en su trabajo y
+              en su orgullo herido, convencido de que habían arrancado de raíz el problema. Mishi, en cambio, cargaba
+              con un dolor doble: la pérdida del hombre que amaba y el bebé que crecía en su vientre. Pero el cuerpo y
+              la mente a veces hacen pactos extraños para sobrevivir. El suyo fue un embarazo de los que no se notan.
+              Apenas subió de peso, su ropa seguía quedándole igual, y el terror de decepcionar aún más a su padre
+              eclipsaba cualquier síntoma. Xavi, concentrado en su propio rencor y asumiendo que Mishi solo necesitaba
+              tiempo para olvidar, jamás sospechó absolutamente nada. Para él, su hija solo estaba cerrando un mal
+              capítulo.</p>
+            <p class="chapter-text">El día que empezaron las contracciones, Mishi no le dijo a nadie. Inventó un viaje
+              de fin de semana con unas amigas del trabajo para despejar la mente, tomó un taxi sola y se internó en un
+              hospital público de la periferia bajo un nombre falso. El parto fue largo, brutal y solitario. Cuando
+              escuchó el primer llanto y le pusieron a su hijo en el pecho, Mishi lloró con una mezcla de amor infinito
+              y terror absoluto. Tenía los mismos ojos de Jorgito. La misma mirada. Si Xavi alguna vez descubría la
+              verdad, el impacto lo mataría. Ahí mismo, en esa camilla de hospital, Mishi forjó la mentira más grande y
+              dolorosa de su vida.</p>
+            <p class="chapter-text">No regresó a casa con el bebé. Con el poco dinero que tenía ahorrado, pagó a una
+              vecina mayor y discreta para que lo cuidara durante el día. Meses después, cuando Leo ya balbuceaba, Mishi
+              lo llevó por primera vez al negocio familiar. Le dijo a Xavi una historia cuidadosamente armada: <em>«Es
+                el hijo de una compañera del trabajo que falleció. No tiene a nadie más. Me ofrecí a cuidarlo algunas
+                tardes.»</em> Xavi, que siempre tuvo el instinto de proteger a los que no tenían nada —igual que hizo
+              con Mishi—, no dudó de su palabra.</p>
+            <p class="chapter-text">Y así comenzó la farsa. Xavi tomó cariño por el niño de inmediato. Le enseñó a
+              caminar, a jugar, sin saber que sostenía a su propia sangre. Mishi los miraba interactuar desde lejos,
+              sintiendo cómo el corazón se le partía en dos. Lo había salvado de una agonía insoportable, pero el precio
+              era obligar a su propio hijo a crecer como un "vecinito", como un agregado, y obligarse a sí misma a
+              esconder su maternidad en su propia casa. Si Jorgito había ido a la cárcel por salvarlos de la miseria,
+              ella condenaría su propio corazón a vivir en la sombra por salvar a su padre.</p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              Esconderle un hijo al mundo duele. Esconderle un nieto a tu propio padre te arranca el alma todos los días.
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Mishi, frente al espejo del hospital</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capítulo 8 -->
+        <div class="chapter" id="chapter-8">
+          <div class="chapter-header" onclick="toggleChapter(8)">
+            <div class="chapter-num">08</div>
+            <div class="chapter-header-text">
+              <span class="chapter-kicker">El presente</span>
+              <h3 class="chapter-title">Diez años después</h3>
+            </div>
+            <svg class="chapter-chevron" id="chev-8" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <div class="chapter-body" id="chapter-body-8">
+            <div class="chapter-audio-player" data-src="audio/Capitulo8.m4a">
+              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+              <div class="audio-progress-wrap">
+                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+                <div class="audio-time">0:00 / 0:00</div>
+              </div>
+            </div>
+            <p class="chapter-text">Leo tiene diez años y todavía cree que el mundo es justo. Es el tipo de niño que cae
+              bien a todo el mundo antes de abrir la boca: carismático, curioso, con energía suficiente para agotar a
+              tres adultos y una risa que su madre no puede escuchar sin sentir que se le aprieta el corazón de maneras
+              contradictorias. No sabe que es el centro de una bomba de tiempo familiar. Todavía no sabe nada.</p>
+            <p class="chapter-text">Sabe que tiene un papá. Mishi nunca le mintió en eso. Le dijo que estaba lejos, que
+              las cosas fueron complicadas, que algún día lo entendería. Leo tiene diez años y ya aprendió a no
+              preguntar dos veces sobre el mismo tema, porque ve lo que le hace a su mamá. Cómo cambia la cara. Cómo se
+              tensa la mandíbula. Cómo busca otra cosa en qué ocupar los ojos. <strong>Así que guarda la pregunta. La
+                guarda y la guarda y la guarda.</strong> Y por las noches, cuando no puede dormir, la saca y le da
+              vueltas en la oscuridad.</p>
+            <p class="chapter-text">Xavi ama a Leo con una intensidad que no puede explicar del todo. Lo lleva a donde
+              puede. Lo escucha. Le enseña cosas. Y a veces, cuando el niño sonríe de cierta forma, Xavi siente algo
+              extraño y familiar que no sabe de dónde viene. Si lo supiera, si supiera que ese niño lleva su sangre, el
+              mundo que conoce se derrumbaría y reconstruiría al mismo tiempo.</p>
+            <p class="chapter-text">Jorgito salió de prisión y fue directo al trabajo de Mishi. Se quedó parado en la
+              acera de enfrente, sin moverse, mirando a través del ventanal. La vio. Diez años después, seguía
+              trabajando en el mismo lugar. Y unos metros más allá, vio a un niño. Con la misma risa de ella. Con los
+              ojos que él venía imaginando durante una década. <em>El corazón se le fue al suelo. Y luego se le apretó
+                en el pecho. Y luego no supo qué era.</em></p>
+            <p class="chapter-text">Mishi lo vio. Se miraron desde los dos lados de la calle durante un segundo que duró
+              una eternidad. Luego ella entró al local. Jorgito se fue. Esa noche no pudo cenar. Y esa noche, Mishi no
+              pudo dormir porque tampoco lo ha olvidado, y eso, de alguna forma, duele más que el rechazo mismo.</p>
+            <p class="chapter-text">El secreto que Mishi carga tiene diez años y cada vez pesa más. Cada vez que Xavi
+              menciona que desea un nieto, algo en ella se tuerce por dentro. Cambia el tema. Se ríe. Desvía. Porque el
+              día que lo sepa, el mundo que construyeron juntos va a temblar. <strong>Y nadie sabe si va a
+                sostenerse.</strong></p>
+            <div class="chapter-quote">
+              <span class="quote-mark">"</span>
+              Mami... ¿por qué el señor Xavi a veces me mira como si se acordara de alguien más y se pusiera triste?
+              <span class="quote-mark">"</span>
+              <span class="quote-attr">— Leo, inocente e implacable</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Footer lore -->
+
   <footer class="site-footer">
     <div class="footer-line"></div>
     <p class="footer-text">⚜ <em>«Nos llaman Mascapitos... y con eso basta para saber quiénes somos»</em> ⚜</p>
@@ -303,36 +845,18 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">I. El Origen</span>
-            <div class="section-heading-line"></div>
+        <p class="card-desc">Una mujer que eligió la libertad sobre la maternidad. Fría, calculadora y absolutamente
+          resuelta. Desapareció sin mirar atrás el día en que nació Mishi. No tiene nombre en esta historia porque
+          decidió no tenerlo.</p>
+        <div class="card-relations">
+          <div class="card-relation">
+            <span class="relation-label">Hija</span>
+            <span class="relation-name">Mishi</span>
           </div>
-        </div>
-        <p class="modal-text">
-          No tiene nombre en esta historia. No porque nadie lo sepa, sino porque <strong>eligió no tenerlo</strong>.
-          Decidió no existir en la vida de Mishi desde antes de que naciera.
-        </p>
-        <p class="modal-text">
-          Era joven. Era libre. Y no quería serlo con una hija de por medio.
-          Cuando Xavi le rogó que le diera la oportunidad a ese bebé, ella puso su condición:
-          <em>lo hago, pero me desvinculo. Para siempre. Sin vuelta atrás.</em>
-        </p>
-        <p class="modal-text highlight-text">
-          Y cumplió. <strong>Desapareció</strong> con una precisión que solo puede tener alguien
-          que ya tomó la decisión mucho antes de pronunciarla.
-          Mishi creció sin su sombra. Sin su nombre. Sin su recuerdo.
-        </p>
-        <p class="modal-text">
-          ¿Siente algo? ¿Se pregunta por esa hija que existe en algún lugar del mundo?
-          <em>Nadie lo sabe. Y quizás ese misterio es lo más honesto que ha dado jamás.</em>
-        </p>
-        <div class="modal-quote">
-          <span class="quote-mark">"</span>
-          Hay personas que marcan tu vida sin estar en ella. Ella lo hizo al irse.
-          <span class="quote-mark">"</span>
-          <span class="quote-attr">— Xavi, cuando Mishi preguntó por su madre siendo niña</span>
+          <div class="card-relation">
+            <span class="relation-label">Vínculo</span>
+            <span class="relation-name relation-broken">Abandonó a los 15 de Xavi</span>
+          </div>
         </div>
       </div>
     </div>
@@ -360,116 +884,21 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">I. La Consecuencia</span>
-            <div class="section-heading-line"></div>
+        <p class="card-desc">Sobreprotector, leal y trabajador incansable. Sacrificó toda su juventud para criar a Mishi
+          solo desde los 15 años. Su mayor fortaleza y su mayor punto ciego es el amor que le tiene a su hija.</p>
+        <div class="card-relations">
+          <div class="card-relation">
+            <span class="relation-label">Hija</span>
+            <span class="relation-name">Mishi</span>
           </div>
-        </div>
-        <p class="modal-text">
-          A los <strong>15 años</strong>, la vida le lanzó una verdad sin anestesia: iba a ser padre.
-          No fue un plan. Fue una noche, una chica, y la consecuencia más grande de su vida.
-          Sus propios padres lo miraron como si hubiera cometido el peor error del mundo.
-          Le dijeron que era un niño. Que no podía. Que se olvidara de ese bebé y siguiera adelante.
-          <em>Xavi fue el único que no pudo.</em>
-        </p>
-        <p class="modal-text">
-          La madre tampoco quería nada. Fue directa desde el primer día:
-          <em>«No voy a criar a ningún hijo. Si lo quieres tanto, quédatelo tú. Pero no cuentes conmigo para nada.»</em>
-          Y Xavi — con quince años, sin trabajo, sin experiencia, sin nadie que lo guiara —
-          le respondió: <em>«Entonces me lo quedo yo.»</em>
-          No lo dijo con valentía. Lo dijo temblando. Pero lo dijo.
-        </p>
-        <p class="modal-text highlight-text">
-          Desde que Mishi llegó al mundo, <strong>Xavi dejó de existir para sí mismo</strong>.
-          No hubo juventud. No hubo fiestas. No hubo noches sin preocupaciones.
-          Solo pañales, turnos dobles, facturas sin pagar y una niña que lo miraba
-          como si él fuera todo el universo. Y en esa mirada, Xavi encontró
-          <em>la única razón que necesitó.</em>
-        </p>
-        <p class="modal-text">
-          La crió solo. Con los errores de quien aprende sobre la marcha.
-          Hubo noches en que Mishi lloraba sin parar y él no sabía qué hacer,
-          y terminaba llorando también, con ella en brazos, en un cuarto de renta
-          que olía a humedad. Hubo días en que comieron lo que había,
-          no lo que querían. Hubo momentos en que Xavi se preguntó si había hecho bien.
-          Y luego Mishi lo abrazaba sin razón, de esa forma desordenada que tienen los niños,
-          y la pregunta desaparecía. <em>Siempre desaparecía.</em>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">II. El Hombre que Aguantó</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Nieto</span>
+            <span class="relation-name relation-secret">Leo (no lo sabe)</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Nunca quiso que su hija sufriera por amor. Él sabía lo que era eso:
-          querer a alguien que no te elige, esperar una llamada que nunca llega,
-          cargar con una herida que no se puede mostrar porque nadie la vería como herida.
-          Por eso cuando Jorgito llegó a la vida de Mishi, Xavi no le abrió la puerta de inmediato.
-          Lo observó. Lo midió. Lo puso a prueba sin que él lo supiera.
-          Le preguntó cosas difíciles. Lo dejó incómodo a propósito. Y Jorgito aguantó.
-          Siempre aguantó. Siempre respondió con respeto.
-          <strong>Y eso, para Xavi, valió más que cualquier otra cosa.</strong>
-        </p>
-        <p class="modal-text">
-          Un día, después de meses, Xavi lo llamó aparte. Le sirvió un café.
-          Lo miró fijo y le dijo:<br>
-          <em>«Yo sufrí por amor cuando era joven. Sufrí mucho. Y juré que mi hija no iba a pasar por eso.
-            Si estás aquí es porque veo algo en ti. No me falles. No le falles a ella.
-            Porque si lo haces… no va a haber forma de arreglarlo.»</em><br>
-          Jorgito sostuvo la mirada y respondió: <em>«Nunca lo haré.»</em>
-          Xavi le creyó. Con todo. Sin reservas. <em>Eso fue su error más grande.</em>
-        </p>
-        <p class="modal-text">
-          Cuando Mishi cumplió 18, Xavi organizó una fiesta como pudo.
-          No era lujosa. Era honesta. Había gente que quería a su hija,
-          música que le gustaba a ella, y un pastel que Xavi encargó con semanas de anticipación
-          porque quería que todo estuviera bien. Esa noche, Jorgito pidió el micrófono.
-          Habló. Y se arrodilló. Y le propuso matrimonio frente a todos.
-          Xavi tuvo que salir un momento al patio porque no quería que lo vieran llorar.
-          Pero lloró. Con las manos en el rostro, en silencio, pensando que por fin
-          <em>había cumplido su parte.</em>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">III. La Traición</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Actitud</span>
+            <span class="relation-name relation-broken">Rechaza a Jorgito</span>
           </div>
-        </div>
-        <p class="modal-text highlight-text">
-          Lo que vino después le rompió algo que todavía no ha terminado de sanar.
-          Le avisaron por teléfono. Una llamada de Mishi, con la voz partida:
-          <em>«Papá, Jorgito está detenido.»</em>
-          No entendió. Pidió que le explicaran. Y cuando entendió, el mundo se detuvo.
-          Un secuestro. Una muerte. Una pistola. Su nombre en un acta judicial.
-          <strong>El hombre a quien le confió su hija.</strong>
-        </p>
-        <p class="modal-text">
-          Fue a la estación. No entró. Se quedó afuera, en la banqueta, con las manos en los bolsillos,
-          sin poder moverse. Cuando Jorgito intentó hablarle a través de su abogado,
-          Xavi mandó una sola respuesta:
-          <em>«Dile que confié en él. Que lo traté como a un hijo. Y que deseo no volver a verlo en mi vida.»</em>
-          No fue al juicio. No pudo. No porque no quisiera saber — sino porque sabía que si lo veía,
-          se iba a quebrar. Y no estaba listo para que nadie lo viera quebrarse.
-        </p>
-        <p class="modal-text">
-          Hoy sigue siendo el mismo hombre sobreprotector, intenso, leal hasta el hueso.
-          Solo que ahora hay algo apagado en sus ojos que antes no estaba.
-          Una guardia más alta. Una confianza que cuesta más dar.
-          Y un nieto en algún lugar del mundo que se parece a él sin saberlo.
-          <em>Y Xavi no lo sabe.</em>
-        </p>
-        <div class="modal-quote">
-          <span class="quote-mark">"</span>
-          Si tuvieras un nieto, sería el hombre más feliz del mundo.
-          <span class="quote-mark">"</span>
-          <span class="quote-attr">— Xavi a Mishi, sin saber lo que ya existe</span>
         </div>
       </div>
     </div>
@@ -485,14 +914,10 @@
         </div>
         <div class="modal-title-block">
           <div class="modal-icon mishi-icon">
-            <!-- CSS petal / flower mark -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.3)" transform="rotate(0  10 10)" />
               <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(60 10 10)" />
               <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(120 10 10)" />
-              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(180 10 10)" />
-              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(240 10 10)" />
-              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.2)" transform="rotate(300 10 10)" />
               <circle cx="10" cy="10" r="3" fill="rgba(212,95,165,0.5)" />
             </svg>
           </div>
@@ -503,137 +928,21 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">I. La Chispa</span>
-            <div class="section-heading-line"></div>
+        <p class="card-desc">Alegre, directa y con una risa que llena habitaciones. Carga con el secreto más pesado de
+          la familia: su padre no sabe que Leo existe. Ama a Jorgito y lo odia al mismo tiempo.</p>
+        <div class="card-relations">
+          <div class="card-relation">
+            <span class="relation-label">Padre</span>
+            <span class="relation-name">Xavi</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Nació de una negociación. Sobrevivió al abandono de una madre que nunca la eligió.
-          Y aun así, <strong>Mishi es la mujer más viva de la sala</strong>.
-          No porque la vida haya sido fácil con ella. Sino porque aprendió a no pedirle permiso.
-        </p>
-        <p class="modal-text">
-          Alegre, directa, traviesa. Con una risa que llena habitaciones y una honestidad
-          que a veces incomoda. La vida le enseñó temprano que nadie te regala nada —
-          su propio origen es prueba de eso — y ella <em>tomó esa lección</em>
-          y la convirtió en el carácter más fuerte que tiene.
-          Creció viendo a su padre trabajar con las manos, cansarse sin quejarse,
-          sonreírle aunque estuviera roto por dentro. Aprendió a amar mirándolo a él.
-        </p>
-        <p class="modal-text">
-          Conoció a Jorgito con 14 años. No fue amor a primera vista — fue algo más lento,
-          más honesto. Él llegó a su vida de a poco, sin prisa, sin prometer lo que no podía dar.
-          Y eso, para una chica que creció sin promesas, valió más que cualquier gesto grande.
-          Xavi tardó en aceptarlo. Lo escrutó durante meses con esa mirada de padre
-          que ya conoce el dolor y no quiere que su hija lo conozca también.
-          Pero Jorgito no se rindió. Y Mishi tampoco. Cuatro años después, seguían juntos.
-        </p>
-        <p class="modal-text">
-          La noche de sus 18, con la fiesta todavía encendida y su papá con los ojos brillantes
-          al fondo de la sala, Jorgito se arrodilló frente a ella y le pidió que se casara con él.
-          Mishi dijo que sí antes de que terminara la pregunta.
-          Y fue ella — con su risa traviesa, con sus ganas de que esa noche no terminara —
-          quien le susurró después: <em>«Vámonos. Solo nosotros dos. Esta noche es nuestra.»</em>
-          Un hotel. Un secreto. Una decisión que tomaron con el corazón acelerado
-          y la felicidad todavía encima del anillo imaginario.
-          <em>Nadie más lo supo. Nadie más tenía que saberlo.</em>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">II. El Secreto</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Hijo</span>
+            <span class="relation-name relation-secret">Leo (secreto)</span>
           </div>
-        </div>
-        <p class="modal-text highlight-text">
-          Semanas después, sola en el baño con una prueba en la mano, Mishi vio dos líneas
-          y sintió que el aire se le iba del cuerpo. No porque no quisiera a ese bebé.
-          Sino porque supo, en ese instante, que tenía que decírselo a su papá.
-          Y no sabía cómo. Ensayó la conversación mil veces.
-          <em>«Papá, tengo que contarte algo.»</em> Se le cerraba la garganta cada vez.
-          Recordaba su cara en la fiesta, llorando de felicidad. Y no podía.
-          <strong>No podía ser quien le borrara esa cara.</strong>
-        </p>
-        <p class="modal-text">
-          El embarazo casi no se notó. Hubo días que agradeció eso como nunca agradeció nada.
-          Xavi preguntó una vez: <em>«¿Estás comiendo distinto? Te veo diferente.»</em>
-          Mishi sonrió y dijo: <em>«Estoy engordando, papá, no me digas nada.»</em>
-          Él soltó una carcajada y no volvió a preguntar. Y Mishi se fue a su cuarto,
-          cerró la puerta y lloró en silencio con la cara enterrada en la almohada.
-          <strong>Cargó sola con el secreto. Nueve meses.</strong>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">III. El Golpe</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Ex</span>
+            <span class="relation-name relation-broken">Jorgito</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Luego vino lo de Jorgito. La llamada. La estación de policía.
-          Verlo ahí, con las muñecas esposadas y los ojos rojos de no haber dormido,
-          fue como recibir un golpe que no vio venir.
-          Él la vio entrar y se le partió la cara. Se puso de rodillas en el suelo — esposado —
-          y no pudo decir nada durante varios segundos. Solo repetía:
-          <em>«Lo siento. Lo siento mucho. Te fallé. Le fallé a Xavi. Lo siento.»</em>
-          Mishi no respondió. Se quedó parada frente a él, con los brazos cruzados
-          y la mandíbula apretada, porque si abría la boca se iba a quebrar.
-          Y no podía quebrarse. No ahí. No todavía.
-        </p>
-        <p class="modal-text">
-          El juicio fue peor. Escuchar los cargos en voz alta — secuestro, homicidio —
-          mientras miraba la nuca de Jorgito desde las bancas fue una de las cosas
-          más duras que ha vivido. Antes de la sentencia, él pidió hablar.
-          Y habló. Le habló a ella directamente, con el juez escuchando y la sala en silencio:
-          <em>«Mishi. El dinero que junté es para Leo. No me lo guardes, úsalo para él.
-            Sé que no me vas a perdonar y no lo espero. Pero necesitaba que supieras
-            que todo lo que hice fue por él. Por ustedes. Me equivoqué de camino.
-            Pero la razón siempre fue la misma.»</em>
-          Ella no lloró en público. Esperó a llegar a su carro para hacerlo.
-          Y lloró tanto que no pudo arrancar en veinte minutos.
-        </p>
-        <p class="modal-text">
-          Antes de que se lo llevaran, la familia de la víctima habló con Jorgito.
-          Lo abrazaron. Mishi vio eso desde lejos y algo en ella se partió de una forma diferente.
-          Luego se acercó. No supo qué decir. Entonces simplemente se paró frente a él,
-          lo tomó de la cara con las dos manos, y le dio un beso.
-          Largo. Despacio. Con todo el peso de lo que no pudo decirle.
-          <em>No lo perdonó ese día. Pero tampoco pudo dejarlo ir sin eso.</em>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">IV. El Eco del Pasado</span>
-            <div class="section-heading-line"></div>
-          </div>
-        </div>
-        <p class="modal-text">
-          Han pasado diez años. Crió a Leo sola — con ayuda de Xavi, que no sabe que es su abuelo,
-          pero que ama a ese niño con una intensidad que Mishi no puede explicar sin sentir culpa.
-          Jorgito salió libre y ya la ha buscado. Se presentó en su trabajo.
-          La primera vez que lo vio, después de una década, no dijo nada.
-          Se quedaron mirando en silencio desde los dos lados de la calle.
-          Luego ella entró al local y no salió hasta que él se fue.
-          Esa noche no pudo dormir. <em>Porque tampoco lo ha olvidado.</em>
-        </p>
-        <p class="modal-text">
-          Ama a su papá más de lo que puede decirlo en palabras. Sabe todo lo que sacrificó.
-          Sabe el costo. Y carga con esa deuda de gratitud… y también con un <strong>secreto enorme</strong>.
-          Leo tiene <strong>10 años</strong>. Y Xavi no lo sabe. Cada vez que su padre menciona
-          que desea un nieto, algo en Mishi se tuerce por dentro. Cambia el tema. Se ríe.
-          Desvía. Porque el día que lo sepa… <em>el mundo que construyeron juntos va a temblar.</em>
-        </p>
-        <div class="modal-quote">
-          <span class="quote-mark">"</span>
-          Papá me salvó sin pedirme nada. Lo menos que puedo hacer es protegerlo… aunque sea de la verdad.
-          <span class="quote-mark">"</span>
-          <span class="quote-attr">— Mishi, en su silencio</span>
         </div>
       </div>
     </div>
@@ -649,7 +958,6 @@
         </div>
         <div class="modal-title-block">
           <div class="modal-icon leo-icon">
-            <!-- Star shape -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M10 2l2.2 5h5.3l-4.3 3.1 1.6 5.2L10 12.4l-4.8 2.9 1.6-5.2L2.5 7h5.3z"
                 fill="rgba(78,184,122,0.25)" stroke="#4eb87a" stroke-width="1.2" stroke-linejoin="round" />
@@ -662,90 +970,21 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">I. El Mundo Inocente</span>
-            <div class="section-heading-line"></div>
+        <p class="card-desc">Carismático, curioso e inocente. El tipo de niño que cae bien antes de abrir la boca.
+          Guarda en silencio la pregunta más pesada que puede cargar un niño de su edad.</p>
+        <div class="card-relations">
+          <div class="card-relation">
+            <span class="relation-label">Mamá</span>
+            <span class="relation-name">Mishi</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Leo no entiende de secretos. Para él, el mundo es un lugar <strong>enorme y emocionante</strong>,
-          lleno de personas por conocer y aventuras por vivir. Tiene diez años y todavía cree
-          que los adultos siempre dicen la verdad. Todavía cree que el silencio de su mamá
-          tiene una explicación sencilla. <em>Todavía cree que el mundo es justo.</em>
-        </p>
-        <p class="modal-text">
-          Es carismático de una forma que desconcierta — el tipo de niño que cae bien a todo el mundo
-          antes de que abra la boca. Alegre, curioso, con energía suficiente para agotar a tres adultos.
-          En el colegio no tiene enemigos. En casa llena el silencio sin darse cuenta.
-          <em>No sabe que es el centro de una bomba de tiempo familiar.</em>
-          No sabe que cada vez que reí, Mishi lo mira y por un instante no puede respirar bien.
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">II. La Pregunta Guardada</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Papá</span>
+            <span class="relation-name relation-broken">Jorgito (ausente)</span>
           </div>
-        </div>
-        <p class="modal-text highlight-text">
-          Sabe que tiene un papá. Su mamá nunca le mintió en eso. Le dijo que estaba lejos,
-          que las cosas fueron complicadas, que algún día lo entendería.
-          Leo tiene diez años y ya aprendio a no preguntar dos veces sobre el mismo tema
-          porque ve lo que le hace a su mamá. Cómo cambia la cara. Cómo se tensa la mandibula.
-          Cómo busca otra cosa en qué ocupar los ojos.
-          <strong>Así que guarda la pregunta. La guarda y la guarda y la guarda.</strong>
-          Y por las noches, cuando no puede dormir, la saca y le da vueltas en la oscuridad.
-        </p>
-        <p class="modal-text">
-          Una vez le preguntó a su mamá si su papá era mala persona.
-          Mishi tardó tanto en responder que Leo pensó que no iba a hacerlo.
-          Luego ella lo miró fijo y le dijo:
-          <em>«No. Tu papá no era mala persona. Cometió errores muy grandes.
-            Pero nunca fue mala persona.»</em>
-          Leo asintió. No pidió más. Pero esa respuesta la cargó con él durante semanas.
-        </p>
-        <p class="modal-text">
-          Quiere conocer a su abuelo. Se lo ha dicho a Mishi más de una vez, con esa
-          honestidad brutal que solo tienen los niños. Pero cada vez que toca el tema,
-          su mamá <strong>cambia la conversación</strong>. Y él no entiende por qué.
-          Un día le preguntó sin rodeos:
-          <em>«Mamá, ¿el abuelo sabe que existo?»</em>
-          Mishi se quedó congelada. Luego lo abrazó muy fuerte y no dijo nada.
-          Leo contaba los segundos que duraba el abrazo. Llegaron a treinta y dos.
-          <em>El más largo que le ha dado en su vida.</em>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">III. Un Rostro Familiar</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Abuelo</span>
+            <span class="relation-name relation-secret">Xavi (sin saberlo)</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Ahora hay un hombre que apareció cerca del trabajo de su mamá.
-          Un hombre de mirada cansada y manos grandes que la mira de una forma
-          que Leo no sabe nombrar todavía. Pero cuando ese hombre lo miró a él —
-          directamente, sin parpadear, con los ojos llenos de algo demasiado pesado
-          para un encuentro entre extraños — Leo sintió algo raro en el pecho.
-          No miedo. Algo distinto. <em>Como reconocer una voz que nunca has escuchado.</em>
-          Le preguntó a su mamá quién era. Mishi le dijo que nadie importante.
-          Pero esa noche, Mishi no cenó con él. Y Leo la escuchó llorar desde su cuarto.
-        </p>
-        <p class="modal-text">
-          Lleva sangre de un padre que pagó su culpa con diez años de su vida,
-          y de una familia que no lo conoce todavía. Pero tiene la risa de su madre,
-          la terquedad de quien no acepta respuestas a medias,
-          y, sin saberlo, <em>el corazón inquieto de Xavi.</em>
-        </p>
-        <div class="modal-quote">
-          <span class="quote-mark">"</span>
-          Mamá, ¿cuándo voy a conocer al abuelo? ¿Es que no quiere conocerme?
-          <span class="quote-mark">"</span>
-          <span class="quote-attr">— Leo, inocente e implacable</span>
         </div>
       </div>
     </div>
@@ -761,7 +1000,6 @@
         </div>
         <div class="modal-title-block">
           <div class="modal-icon jorgito-icon">
-            <!-- Crossed blades / danger mark -->
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <line x1="3" y1="3" x2="17" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round" />
               <line x1="17" y1="3" x2="3" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round" />
@@ -769,207 +1007,27 @@
             </svg>
           </div>
           <h2 class="modal-name">Jorgito</h2>
-          <p class="modal-subtitle">El Pretendiente — 28 años</p>
+          <p class="modal-subtitle">El Arrepentido — 28 años</p>
           <div class="modal-badge jorgito-badge">EL CAÍDO</div>
         </div>
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">I. La Cima</span>
-            <div class="section-heading-line"></div>
+        <p class="card-desc">Un hombre bueno que tomó el camino equivocado por desesperación. Pagó 10 años en prisión
+          por un crimen que no planeó. Sabe que Leo existe y que Xavi no lo sabe.</p>
+        <div class="card-relations">
+          <div class="card-relation">
+            <span class="relation-label">Ex</span>
+            <span class="relation-name relation-broken">Mishi</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Llevaba cuatro años con Mishi cuando todo se rompió. Cuatro años construyendo algo
-          que él no sabía que existía hasta que lo tuvo: una familia. Un lugar al que llegar.
-          Una persona que lo miraba como si valiera algo. Se ganó la confianza de Xavi
-          con paciencia, con respeto, aguantando preguntas duras y silencios más duros todavía.
-          La noche que Mishi cumplió 18, se arrodilló frente a ella y le pidió matrimonio.
-          Ella dijo que sí antes de que él terminara la pregunta. Xavi lloró en el patio.
-          <em>Era el hombre que esa familia merecía. O eso creyeron todos aquella noche.</em>
-        </p>
-        <p class="modal-text">
-          Esa misma noche, cuando la fiesta empezaba a apagarse y la música se volvía más lenta,
-          fue Mishi quien lo tomó de la mano con esa sonrisa traviesa que él nunca pudo resistir.
-          Le susurró que quería que esa noche fuera solo de los dos.
-          Jorgito intentó razonar. Le dijo que deberían esperar.
-          Mishi lo miró y sonrió. Y él no pudo decir que no.
-          Un hotel. Un cuarto con sábanas blancas y la ciudad de fondo.
-          Una decisión que tomaron juntos, con el corazón acelerado y la felicidad
-          todavía encima de la propuesta. <em>Nadie más lo supo. Nadie más tenía que saberlo.</em>
-        </p>
-        <p class="modal-text">
-          Lo que ninguno de los dos calculó fue lo que vendría después.
-          Semanas más tarde, Mishi le dijo que estaba embarazada.
-          Jorgito no dijo nada durante lo que pareció un minuto entero.
-          Solo la miraba. Luego la abrazó con tanta fuerza que ella le tuvo que pedir que aflojara.
-          Por un momento — sólo un momento — fue la persona más feliz del mundo.
-          <strong>Luego la realidad lo alcanzó de golpe.</strong>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">II. El Miedo y el Error</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Hijo</span>
+            <span class="relation-name">Leo</span>
           </div>
-        </div>
-        <p class="modal-text">
-          No tenía dinero. No tenía un trabajo estable. Tenía un colchón, una mochila
-          y una novia que llevaba un hijo suyo dentro.
-          Trabajó turnos dobles.Vendió lo poco que tenía.
-          Cada vez que juntaba algo, se iba en renta, en comida, en lo básico.
-          Y cada vez que hacía los números, le faltaba. <em>Siempre le faltaba.</em>
-          La angustia lo comía por dentro mientras Mishi cargaba sola el secreto frente a Xavi.
-        </p>
-        <p class="modal-text">
-          Su amigo de la infancia lo llamó después de semanas sin verse.
-          Se reunieron en un bar de mala muerte, en una mesa del fondo, con cervezas tibias.
-          Jorgito le contó todo. El bebé. El dinero. El miedo.
-          Su amigo lo escuchó sin interrumpir. Luego se inclinó hacia adelante y dijo:
-          <em>«Yo puedo conseguirte lo que necesitas. Una sola noche. Mucho dinero. Nadie sale lastimado.»</em>
-          Jorgito le dijo que no. Se levantó y se fue.
-          Tres días después, su amigo lo llamó de nuevo. <em>«Sigue en pie la oferta.»</em>
-          Jorgito colgó. Dos días después, le mandó un mensaje:
-          <em>«No es para mí. No vuelvas a hablarme de eso.»</em>
-          Una semana después, con las cuentas vencidas y el miedo atascado en la garganta,
-          fue él quien llamó a su amigo. <strong>Aceptó. Y eso lo rompió para siempre.</strong>
-        </p>
-        <p class="modal-text">
-          El primer trabajo fue rápido. Demasiado rápido. Una persona. Un lugar. Una entrega.
-          Recibieron su pago en efectivo, en un sobre sin nombre.
-          Jorgito se subió al carro y contó los billetes tres veces porque no podía creer
-          lo que estaba viendo. Con eso tenía para varios meses. Para el parto. Para el bebé.
-          Lo primero que pensó fue en Mishi. En Leo. <em>En que quizás todavía podía salvar algo.</em>
-          El remordimiento llegó después, como siempre llega — cuando ya es demasiado tarde para irse.
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">III. El Disparo</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Traicionado por</span>
+            <span class="relation-name relation-broken">Barto</span>
           </div>
-        </div>
-        <p class="modal-text highlight-text">
-          El segundo fue distinto desde el principio. La víctima no se dejó. Gritaba.
-          Pedía ayuda. Llamaba a alguien por su nombre. <em>Tenía nombre.</em>
-          Jorgito le decía a su amigo que aquello estaba mal, que se estaban equivocando,
-          que tenían que soltarla. Su amigo no lo escuchaba.
-          Entonces sacó una pistola.
-          Jorgito reaccionó sin pensar — la agarró por la muñeca, forcejeron,
-          el arma apuntaba en todas direcciones.
-          <em>«Suéltala.» «Tú suéltala.» «Estás loco.» «Suéltala.»</em>
-          El disparo fue accidental. Uno solo. En el pecho.
-          La persona cayó hacia atrás y no se movió más.
-          Su amigo corrió sin mirar atrás.
-          <strong>Jorgito se quedó ahí.</strong> Mirando el cuerpo. Sin poder moverse.
-          Sin procesar lo que acababa de pasar. Los minutos pasaban y él seguía ahí.
-          La policía lo encontró de pie, con las manos a los lados, la vista fija en el suelo.
-          Todavía mirando.
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">IV. La Sentencia</span>
-            <div class="section-heading-line"></div>
-          </div>
-        </div>
-        <p class="modal-text">
-          En la estación, cuando Mishi entró, Jorgito intentó levantarse pero las esposas
-          lo jalaron de vuelta. Se puso de rodillas en el suelo — esposado — y no pudo
-          sostener la mirada de ella. Bajó la cabeza y dijo:
-          <em>«Lo siento. Lo siento mucho. Te fallé. Le fallé a Xavi.
-            Fallé a la persona que más me importa en el mundo. Lo siento.»</em>
-          Mishi no dijo nada. Se quedó parada frente a él, con los brazos cruzados,
-          con los ojos secos porque los tenía así desde que recibió la llamada.
-          Jorgito le pidió que le dijera algo. Cualquier cosa. Que lo insultara si quería.
-          Mishi no lo insultó. <em>Solo se dio la vuelta y salió sin hablar.</em>
-          Eso dolió más que cualquier cosa que pudiera haberle dicho.
-        </p>
-        <p class="modal-text">
-          Xavi nunca fue a verlo. Mandó recado a través del abogado de oficio:
-          <em>«Confié en él. Lo traté como a un hijo. Que no vuelva a pronunciar mi nombre.»</em>
-          Jorgito leyó eso en un papel doblado, sentado en una celda que olía a desinfectante.
-          Lo leyó tres veces. Luego lo dobló de nuevo y lo guardó en el bolsillo.
-          No lo botó. <em>No pudo.</em>
-        </p>
-        <p class="modal-text">
-          Durante el interrogatorio, Jorgito no protégió a nadie. Dio nombres. Fechas. Lugares.
-          Descripciones. Rutas. Todo lo que sabía, todo lo que había visto.
-          Su amigo fue arrestado. Los que movían los hilos también.
-          En el juicio, el fiscal pidió la pena máxima. La defensa presentó su cooperación.
-          Lo acusaron de dos secuestros y homicidio involuntario.
-          La condena fue de <strong>diez años sin fianza, sin condicional</strong>.
-          El juez lo miró antes de leer la sentencia. Jorgito le sostuvo la mirada.
-        </p>
-        <p class="modal-text highlight-text">
-          Antes de que la sentencia fuera oficial, pidió hablar. Le concedieron tres minutos.
-          Primero habló con la familia de la víctima, que estaba sentada al frente:
-          <em>«No puedo pedirles que me perdonen. No tengo ese derecho.
-            Lo que vi esa noche no lo voy a olvidar mientras viva.
-            No pude hacer más y eso me va a pesar siempre. Lo siento de verdad.»</em>
-          Luego giró hacia donde estaba Mishi y la miró directo:
-          <em>«Mishi. El dinero que junté está guardado. Es para Leo. No es mío, nunca lo fue.
-            Sé que no me vas a perdonar. No te lo pido. Solo necesitaba que supieras
-            que la razón siempre fue él. Siempre fueron ustedes.
-            Me equivoqué de camino. Pero la razón nunca cambió.»</em>
-          La sala estaba en silencio. Mishi no movió un músculo.
-        </p>
-        <p class="modal-text">
-          Antes de que se lo llevaran, la familia de la víctima se acercó.
-          La madre lo abrazó en medio del juzgado. Le dijo al oído:
-          <em>«Gracias a ti, el que lo hizo está preso. Eso no me devuelve a mi hijo.
-            Pero sé que tú no quisiste que pasara.»</em>
-          Jorgito se quebró ahí. Frente a todos. Sin poder evitarlo.
-          Luego Mishi se acercó. No dijo nada. Lo tomó de la cara con las dos manos
-          y le dio un beso. Largo. Despacio. Con todo el peso de cuatro años, de una propuesta,
-          de una noche en un hotel, de un bebé que crecía sin su padre.
-          <em>No era perdón. Era despedida.</em>
-        </p>
-        <p class="modal-text">
-          Diez años. Diez años en los que aprendió el peso exacto del arrepentimiento.
-          Hubo noches en que no podía dormir pensando en la cara de esa persona cayendo.
-          Hubo noches en que lo único que lo sostuvo fue imaginar la cara de Leo
-          — una cara que no conocía, que construyó en su cabeza con pedazos de Mishi —
-          creciendo, aprendiendo a caminar, aprendiendo a hablar. Sin él.
-          <strong>Cada día adentro fue un día que su hijo creció sin padre.</strong>
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">V. El Regreso</span>
-            <div class="section-heading-line"></div>
-          </div>
-        </div>
-        <p class="modal-text">
-          Salió en la mañana. No había nadie esperandolo en la puerta.
-          Caminó por la ciudad con una bolsa de plástico con sus cosas.
-          Casi sin pensarlo, sus pies lo llevaron hasta el lugar donde trabaja Mishi.
-          Se quedó en la acera de enfrente. La vio por el ventanal del local.
-          Diez años después, seguía trabajando en el mismo lugar.
-          Y unos metros más allá, vio a un niño. Con la misma risa de ella.
-          Con los ojos que él venía imaginando durante una década.
-          <em>El corazón se le fue al suelo. Y luego se le apretó en el pecho. Y luego no supo qué era.</em>
-          Se quedó ahí parado hasta que Mishi lo vio.
-          No se saludaron. No dijeron nada. Solo se miraron desde los dos lados de la calle.
-          Luego ella entró al local. Jorgito se fue. Esa noche no pudo cenar.
-        </p>
-        <p class="modal-text">
-          Ha intentado acercarse después. Mishi lo rechaza — con dolor, no con rabia.
-          Porque ella tampoco lo ha olvidado. Y eso, de alguna forma, duele más que el rechazo mismo.
-        </p>
-        <div class="modal-quote">
-          <span class="quote-mark">"</span>
-          No espero que me perdones. Solo necesito que sepas que cada día adentro,
-          lo único que me mantuvo en pie fue saber que Leo existía.
-          <span class="quote-mark">"</span>
-          <span class="quote-attr">— Jorgito, frente a Mishi, después de diez años</span>
         </div>
       </div>
     </div>
@@ -986,8 +1044,10 @@
         <div class="modal-title-block">
           <div class="modal-icon barto-icon">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <!-- Cuchillo / Criminal icon -->
-              <path d="M14.5 5.5L5.5 14.5M14.5 5.5C15.5 6.5 15.5 8 14.5 9L9 14.5C8 15.5 6.5 15.5 5.5 14.5M14.5 5.5C13.5 4.5 12 4.5 11 5.5L5.5 11C4.5 12 4.5 13.5 5.5 14.5M5.5 14.5L3 17" stroke="#d48c3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="rgba(212,140,59,0.2)"/>
+              <path
+                d="M14.5 5.5L5.5 14.5M14.5 5.5C15.5 6.5 15.5 8 14.5 9L9 14.5C8 15.5 6.5 15.5 5.5 14.5M14.5 5.5C13.5 4.5 12 4.5 11 5.5L5.5 11C4.5 12 4.5 13.5 5.5 14.5M5.5 14.5L3 17"
+                stroke="#d48c3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                fill="rgba(212,140,59,0.2)" />
             </svg>
           </div>
           <h2 class="modal-name">Barto</h2>
@@ -997,82 +1057,17 @@
       </div>
       <div class="modal-divider"></div>
       <div class="modal-body">
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">I. El Veneno en el Oído</span>
-            <div class="section-heading-line"></div>
+        <p class="card-desc">Manipulador nato sin rastro de culpa. Usó a Jorgito como escudo y lo abandonó con un muerto
+          a los pies. Se adaptó a la cárcel como si fuera su hábitat natural.</p>
+        <div class="card-relations">
+          <div class="card-relation">
+            <span class="relation-label">Traicionó a</span>
+            <span class="relation-name relation-broken">Jorgito</span>
           </div>
-        </div>
-        <p class="modal-text">
-          Barto nunca vio en Jorgito a un hermano; vio una herramienta útil. Mientras Jorgito se ahogaba en la desesperación por demostrarle a Xavi que podía mantener a Mishi y al bebé que venía en camino, Barto escuchaba, analizaba y envenenaba. 
-        </p>
-        <p class="modal-text highlight-text">
-          <em>«Estás jugando a la casita con las reglas de un viejo que te odia»</em>, le decía mientras fumaban en la esquina. <em>«Xavi te va a aplastar. Tienes que llegar con billetes en la mano, no con promesas sudadas de un sueldo miserable. Yo tengo la forma. Fácil, rápido, sin que nadie salga herido.»</em>
-        </p>
-        <p class="modal-text">
-          Jorgito, ciego de angustia y miedo al rechazo, cedió. No sabía que para Barto, él solo era el escudo perfecto por si las cosas salían mal. El chico bueno del que nadie sospecharía.
-        </p>
-        
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">II. El Accidente</span>
-            <div class="section-heading-line"></div>
+          <div class="card-relation">
+            <span class="relation-label">Vínculo</span>
+            <span class="relation-name relation-broken">"Amigo" de la infancia de Jorgito</span>
           </div>
-        </div>
-        <p class="modal-text">
-          El plan era secuestrar a un empresario local. Barto le juró a Jorgito que el arma estaba descargada, que solo era "para asustar". Pero Barto mintió; siempre la llevaba lista para matar.
-        </p>
-        <p class="modal-text">
-          La noche del golpe, todo se salió de control y la víctima empezó a gritar. Jorgito, invadido por el pánico, intentó detener el secuestro y arrebatarle el arma a Barto para cancelar todo. <strong>En medio del caos, Barto y Jorgito empezaron a pelear y forcejear por la pistola.</strong>
-        </p>
-        <p class="modal-text highlight-text">
-          Fue durante esa violenta pelea física entre ambos que el arma se disparó por accidente. Un solo tiro rompió la noche. El empresario cayó muerto al instante.
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">III. La Traición a Sangre Fría</span>
-            <div class="section-heading-line"></div>
-          </div>
-        </div>
-        <p class="modal-text">
-          Jorgito cayó de rodillas junto al cuerpo, temblando, repitiendo: <em>«¿Qué hicimos? ¿Qué hicimos?»</em> Las sirenas de la policía ya empezaban a aullar a lo lejos.
-        </p>
-        <p class="modal-text">
-          Barto se acercó a su "hermano". Lejos de entrar en pánico, limpió el cañón de la pistola con la manga de su chamarra para borrar sus huellas, y con fuerza se la puso a Jorgito en las manos. 
-        </p>
-        <p class="modal-text">
-          <em>«Escúchame bien, hermanito»</em>, le susurró Barto al oído, con un tono perturbadoramente calmado. <em>«Tú tienes una novia bonita y un suegro que te odia. Si corres ahora, te van a cazar como a un perro rabioso. Te vas a quedar aquí. Vas a decir que fue un accidente. Que estabas solo. Hazlo por tu hijo, o yo mismo me encargo de ir a buscar a Mishi.»</em>
-        </p>
-        <p class="modal-text highlight-text">
-          Antes de que Jorgito pudiera procesar la amenaza y la traición, Barto desapareció saltando la barda trasera hacia la oscuridad, dejando a su amigo como carnada para la policía.
-        </p>
-
-        <div class="story-section">
-          <div class="section-heading">
-            <div class="section-heading-line"></div>
-            <span class="section-heading-text">IV. Entre las Rejas</span>
-            <div class="section-heading-line"></div>
-          </div>
-        </div>
-        <p class="modal-text">
-          Aunque intentó huir cobardemente, la justicia terminó alcanzando a Barto unos meses después. Fue capturado, condenado y enviado a prisión, el mismo infierno de concreto donde Jorgito cumple su condena.
-        </p>
-        <p class="modal-text">
-          Pero a diferencia de su "hermano", que vive atormentado por la culpa y el dolor de haber perdido a Mishi y a Leo, Barto se adaptó a la cárcel como una rata a las alcantarillas. Rápidamente se abrió paso en el patio, extorsionando y manipulando a otros reclusos. Para él, la prisión no es un castigo; es solo su nueva zona de confort.
-        </p>
-        <p class="modal-text highlight-text">
-          Se cruza con Jorgito a veces entre los pasillos, pero no hay disculpas, solo una sonrisa cínica y vacía. No siente remordimiento. Para él, la vida de su amigo fue simplemente un precio barato a pagar.
-        </p>
-
-        <div class="modal-quote">
-          <span class="quote-mark">"</span>
-          La lealtad es un cuento que los idiotas se inventan para no sentirse tan solos cuando se hunden. Yo aprendí a respirar bajo el lodo.
-          <span class="quote-mark">"</span>
-          <span class="quote-attr">— Barto, desde la prisión</span>
         </div>
       </div>
     </div>
