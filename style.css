@@ -170,6 +170,94 @@ body {
   padding-top: 28px;
 }
 
+/* ===========================
+   GEN-2 WRAPPER: family + underworld side-by-side
+=========================== */
+.gen2-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 860px;
+  padding-top: 10px;
+}
+
+.family-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+
+.gen-label-inline {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--dark);
+  padding: 2px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+  white-space: nowrap;
+}
+
+/* Underworld panel: vertical column, left side */
+.underworld-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 14px 14px;
+  border-radius: 18px;
+  border: 1px dashed rgba(120,100,80,0.25);
+  background: rgba(30, 20, 10, 0.35);
+  position: relative;
+}
+
+.underworld-label {
+  font-family: var(--font-ui);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(180,140,80,0.6);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark);
+  padding: 2px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(120,100,60,0.2);
+  white-space: nowrap;
+}
+
+.underworld-card {
+  width: 138px;
+  min-width: 138px;
+}
+
+/* Vertical peer connector between Jorgito and Barto */
+.peer-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.peer-line {
+  width: 2px;
+  height: 18px;
+  background: linear-gradient(180deg, rgba(100,80,60,0.5), rgba(80,60,40,0.2));
+}
+
+
 .gen-label {
   position: absolute;
   top: 0;
@@ -335,6 +423,51 @@ body {
   font-size: 0.7rem;
   color: var(--gold-dim);
   margin-top: 4px;
+}
+
+/* ---- Relationship Tags ---- */
+.member-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.member-tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.tag-family {
+  background: rgba(74, 127, 203, 0.12);
+  color: #7aafef;
+  border: 1px solid rgba(74, 127, 203, 0.25);
+}
+
+.tag-drama {
+  background: rgba(212, 95, 165, 0.1);
+  color: #e88fc5;
+  border: 1px solid rgba(212, 95, 165, 0.22);
+}
+
+.tag-dark {
+  background: rgba(184, 74, 74, 0.1);
+  color: #e88a8a;
+  border: 1px solid rgba(184, 74, 74, 0.22);
+}
+
+.tag-mystery {
+  background: rgba(138, 127, 170, 0.1);
+  color: #b0a8d0;
+  border: 1px solid rgba(138, 127, 170, 0.22);
 }
 
 /* ---- Pulse rings ---- */
@@ -990,6 +1123,110 @@ body {
 }
 
 /* ===========================
+   AUDIO PLAYER (per-section)
+=========================== */
+.audio-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px;
+  padding: 6px 14px;
+  margin: 8px 0 4px;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  width: 100%;
+  max-width: 380px;
+  align-self: center;
+}
+
+.audio-player.active {
+  background: rgba(201,162,39,0.07);
+  border-color: rgba(201,162,39,0.25);
+}
+
+.audio-play-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.audio-play-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
+}
+.audio-play-btn.playing {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  color: #fff;
+  animation: pulseAudio 2s infinite;
+}
+
+.audio-progress-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.audio-progress-bar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  outline: none;
+  transition: height 0.15s ease;
+}
+.audio-progress-bar:hover { height: 6px; }
+.audio-progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(201,162,39,0.6);
+}
+.audio-progress-bar::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: none;
+}
+/* Fill effect via custom property set by JS */
+.audio-progress-bar {
+  background: linear-gradient(90deg, rgba(201,162,39,0.7) var(--progress, 0%), rgba(255,255,255,0.1) var(--progress, 0%));
+}
+
+.audio-time {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  text-align: right;
+  letter-spacing: 0.05em;
+}
+
+/* Mobile adaptations for player */
+@media (max-width: 480px) {
+  .audio-player { padding: 5px 10px; gap: 7px; }
+  .audio-play-btn { width: 26px; height: 26px; }
+}
+
+/* ===========================
    RESPONSIVE — TABLET
 =========================== */
 @media (max-width: 768px) {
@@ -1017,6 +1254,27 @@ body {
   .gen-1 {
     flex-direction: column;
     gap: 6px;
+  }
+
+  /* Gen-2 wrapper: stack vertically on mobile */
+  .gen2-wrapper {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .underworld-panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 12px 12px;
+  }
+
+  .peer-connector {
+    flex-direction: row;
+  }
+  .peer-line {
+    width: 18px;
+    height: 2px;
   }
 
   /* Horizontal connector becomes vertical */

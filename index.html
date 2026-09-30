@@ -62,7 +62,11 @@
         <div class="member-info">
           <h2 class="member-name">???</h2>
           <p class="member-role">La Madre</p>
-          <div class="member-age">Desconocida</div>
+          <div class="member-age">Identidad desconocida</div>
+          <div class="member-tags">
+            <span class="member-tag tag-mystery">Madre de Mishi</span>
+            <span class="member-tag tag-mystery">Abandonó la familia</span>
+          </div>
         </div>
         <!-- CSS diamond badge -->
         <div class="mystery-badge">
@@ -95,6 +99,11 @@
           <h2 class="member-name">Xavi</h2>
           <p class="member-role">El Padre</p>
           <div class="member-age">43 años</div>
+          <div class="member-tags">
+            <span class="member-tag tag-family">Padre de Mishi</span>
+            <span class="member-tag tag-family">Abuelo de Leo</span>
+            <span class="member-tag tag-drama">Sin saber que Leo existe</span>
+          </div>
         </div>
         <div class="pulse-ring xavi-pulse"></div>
       </div>
@@ -106,92 +115,117 @@
       <div class="connector-dot"></div>
     </div>
 
-    <!-- ══════════════ GENERATION 2: Mishi + Jorgito + Barto ══════════════ -->
-    <section class="generation gen-2">
-      <div class="gen-label">Segunda Generación</div>
+    <!-- ══════════════ GENERATION 2: Mishi (center) + Underworld Sidebar ══════════════ -->
+    <section class="gen2-wrapper">
 
-      <!-- Barto -->
-      <div class="member-card side-card barto-card" id="card-barto" onclick="openModal('barto')">
-        <div class="card-glow barto-glow"></div>
-        <div class="avatar-ring barto-ring">
-          <img src="img/barto.png" alt="Barto" class="avatar-img" />
-          <div class="avatar-overlay">
-            <span class="view-hint">Ver historia</span>
+      <!-- ===== UNDERWORLD PANEL (left): Barto + Jorgito ===== -->
+      <div class="underworld-panel">
+        <div class="underworld-label">
+          <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style="margin-right:5px;">
+            <path d="M7 1L13 7L7 13L1 7Z" stroke="#888" stroke-width="1.5" fill="rgba(100,100,100,0.15)"/>
+          </svg>
+          Mundo Criminal
+        </div>
+
+        <!-- Jorgito -->
+        <div class="member-card underworld-card jorgito-card" id="card-jorgito" onclick="openModal('jorgito')">
+          <div class="card-glow jorgito-glow"></div>
+          <div class="avatar-ring jorgito-ring">
+            <img src="img/jorgito.png" alt="Jorgito" class="avatar-img" />
+            <div class="avatar-overlay">
+              <span class="view-hint">Ver historia</span>
+            </div>
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Jorgito</h2>
+            <p class="member-role">El Pretendiente</p>
+            <div class="member-age">28 años</div>
+            <div class="member-tags">
+              <span class="member-tag tag-drama">Ex de Mishi</span>
+              <span class="member-tag tag-drama">Padre de Leo</span>
+              <span class="member-tag tag-dark">En prisión</span>
+            </div>
+          </div>
+          <div class="warning-badge" aria-label="Peligro">
+            <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
+              <path d="M9 1L17 15H1L9 1Z" stroke="#cc4444" stroke-width="1.5" fill="rgba(184,74,74,0.15)" />
+              <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter" font-weight="700">!</text>
+            </svg>
           </div>
         </div>
-        <div class="member-info">
-          <h2 class="member-name">Barto</h2>
-          <p class="member-role">El Asesino</p>
-          <div class="member-age">29 años</div>
-        </div>
-      </div>
 
-      <!-- Connector: Barto <-> Jorgito -->
-      <div class="h-connector barto-connector" aria-hidden="true" style="margin: 0 -15px;">
-        <div class="h-line h-line-left" style="border-color: rgba(255,255,255,0.1);"></div>
-        <div class="h-center">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-             <path d="M7 1L13 7L7 13L1 7Z" stroke="#888" stroke-width="1.5" fill="rgba(100,100,100,0.15)"/>
+        <!-- Peer connector: Jorgito -- Barto -->
+        <div class="peer-connector">
+          <div class="peer-line"></div>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L13 7L7 13L1 7Z" stroke="#666" stroke-width="1.5" fill="rgba(80,80,80,0.15)"/>
           </svg>
+          <div class="peer-line"></div>
         </div>
-        <div class="h-line h-line-right" style="border-color: rgba(255,255,255,0.1);"></div>
-      </div>
 
-      <!-- Jorgito -->
-      <div class="member-card side-card jorgito-card" id="card-jorgito" onclick="openModal('jorgito')">
-        <div class="card-glow jorgito-glow"></div>
-        <div class="avatar-ring jorgito-ring">
-          <img src="img/jorgito.png" alt="Jorgito" class="avatar-img" />
-          <div class="avatar-overlay">
-            <span class="view-hint">Ver historia</span>
+        <!-- Barto -->
+        <div class="member-card underworld-card barto-card" id="card-barto" onclick="openModal('barto')">
+          <div class="card-glow barto-glow"></div>
+          <div class="avatar-ring barto-ring">
+            <img src="img/barto.png" alt="Barto" class="avatar-img" />
+            <div class="avatar-overlay">
+              <span class="view-hint">Ver historia</span>
+            </div>
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Barto</h2>
+            <p class="member-role">El Asesino</p>
+            <div class="member-age">29 años</div>
+            <div class="member-tags">
+              <span class="member-tag tag-dark">“Amigo” de Jorgito</span>
+              <span class="member-tag tag-dark">El verdadero culpable</span>
+              <span class="member-tag tag-dark">En prisión</span>
+            </div>
           </div>
         </div>
-        <div class="member-info">
-          <h2 class="member-name">Jorgito</h2>
-          <p class="member-role">El Pretendiente</p>
-          <div class="member-age">28 años</div>
-        </div>
-        <!-- CSS warning badge -->
-        <div class="warning-badge" aria-label="Peligro">
-          <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
-            <path d="M9 1L17 15H1L9 1Z" stroke="#cc4444" stroke-width="1.5" fill="rgba(184,74,74,0.15)" />
-            <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter"
-              font-weight="700">!</text>
-          </svg>
-        </div>
       </div>
 
-      <!-- Broken connector: Jorgito <-> Mishi -->
-      <div class="broken-connector" aria-hidden="true">
-        <div class="b-line b-line-left"></div>
-        <div class="b-center">
-          <!-- CSS broken X -->
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-            <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-            <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-            <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-          </svg>
-        </div>
-        <div class="b-line b-line-right"></div>
-      </div>
+      <!-- ===== FAMILY COLUMN (center): Gen label + Mishi ===== -->
+      <div class="family-column">
+        <div class="gen-label-inline">Segunda Generación</div>
 
-      <!-- Mishi -->
-      <div class="member-card center-card" id="card-mishi" onclick="openModal('mishi')">
-        <div class="card-glow mishi-glow"></div>
-        <div class="avatar-ring mishi-ring">
-          <img src="img/mishi.png" alt="Mishi" class="avatar-img" />
-          <div class="avatar-overlay">
-            <span class="view-hint">Ver historia</span>
+        <!-- Broken connector above Mishi: Jorgito(left) ✕ Mishi -->
+        <div class="broken-connector" aria-hidden="true">
+          <div class="b-line b-line-left"></div>
+          <div class="b-center">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+              <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+              <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+              <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
+            </svg>
           </div>
+          <div class="b-line b-line-right"></div>
         </div>
-        <div class="member-info">
-          <h2 class="member-name">Mishi</h2>
-          <p class="member-role">La Hija</p>
-          <div class="member-age">28 años</div>
+
+        <!-- Mishi -->
+        <div class="member-card center-card" id="card-mishi" onclick="openModal('mishi')">
+          <div class="card-glow mishi-glow"></div>
+          <div class="avatar-ring mishi-ring">
+            <img src="img/mishi.png" alt="Mishi" class="avatar-img" />
+            <div class="avatar-overlay">
+              <span class="view-hint">Ver historia</span>
+            </div>
+          </div>
+          <div class="member-info">
+            <h2 class="member-name">Mishi</h2>
+            <p class="member-role">La Hija</p>
+            <div class="member-age">28 años</div>
+            <div class="member-tags">
+              <span class="member-tag tag-family">Hija de Xavi</span>
+              <span class="member-tag tag-drama">Madre de Leo</span>
+              <span class="member-tag tag-drama">Ex de Jorgito</span>
+            </div>
+          </div>
+          <div class="pulse-ring mishi-pulse"></div>
         </div>
-        <div class="pulse-ring mishi-pulse"></div>
       </div>
+
     </section>
 
     <!-- Connector: Mishi → Leo (secreto) -->
@@ -223,8 +257,13 @@
         </div>
         <div class="member-info">
           <h2 class="member-name">Leo</h2>
-          <p class="member-role">El Nieto</p>
+          <p class="member-role">El Nieto Secreto</p>
           <div class="member-age">10 años</div>
+          <div class="member-tags">
+            <span class="member-tag tag-family">Hijo de Mishi</span>
+            <span class="member-tag tag-drama">Hijo de Jorgito</span>
+            <span class="member-tag tag-mystery">Desconocido por Xavi</span>
+          </div>
         </div>
         <div class="pulse-ring leo-pulse"></div>
         <div class="secret-badge">?</div>

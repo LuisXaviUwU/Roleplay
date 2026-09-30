@@ -95,41 +95,31 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* ---- Text-to-Speech (TTS) & Custom Audio Logic ---- */
-let currentUtterance = null;
-let currentCustomAudio = null;
-let currentBtnPlaying = null;
-let voices = [];
+/* ---- Text-to-Speech & Custom Audio Player ---- */
 
-// Mapping of specific sections to their pre-recorded audio files
-// Key format: "modalId-sectionIndex" (0-indexed)
+// Mapping: "modalId-sectionIndex" → audio file path
 const customAudioMap = {
   // Xavi
   'xavi-0': 'audio/Capitulo1Xavi.m4a',
   'xavi-1': 'audio/Capitulo2Xavi.m4a',
   'xavi-2': 'audio/Capitulo3Xavi.m4a',
-  
   // Mishi
   'mishi-0': 'audio/Capitulo1Mishi.m4a',
   'mishi-1': 'audio/Capitulo2Mishi.m4a',
   'mishi-2': 'audio/Capitulo3Mishi.m4a',
   'mishi-3': 'audio/Capitulo4Mishi.m4a',
-  
   // Leo
   'leo-0': 'audio/Capitulo1Leo.m4a',
   'leo-1': 'audio/Capitulo2Leo.m4a',
   'leo-2': 'audio/Capitulo3Leo.m4a',
-  
   // Jorgito
   'jorgito-0': 'audio/Capitulo1Jorgito.m4a',
   'jorgito-1': 'audio/Capitulo2Jorgito.m4a',
   'jorgito-2': 'audio/Capitulo3Jorgito.m4a',
   'jorgito-3': 'audio/Capitulo4Jorgito.m4a',
   'jorgito-4': 'audio/Capitulo5Jorgito.m4a',
-  
   // La Madre
   'madre-0': 'audio/Capitulo1Mujer.m4a',
-  
   // Barto
   'barto-0': 'audio/Capitulo1Barto.m4a',
   'barto-1': 'audio/Capitulo2Barto.m4a',
@@ -137,170 +127,212 @@ const customAudioMap = {
   'barto-3': 'audio/Capitulo4Barto.m4a'
 };
 
+let voices = [];
+let activePlayer = null; // { audioEl, btn, progress, timeEl, ttsUtterance, isTTS }
+
+/* --- Voice selector population --- */
 function populateVoices() {
   voices = window.speechSynthesis.getVoices();
   const select = document.getElementById('voice-select');
   if (!select) return;
-  
   select.innerHTML = '';
-  const defaultOption = document.createElement('option');
-  defaultOption.value = '';
-  defaultOption.textContent = 'Voz predeterminada (ES)';
-  select.appendChild(defaultOption);
-
-  voices.forEach((voice, i) => {
-    if (voice.lang.startsWith('es')) {
-      const option = document.createElement('option');
-      option.value = i;
-      option.textContent = `${voice.name} (${voice.lang})`;
-      select.appendChild(option);
+  const def = document.createElement('option');
+  def.value = '';
+  def.textContent = 'Voz predeterminada (ES)';
+  select.appendChild(def);
+  voices.forEach((v, i) => {
+    if (v.lang.startsWith('es')) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${v.name} (${v.lang})`;
+      select.appendChild(opt);
     }
   });
 }
-
 window.speechSynthesis.onvoiceschanged = populateVoices;
 document.addEventListener('DOMContentLoaded', populateVoices);
 
-// Inject buttons dynamically into sections
+/* --- Helpers --- */
+function formatTime(secs) {
+  if (!isFinite(secs)) return '0:00';
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60);
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function stopActive() {
+  if (!activePlayer) return;
+  if (activePlayer.isTTS) {
+    window.speechSynthesis.cancel();
+  } else if (activePlayer.audioEl) {
+    activePlayer.audioEl.pause();
+  }
+  setPlayerState(activePlayer, false);
+  activePlayer = null;
+}
+
+function setPlayerState(player, playing) {
+  const { playerEl, btn } = player;
+  if (playing) {
+    playerEl.classList.add('active');
+    btn.classList.add('playing');
+    btn.innerHTML = pauseIcon();
+  } else {
+    playerEl.classList.remove('active');
+    btn.classList.remove('playing');
+    btn.innerHTML = playIcon();
+  }
+}
+
+function playIcon() {
+  return `<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>`;
+}
+function pauseIcon() {
+  return `<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/></svg>`;
+}
+
+/* --- Build inline players after DOM ready --- */
 document.addEventListener('DOMContentLoaded', () => {
-  const headings = document.querySelectorAll('.section-heading');
-  headings.forEach(heading => {
-    const btn = document.createElement('button');
-    btn.className = 'audio-btn';
-    btn.title = 'Escuchar esta sección';
-    btn.onclick = function() { toggleAudioSection(this); };
-    btn.innerHTML = `
-      <svg class="audio-icon-play" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-      <svg class="audio-icon-pause" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+  document.querySelectorAll('.story-section').forEach(section => {
+    const heading = section.querySelector('.section-heading');
+    if (!heading) return;
+
+    // Build player HTML
+    const playerEl = document.createElement('div');
+    playerEl.className = 'audio-player';
+    playerEl.innerHTML = `
+      <button class="audio-play-btn" title="Reproducir sección">${playIcon()}</button>
+      <div class="audio-progress-wrap">
+        <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
+        <div class="audio-time">0:00 / 0:00</div>
+      </div>
     `;
-    
-    const lastLine = heading.lastElementChild;
-    heading.insertBefore(btn, lastLine);
+
+    // Insert player after the heading div (inside story-section)
+    section.appendChild(playerEl);
+
+    const btn = playerEl.querySelector('.audio-play-btn');
+    const progressBar = playerEl.querySelector('.audio-progress-bar');
+    const timeEl = playerEl.querySelector('.audio-time');
+
+    btn.addEventListener('click', () => {
+      // Find modal id + section index
+      const modalWrap = section.closest('.modal-overlay');
+      const modalId = modalWrap ? modalWrap.id.replace('modal-', '') : '';
+      const allSections = Array.from(modalWrap.querySelectorAll('.story-section'));
+      const sectionIdx = allSections.indexOf(section);
+      const audioKey = `${modalId}-${sectionIdx}`;
+
+      // Already playing THIS player? Toggle pause/resume
+      if (activePlayer && activePlayer.playerEl === playerEl) {
+        if (activePlayer.isTTS) {
+          if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+            window.speechSynthesis.pause();
+            setPlayerState(activePlayer, false);
+          } else {
+            window.speechSynthesis.resume();
+            setPlayerState(activePlayer, true);
+          }
+        } else {
+          if (activePlayer.audioEl.paused) {
+            activePlayer.audioEl.play();
+            setPlayerState(activePlayer, true);
+          } else {
+            activePlayer.audioEl.pause();
+            setPlayerState(activePlayer, false);
+          }
+        }
+        return;
+      }
+
+      // Stop whatever was playing before
+      stopActive();
+
+      const player = { playerEl, btn, progressBar, timeEl, audioEl: null, isTTS: false };
+
+      if (customAudioMap[audioKey]) {
+        // Real audio file
+        const audio = new Audio(customAudioMap[audioKey]);
+        player.audioEl = audio;
+
+        audio.addEventListener('loadedmetadata', () => {
+          progressBar.max = audio.duration;
+          timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
+        });
+
+        audio.addEventListener('timeupdate', () => {
+          if (!audio.duration) return;
+          progressBar.value = audio.currentTime;
+          const pct = (audio.currentTime / audio.duration) * 100;
+          progressBar.style.setProperty('--progress', `${pct}%`);
+          timeEl.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+        });
+
+        audio.addEventListener('ended', () => {
+          setPlayerState(player, false);
+          progressBar.value = 0;
+          progressBar.style.setProperty('--progress', '0%');
+          timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
+          activePlayer = null;
+        });
+
+        progressBar.addEventListener('input', () => {
+          audio.currentTime = parseFloat(progressBar.value);
+        });
+
+        audio.play();
+        setPlayerState(player, true);
+        activePlayer = player;
+
+      } else {
+        // TTS fallback
+        player.isTTS = true;
+        const texts = [];
+        const titleEl = section.querySelector('.section-heading-text');
+        if (titleEl) texts.push(`Capítulo: ${titleEl.innerText}`);
+
+        let sibling = section.nextElementSibling;
+        while (sibling && !sibling.classList.contains('story-section')) {
+          if (sibling.classList.contains('modal-text')) texts.push(sibling.innerText);
+          else if (sibling.classList.contains('modal-quote')) texts.push(sibling.innerText.replace(/"/g, ''));
+          sibling = sibling.nextElementSibling;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(texts.join('. '));
+        const select = document.getElementById('voice-select');
+        if (select && select.value !== '') {
+          utterance.voice = voices[select.value];
+        } else {
+          utterance.lang = 'es-ES';
+          const sv = voices.find(v => v.lang.startsWith('es'));
+          if (sv) utterance.voice = sv;
+        }
+        utterance.rate = 0.95;
+
+        utterance.onend = () => {
+          setPlayerState(player, false);
+          activePlayer = null;
+        };
+        utterance.onerror = () => {
+          setPlayerState(player, false);
+          activePlayer = null;
+        };
+
+        progressBar.style.setProperty('--progress', '0%');
+        timeEl.textContent = 'TTS — en curso';
+
+        window.speechSynthesis.speak(utterance);
+        player.ttsUtterance = utterance;
+        setPlayerState(player, true);
+        activePlayer = player;
+      }
+    });
   });
 });
 
-function toggleAudioSection(btn) {
-  if (currentBtnPlaying === btn) {
-    stopAnyAudio();
-    resetAudioButton(btn);
-    currentBtnPlaying = null;
-    return;
-  }
-
-  if (currentBtnPlaying) {
-    stopAnyAudio();
-    resetAudioButton(currentBtnPlaying);
-  }
-
-  const sectionWrap = btn.closest('.story-section');
-  const modalWrap = btn.closest('.modal-overlay');
-  const modalId = modalWrap ? modalWrap.id.replace('modal-', '') : '';
-  
-  // Find which section index this is inside the modal
-  const allSectionsInModal = Array.from(modalWrap.querySelectorAll('.story-section'));
-  const sectionIndex = allSectionsInModal.indexOf(sectionWrap);
-  const audioKey = `${modalId}-${sectionIndex}`;
-
-  currentBtnPlaying = btn;
-  btn.classList.add('playing');
-  btn.querySelector('.audio-icon-play').style.display = 'none';
-  btn.querySelector('.audio-icon-pause').style.display = 'block';
-
-  // Check if we have a custom audio file for this section
-  if (customAudioMap[audioKey]) {
-    currentCustomAudio = new Audio(customAudioMap[audioKey]);
-    currentCustomAudio.onended = () => {
-      resetAudioButton(btn);
-      currentBtnPlaying = null;
-      currentCustomAudio = null;
-    };
-    currentCustomAudio.onerror = (e) => {
-      console.error('Error loading custom audio', e);
-      resetAudioButton(btn);
-      currentBtnPlaying = null;
-      currentCustomAudio = null;
-    };
-    currentCustomAudio.play();
-  } else {
-    // Fallback to TTS
-    playTTSForSection(btn, sectionWrap);
-  }
-}
-
-function playTTSForSection(btn, sectionWrap) {
-  const texts = [];
-  const titleText = sectionWrap.querySelector('.section-heading-text');
-  if (titleText) {
-    texts.push(`Capítulo: ${titleText.innerText}`);
-  }
-
-  let sibling = sectionWrap.nextElementSibling;
-  while (sibling && !sibling.classList.contains('story-section')) {
-    if (sibling.classList.contains('modal-text')) {
-      texts.push(sibling.innerText);
-    } else if (sibling.classList.contains('modal-quote')) {
-      const quoteText = sibling.innerText.replace(/"/g, '');
-      texts.push(`Cita: ${quoteText}`);
-    }
-    sibling = sibling.nextElementSibling;
-  }
-
-  const fullText = texts.join('. ');
-  currentUtterance = new SpeechSynthesisUtterance(fullText);
-  
-  const select = document.getElementById('voice-select');
-  if (select && select.value !== "") {
-    currentUtterance.voice = voices[select.value];
-  } else {
-    currentUtterance.lang = 'es-ES';
-    const spanishVoice = voices.find(v => v.lang.startsWith('es'));
-    if (spanishVoice) currentUtterance.voice = spanishVoice;
-  }
-  
-  currentUtterance.rate = 0.95;
-
-  currentUtterance.onend = () => {
-    resetAudioButton(btn);
-    currentBtnPlaying = null;
-    currentUtterance = null;
-  };
-  currentUtterance.onerror = (e) => {
-    console.error('Speech synthesis error', e);
-    resetAudioButton(btn);
-    currentBtnPlaying = null;
-    currentUtterance = null;
-  };
-
-  window.speechSynthesis.speak(currentUtterance);
-}
-
-function stopAnyAudio() {
-  if (currentUtterance) {
-    window.speechSynthesis.cancel();
-    currentUtterance = null;
-  }
-  if (currentCustomAudio) {
-    currentCustomAudio.pause();
-    currentCustomAudio.currentTime = 0;
-    currentCustomAudio = null;
-  }
-}
-
-function resetAudioButton(btn) {
-  if (!btn) return;
-  btn.classList.remove('playing');
-  const play = btn.querySelector('.audio-icon-play');
-  const pause = btn.querySelector('.audio-icon-pause');
-  if(play) play.style.display = 'block';
-  if(pause) pause.style.display = 'none';
-}
-
-const originalCloseModal = closeModal;
+/* Stop audio when closing modals */
+const _origClose = closeModal;
 closeModal = function(id) {
-  if (currentBtnPlaying) {
-    stopAnyAudio();
-    resetAudioButton(currentBtnPlaying);
-    currentBtnPlaying = null;
-  }
-  originalCloseModal(id);
+  stopActive();
+  _origClose(id);
 };
