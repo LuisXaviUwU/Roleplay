@@ -1,1078 +1,649 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Los Mascapitos — Árbol Genealógico</title>
-  <meta name="description"
-    content="El lore de los Mascapitos: árbol genealógico interactivo de una familia forjada por el destino.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0e0e13" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Los Mascapitos — Cadenas de Sangre</title>
+  <meta name="description" content="Crónica oficial de Los Mascapitos: Cadenas de Sangre. Lectura interactiva por capítulos, narraciones en audio, árbol genealógico y secretos familiares." />
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="story_accordion.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 
 <body>
 
-  <!-- Particles Background -->
-  <div class="particles" id="particles"></div>
+  <!-- Ambient Glow Background -->
+  <div class="ambient-glow-mesh" aria-hidden="true"></div>
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="header-glow"></div>
-    <div class="crest">⚜</div>
-    <h1 class="site-title">Los <span class="highlight">Mascapitos</span></h1>
-    <p class="site-subtitle">Crónica de una familia que el destino forjó a su manera</p>
-    <div class="header-line"></div>
+  <!-- =====================================================================
+       SIDEBAR SUPERIOR (BARRA DE NAVEGACIÓN Y MENÚ DESPLEGABLE)
+       ===================================================================== -->
+  <header class="top-sidebar-nav" id="top-nav">
+    <div class="nav-container">
+      
+      <!-- Brand Logo -->
+      <a href="#portada" class="nav-brand" onclick="switchView('portada'); return false;" title="Ir al Inicio">
+        <div class="wp-logo-badge">M</div>
+        <div class="nav-brand-text">
+          <span class="brand-title">LOS MASCAPITOS</span>
+          <span class="brand-badge">Crónica Oficial</span>
+        </div>
+      </a>
+
+      <!-- Pill Nav Tabs (Sidebar Superior Horizontal) -->
+      <nav aria-label="Navegación principal">
+        <ul class="nav-menu-links">
+          <li><a href="#portada" class="nav-link-btn active" data-view="portada" onclick="switchView('portada'); return false;"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg></span> Inicio</a></li>
+          <li><a href="#lector" class="nav-link-btn" data-view="lector" onclick="switchView('lector'); return false;"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Lector</a></li>
+          <li><a href="#indice" class="nav-link-btn" data-view="indice" onclick="switchView('indice'); return false;"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Índice</a></li>
+          <li><a href="#personajes" class="nav-link-btn" data-view="personajes" onclick="switchView('personajes'); return false;"><span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Personajes</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Tools (Ajustes & Menú Móvil) -->
+      <div class="nav-actions">
+        <button class="action-btn btn-settings" onclick="openSettingsModal()" title="Ajustes de Lectura">
+          <span class="ui-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> <span>Ajustes</span>
+        </button>
+
+        <button class="mobile-menu-toggle" onclick="toggleMobileDrawer()" aria-label="Abrir menú" title="Menú">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Reading Progress Bar -->
+    <div class="reading-progress-track">
+      <div class="reading-progress-bar" id="reading-progress-bar"></div>
+    </div>
+
+    <!-- Mobile Slide-Down Drawer Menu -->
+    <div class="mobile-top-drawer" id="mobile-drawer">
+      <div class="drawer-links">
+        <a href="#portada" class="drawer-link active" data-view="portada" onclick="switchView('portada'); closeMobileDrawer(); return false;"><span class="nav-icon" style="margin-right: 8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg></span> Inicio y Sinopsis</a>
+        <a href="#lector" class="drawer-link" data-view="lector" onclick="switchView('lector'); closeMobileDrawer(); return false;"><span class="nav-icon" style="margin-right: 8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Lector de Capítulos</a>
+        <a href="#indice" class="drawer-link" data-view="indice" onclick="switchView('indice'); closeMobileDrawer(); return false;"><span class="nav-icon" style="margin-right: 8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Índice de Capítulos (8)</a>
+        <a href="#personajes" class="drawer-link" data-view="personajes" onclick="switchView('personajes'); closeMobileDrawer(); return false;"><span class="nav-icon" style="margin-right: 8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Personajes y Genealogía</a>
+      </div>
+    </div>
   </header>
 
-  <!-- Tree Container -->
-  <main class="tree-wrapper main-layout">
-    <div class="family-tree-column">
 
-      <!-- ══════════════ GENERATION 1: Xavi + Madre ══════════════ -->
-      <section class="generation gen-1">
-        <div class="gen-label">Primera Generación</div>
+  <!-- =====================================================================
+       MAIN APP CONTENT (VISTAS INDEPENDIENTES)
+       ===================================================================== -->
+  <main class="app-content">
 
-        <!-- Madre Desconocida -->
-        <div class="member-card unknown-card" id="card-madre" onclick="openModal('madre')">
-          <div class="card-glow madre-glow"></div>
-          <div class="avatar-ring madre-ring">
-            <img src="img/mujer.png" alt="Madre Desconocida" class="avatar-img unknown-img" />
-            <div class="unknown-filter"></div>
-            <div class="avatar-overlay">
-              <span class="view-hint">Ver historia</span>
-            </div>
-          </div>
-          <div class="member-info">
-            <h2 class="member-name">???</h2>
-            <p class="member-role">La Madre Ausente</p>
-            <div class="member-age">Identidad desconocida</div>
-            <div class="member-tags">
-              <span class="member-tag tag-mystery">Identidad oculta</span>
-              <span class="member-tag tag-mystery">Sin contacto</span>
-            </div>
-          </div>
-          <!-- CSS diamond badge -->
-          <div class="mystery-badge">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M7 1L13 7L7 13L1 7Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.15)" />
-            </svg>
+    <!-- SECCIÓN 1: PORTADA & SINOPSIS -->
+    <section class="content-section active-view" id="portada" style="display: block;">
+      <div class="book-hero-card">
+        
+        <!-- Official Book Cover Image -->
+        <div class="book-cover-container">
+          <div class="book-cover-wrap">
+            <img src="img/Portada.png" alt="Portada Oficial — Cadenas de Sangre" class="book-cover-img" />
           </div>
         </div>
 
-        <!-- Horizontal connector: Madre <-> Xavi -->
-        <div class="h-connector" aria-hidden="true">
-          <div class="h-line h-line-left"></div>
-          <div class="h-center">
-            <!-- CSS heart shape -->
-            <div class="css-heart dimmed-heart"></div>
+        <!-- Book Metadata & Exact Synopsis -->
+        <div class="book-info-col">
+          <div class="book-header-group">
+            <div class="book-status-pill">
+              <span style="font-size: 8px;">●</span> 8 Capítulos Completos
+            </div>
+            <h1 class="book-main-title">Los <span class="highlight">Mascapitos</span></h1>
+            <p class="book-tagline">«Cadenas de Sangre»</p>
           </div>
-          <div class="h-line h-line-right"></div>
+
+          <!-- Description requested by the user -->
+          <div class="book-synopsis-body">
+            <p>Dicen que una familia empieza con un apellido. La nuestra empezó con una puerta que se cerró.</p>
+            <p>Fue en un hospital, hace veintiocho años. Una mujer salió sin voltear y dejó atrás a una recién nacida y a un chico de quince años que aún no sabía ser hijo, mucho menos padre. Nadie volvió a pronunciar su nombre. Pero hay ausencias que pesan más que cualquier presencia, y esa terminó sosteniendo cada muro de esta casa.</p>
+            <p>Xavi aprendió a ser padre sobre un piso frío. Mishi aprendió a reír para que él no viera lo que callaba. Jorgito aprendió, demasiado tarde, lo que cuesta el miedo. Y Leo, que tiene diez años y ninguna culpa, aprendió a no preguntar dos veces.</p>
+            <p>Esta es la historia de un pacto hecho en la oscuridad, de un secreto guardado por amor y de un hombre que regresa a una acera que creyó perdida para siempre.</p>
+            <p>Aquí nadie es del todo inocente, y nadie es del todo culpable. Solo hay personas que hicieron lo que pudieron con lo poco que tenían.</p>
+            <p>Y el pasado, que todos dieron por enterrado, apenas está empezando a respirar.</p>
+          </div>
+
+          <!-- CTAs to switch views directly -->
+          <div class="book-cta-group">
+            <button class="cta-btn-primary" onclick="loadChapter(1, 1, true);">
+              <span class="ui-icon" style="margin-right: 6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></span> Comenzar a leer Parte 1
+            </button>
+            <button class="cta-btn-secondary" onclick="switchView('indice');">
+              <span class="ui-icon" style="margin-right: 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span> Explorar Capítulos
+            </button>
+            <button class="cta-btn-secondary" onclick="switchView('personajes');">
+              <span class="ui-icon" style="margin-right: 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Ver Personajes
+            </button>
+          </div>
         </div>
 
-        <!-- Xavi -->
-        <div class="member-card" id="card-xavi" onclick="openModal('xavi')">
-          <div class="card-glow xavi-glow"></div>
-          <div class="avatar-ring xavi-ring">
-            <img src="img/xavi.png" alt="Xavi" class="avatar-img" />
-            <div class="avatar-overlay">
-              <span class="view-hint">Ver historia</span>
-            </div>
-          </div>
-          <div class="member-info">
-            <h2 class="member-name">Xavi</h2>
-            <p class="member-role">El Patriarca</p>
-            <div class="member-age">43 años</div>
-            <div class="member-tags">
-              <span class="member-tag tag-family">Padre soltero desde los 15</span>
-              <span class="member-tag tag-drama">Traicionado por Jorgito</span>
-            </div>
-          </div>
-          <div class="pulse-ring xavi-pulse"></div>
-        </div>
-      </section>
-
-      <!-- Connector: Gen1 → Mishi -->
-      <div class="connector-wrap">
-        <div class="connector-line"></div>
-        <div class="connector-dot"></div>
       </div>
+    </section>
 
-      <!-- ══════════════ GENERATION 2: Mishi (center) + Underworld Sidebar ══════════════ -->
-      <section class="gen2-wrapper">
 
-        <!-- ===== FAMILY COLUMN (center): Gen label + Mishi ===== -->
-        <div class="family-column">
-          <div class="gen-label-inline">Segunda Generación</div>
+    <!-- SECCIÓN 2: LECTOR DE CAPÍTULOS -->
+    <section class="content-section" id="lector" style="display: none;">
+      <div class="reader-wrapper">
 
-          <!-- Broken connector above Mishi: Jorgito(left) ✕ Mishi -->
-          <div class="broken-connector" aria-hidden="true">
-            <div class="b-line b-line-left"></div>
-            <div class="b-center">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <line x1="3" y1="3" x2="7" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-                <line x1="11" y1="11" x2="15" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-                <line x1="15" y1="3" x2="11" y2="7" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-                <line x1="7" y1="11" x2="3" y2="15" stroke="#b84a4a" stroke-width="1.8" stroke-linecap="round" />
-              </svg>
-            </div>
-            <div class="b-line b-line-right"></div>
+        <!-- Floating Reader Toolbar -->
+        <div class="reader-floating-toolbar">
+          <div class="reader-chapter-dropdown-wrap">
+            <select class="reader-select" id="reader-chapter-select" aria-label="Seleccionar capítulo">
+              <!-- Dynamically populated -->
+            </select>
           </div>
 
-          <!-- Mishi -->
-          <div class="member-card center-card" id="card-mishi" onclick="openModal('mishi')">
-            <div class="card-glow mishi-glow"></div>
-            <div class="avatar-ring mishi-ring">
-              <img src="img/mishi.png" alt="Mishi" class="avatar-img" />
-              <div class="avatar-overlay">
-                <span class="view-hint">Ver historia</span>
+          <div class="reader-quick-nav-btns">
+            <button class="reader-nav-btn" id="btn-prev-chapter" onclick="prevChapter()" title="Capítulo anterior" aria-label="Capítulo anterior"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button class="reader-nav-btn" id="btn-next-chapter" onclick="nextChapter()" title="Siguiente capítulo" aria-label="Siguiente capítulo"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          </div>
+
+          <div class="reader-size-ctrls">
+            <button class="font-size-btn" onclick="adjustFontSize(-1)" title="Disminuir letra">A-</button>
+            <span id="current-font-size-label" style="font-size: 0.75rem; color: var(--text-muted); min-width: 32px; text-align: center;">18px</span>
+            <button class="font-size-btn" onclick="adjustFontSize(1)" title="Aumentar letra">A+</button>
+          </div>
+        </div>
+
+        <!-- The Chapter Content Article -->
+        <article class="chapter-article">
+          
+          <!-- Chapter Header with Cover -->
+          <header class="chapter-meta-header">
+            <div class="chapter-cover-preview-box" id="chapter-cover-box">
+              <img id="chapter-cover-img" src="img/capitulos/temporada1/1.png" alt="Portada del Capítulo" class="chapter-cover-display-img" />
+            </div>
+            <div class="chapter-season-badge" id="chapter-season-badge">Capítulo 1 de 8</div>
+            <h2 class="chapter-main-title" id="chapter-main-title">El peso de una decisión</h2>
+            <p class="chapter-kicker-subtitle" id="chapter-kicker-subtitle">Crónica I · El pacto en el suelo frío</p>
+            
+            <div class="chapter-info-tags">
+              <span class="info-tag-item"><span class="ui-icon" style="margin-right: 5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span id="chapter-read-time">5 min</span> de lectura</span>
+              <span class="info-tag-item"><span class="ui-icon" style="margin-right: 5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span> Texto completo</span>
+            </div>
+          </header>
+
+          <!-- Dynamic Text Container (Loaded from capitulos/temporadaX/Y.txt) -->
+          <div class="chapter-content-body" id="chapter-content-body">
+            <!-- Loaded dynamically via script.js -->
+          </div>
+
+          <!-- Chapter Quote Box -->
+          <div class="chapter-quote-box" id="chapter-quote-box">
+            <span class="quote-accent-mark">“</span>
+            <blockquote class="quote-body-text" id="quote-body-text">
+              «No había adultos que lo rescataran, no había nadie a quien llamar, no había marcha atrás. Se deslizó por la pared hasta caer al suelo con la bebé contra el pecho, y esa noche el mundo cambió de dueño.»
+            </blockquote>
+            <cite class="quote-attribution" id="quote-attribution">— Crónica del nacimiento de Mishi y el juramento de Xavi a los quince años</cite>
+          </div>
+
+          <!-- Chapter Footer Actions -->
+          <footer class="chapter-footer-nav">
+            <div class="chapter-prev-next-grid">
+              <div class="nav-ch-card" id="prev-chapter-card" onclick="prevChapter()">
+                <span class="nav-ch-label">← Capítulo Anterior</span>
+                <span class="nav-ch-title" id="prev-card-title">...</span>
+              </div>
+              <div class="nav-ch-card" id="next-chapter-card" onclick="nextChapter()" style="text-align: right;">
+                <span class="nav-ch-label">Siguiente Capítulo →</span>
+                <span class="nav-ch-title" id="next-card-title">...</span>
               </div>
             </div>
-            <div class="member-info">
-              <h2 class="member-name">Mishi</h2>
-              <p class="member-role">La Hija — El corazón</p>
-              <div class="member-age">28 años</div>
-              <div class="member-tags">
-                <span class="member-tag tag-drama">Guarda el secreto de Leo</span>
-                <span class="member-tag tag-family">Hija de Xavi</span>
+          </footer>
+
+        </article>
+
+
+
+      </div>
+    </section>
+
+
+    <!-- SECCIÓN 3: ÍNDICE DE CAPÍTULOS -->
+    <section class="content-section" id="indice" style="display: none;">
+      <div class="toc-container">
+        
+        <div class="section-title-wrap">
+          <span class="section-kicker">Catálogo de Lectura</span>
+          <h2 class="section-h2">Tabla de Contenidos</h2>
+          <p class="section-desc">8 capítulos completos de la historia. Selecciona cualquier capítulo para abrirlo directamente en el lector.</p>
+        </div>
+
+        <!-- Chapters Grid -->
+        <div class="toc-grid" id="toc-chapters-grid">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SECCIÓN 4: PERSONAJES & ÁRBOL GENEALÓGICO -->
+    <section class="content-section" id="personajes" style="display: none;">
+      <div class="cast-wrapper">
+
+        <div class="section-title-wrap">
+          <span class="section-kicker">Lore & Genealogía</span>
+          <h2 class="section-h2">Personajes de la Historia</h2>
+          <p class="section-desc">Conoce a fondo a cada miembro de los Mascapitos y a quienes rodean su destino. Haz clic en cualquier tarjeta para abrir su ficha completa.</p>
+        </div>
+
+        <!-- Grupo 1: Familia Mascapito (3 Generaciones) -->
+        <div class="cast-group-section">
+          <div class="cast-group-header">
+            <span class="group-crest crest-dynasty"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+            <h3 class="cast-group-title">La Dinastía Mascapito</h3>
+          </div>
+
+          <div class="cast-grid">
+            <!-- Xavi -->
+            <div class="character-card card-xavi" onclick="openModal('xavi')">
+              <div class="char-avatar-ring">
+                <img src="img/xavi.png" alt="Xavi" class="char-avatar-img">
               </div>
+              <h4 class="char-name">Xavi</h4>
+              <p class="char-role-title">El Padre · 43 años</p>
+              <span class="char-tag-pill">Padre de Mishi · Abuelo de Leo</span>
             </div>
-            <div class="pulse-ring mishi-pulse"></div>
+
+            <!-- Madre Ausente -->
+            <div class="character-card card-madre" onclick="openModal('madre')">
+              <div class="char-avatar-ring">
+                <img src="img/mujer.png" alt="Madre Desconocida" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">??? La Madre</h4>
+              <p class="char-role-title">La Ausente · Identidad Oculta</p>
+              <span class="char-tag-pill">El primer abandono</span>
+            </div>
+
+            <!-- Mishi -->
+            <div class="character-card card-mishi" onclick="openModal('mishi')">
+              <div class="char-avatar-ring">
+                <img src="img/mishi.png" alt="Mishi" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Mishi</h4>
+              <p class="char-role-title">La Hija y Madre · 28 años</p>
+              <span class="char-tag-pill">Guardián del gran secreto</span>
+            </div>
+
+            <!-- Leo -->
+            <div class="character-card card-leo" onclick="openModal('leo')">
+              <div class="char-avatar-ring">
+                <img src="img/Leo.png" alt="Leo" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Leo</h4>
+              <p class="char-role-title">El Hijo y Nieto · 10 años</p>
+              <span class="char-tag-pill">La sangre que une a todos</span>
+            </div>
           </div>
         </div>
 
-      </section>
+        <!-- Grupo 2: El Pasado y los Hermanos -->
+        <div class="cast-group-section">
+          <div class="cast-group-header">
+            <span class="group-crest crest-brothers"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg></span>
+            <h3 class="cast-group-title">El Entorno de Jorgito & Los Hermanos</h3>
+          </div>
 
-      <!-- Connector: Mishi → Leo (secreto) -->
-      <div class="connector-wrap secret-connector-wrap">
-        <div class="connector-line connector-secret"></div>
-        <div class="connector-dot connector-dot-secret"></div>
-        <!-- Lock icon label -->
-        <div class="secret-label">
-          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" style="vertical-align:middle;margin-right:5px">
-            <rect x="1" y="5" width="8" height="7" rx="1.5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2"
-              fill="rgba(78,184,122,0.08)" />
-            <path d="M3 5V3.5a2 2 0 0 1 4 0V5" stroke="rgba(78,184,122,0.7)" stroke-width="1.2"
-              stroke-linecap="round" />
-            <circle cx="5" cy="8.5" r="1" fill="rgba(78,184,122,0.7)" />
-          </svg>
-          Secreto familiar
+          <div class="cast-grid">
+            <!-- Jorgito -->
+            <div class="character-card card-jorgito" onclick="openModal('jorgito')">
+              <div class="char-avatar-ring">
+                <img src="img/jorgito.png" alt="Jorgito" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Jorgito</h4>
+              <p class="char-role-title">El Padre Ausente · 28 años</p>
+              <span class="char-tag-pill">Cumplió 10 años de prisión</span>
+            </div>
+
+            <!-- Blacktubbie -->
+            <div class="character-card card-tubbie card-soon" onclick="openModal('tubbie')">
+              <div class="char-avatar-ring">
+                <img src="img/blacktubbie.png" alt="Blacktubbie" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Blacktubbie</h4>
+              <p class="char-role-title">Hermano de Jorgito</p>
+              <span class="char-tag-pill tag-soon">Próximamente</span>
+            </div>
+
+            <!-- Karfie -->
+            <div class="character-card card-karfie card-soon" onclick="openModal('karfie')">
+              <div class="char-avatar-ring">
+                <img src="img/karfie.png" alt="Karfie" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Karfie</h4>
+              <p class="char-role-title">Hermano de Jorgito</p>
+              <span class="char-tag-pill tag-soon">Próximamente</span>
+            </div>
+
+            <!-- Barto -->
+            <div class="character-card card-barto" onclick="openModal('barto')">
+              <div class="char-avatar-ring">
+                <img src="img/barto.png" alt="Barto" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Barto</h4>
+              <p class="char-role-title">El Traidor y Falso Amigo</p>
+              <span class="char-tag-pill">El autor de la tragedia</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Grupo 3: La Guardiana del Secreto -->
+        <div class="cast-group-section">
+          <div class="cast-group-header">
+            <span class="group-crest crest-guardian"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 2-2 2m-1.5 1.5L14 9l-1.5-1.5-4 4 1.5 1.5-3 3-1.5-1.5-3 3 4 4 3-3-1.5-1.5 3-3 1.5 1.5 4-4-1.5-1.5 3.5-3.5a2.12 2.12 0 0 0 0-3z"/></svg></span>
+            <h3 class="cast-group-title">La Guardiana Moral</h3>
+          </div>
+
+          <div class="cast-grid">
+            <!-- Hoondayx (Day) -->
+            <div class="character-card card-day" onclick="openModal('day')">
+              <div class="char-avatar-ring">
+                <img src="img/hoondayx.png" alt="Hoondayx" class="char-avatar-img">
+              </div>
+              <h4 class="char-name">Hoondayx (Day)</h4>
+              <p class="char-role-title">Confidente de Mishi · 32 años</p>
+              <span class="char-tag-pill">Cuidó a Leo en la sombra</span>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <!-- ══════════════ GENERATION 3: Leo ══════════════ -->
-      <section class="generation gen-3">
-        <div class="gen-label">El Nieto Secreto</div>
-        <div class="member-card secret-card" id="card-leo" onclick="openModal('leo')">
-          <div class="card-glow leo-glow"></div>
-          <div class="avatar-ring leo-ring">
-            <img src="img/Leo.png" alt="Leo" class="avatar-img" />
-            <div class="avatar-overlay">
-              <span class="view-hint">Ver historia</span>
-            </div>
-          </div>
-          <div class="member-info">
-            <h2 class="member-name">Leo</h2>
-            <p class="member-role">El Nieto Secreto</p>
-            <div class="member-age">10 años</div>
-            <div class="member-tags">
-              <span class="member-tag tag-mystery">Desconocido por Xavi</span>
-              <span class="member-tag tag-family">Sangre Mascapito</span>
-            </div>
-          </div>
-          <div class="pulse-ring leo-pulse"></div>
-          <div class="secret-badge">?</div>
-        </div>
-      </section>
-    </div> <!-- /family-tree-column -->
 
-    <!-- ===== UNDERWORLD PANEL (right) ===== -->
-    <div class="others-column">
-      <div class="underworld-panel">
-        <div class="underworld-label">
-          <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style="margin-right:5px;">
-            <path d="M7 1L13 7L7 13L1 7Z" stroke="#888" stroke-width="1.5" fill="rgba(100,100,100,0.15)" />
-          </svg>
-          Mundo Criminal
-        </div>
 
-        <!-- Jorgito -->
-        <div class="member-card underworld-card jorgito-card" id="card-jorgito" onclick="openModal('jorgito')">
-          <div class="card-glow jorgito-glow"></div>
-          <div class="avatar-ring jorgito-ring">
-            <img src="img/jorgito.png" alt="Jorgito" class="avatar-img" />
-            <div class="avatar-overlay">
-              <span class="view-hint">Ver historia</span>
-            </div>
-          </div>
-          <div class="member-info">
-            <h2 class="member-name">Jorgito</h2>
-            <p class="member-role">El Caído</p>
-            <div class="member-age">28 años · Recién liberado</div>
-            <div class="member-tags">
-              <span class="member-tag tag-dark">Ex-presidiario</span>
-              <span class="member-tag tag-drama">Regresó buscando a Mishi</span>
-            </div>
-          </div>
-          <div class="warning-badge" aria-label="Peligro">
-            <svg width="18" height="16" viewBox="0 0 18 16" fill="none">
-              <path d="M9 1L17 15H1L9 1Z" stroke="#cc4444" stroke-width="1.5" fill="rgba(184,74,74,0.15)" />
-              <text x="9" y="12.5" text-anchor="middle" font-size="7" fill="#ff6666" font-family="Inter"
-                font-weight="700">!</text>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Peer connector: Jorgito -- Barto -->
-        <div class="peer-connector">
-          <div class="peer-line"></div>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1L13 7L7 13L1 7Z" stroke="#666" stroke-width="1.5" fill="rgba(80,80,80,0.15)" />
-          </svg>
-          <div class="peer-line"></div>
-        </div>
-
-        <!-- Barto -->
-        <div class="member-card underworld-card barto-card" id="card-barto" onclick="openModal('barto')">
-          <div class="card-glow barto-glow"></div>
-          <div class="avatar-ring barto-ring">
-            <img src="img/barto.png" alt="Barto" class="avatar-img" />
-            <div class="avatar-overlay">
-              <span class="view-hint">Ver historia</span>
-            </div>
-          </div>
-          <div class="member-info">
-            <h2 class="member-name">Barto</h2>
-            <p class="member-role">El Villano</p>
-            <div class="member-age">29 años · En prisión</div>
-            <div class="member-tags">
-              <span class="member-tag tag-dark">Asesino</span>
-              <span class="member-tag tag-dark">Sin remordimiento</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> <!-- /others-column -->
 
   </main>
 
 
-  <!-- ══════════════ CRÓNICA: CAPÍTULOS ══════════════ -->
-  <section class="unified-story" id="historia">
-    <div class="story-header">
-      <div class="story-header-top">
-        <div class="story-header-deco">⚜</div>
-        <h2>La Crónica de los Mascapitos</h2>
-        <p class="story-subheader">Una historia de amor, traición y secretos que el tiempo no pudo enterrar</p>
-        <div class="header-line"></div>
-      </div>
-      <button class="story-toggle-btn" id="story-toggle-btn" onclick="toggleStory()">
-        <span class="toggle-icon">📖</span>
-        <span id="story-toggle-text">Leer la historia</span>
-        <svg class="toggle-chevron" id="story-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" />
-        </svg>
-      </button>
-    </div>
-
-    <div class="story-chapters-wrapper" id="story-chapters-wrapper">
-      <div class="story-chapters">
-
-        <!-- Capítulo 1 -->
-        <div class="chapter" id="chapter-1">
-          <div class="chapter-header" onclick="toggleChapter(1)">
-            <div class="chapter-num">01</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">El origen</span>
-              <h3 class="chapter-title">El peso de una decisión</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-1" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-1">
-            <div class="chapter-audio-player" data-src="audio/Capitulo1.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">A los quince años, el mundo debería reducirse a clases, amigos y el primer atisbo de
-              libertad. Para Xavi, el mundo se derrumbó una tarde de martes con dos líneas rojas en una prueba de
-              embarazo. El silencio en aquella habitación minúscula fue aplastante. No hubo gritos, ni histeria, solo el
-              peso muerto de una realidad que ninguno de los dos estaba preparado para cargar.</p>
-            <p class="chapter-text">Ella lo miró con ojos vacíos, despojados de cualquier instinto maternal o de culpa.
-              Sus palabras cortaron el aire frío como el filo de una navaja oxidada: <em>«No la quiero. No voy a ser
-                madre. Y si nace, me desvinculo. Para siempre.»</em> El terror paralizó el pecho de Xavi. Era solo un
-              adolescente; sus propias manos temblaban, sus bolsillos estaban vacíos y su familia lo miraba como si
-              hubiera arruinado su vida para siempre. Sus padres le dijeron que lo abandonarían si seguía adelante con
-              ese bebé. Que ya era suficiente con lo que habían sacrificado por él. Que un niño no podía criar a un
-              niño.</p>
-            <p class="chapter-text">Con la voz rota y los ojos inundados, Xavi hizo el pacto que definiría cada día del
-              resto de su existencia: <em>«Déjamela a mí. Yo me haré cargo.»</em> Ella no dudó ni un segundo. Impuso su
-              única y cruel condición: desaparecer con precisión quirúrgica. No habría visitas, ni cumpleaños
-              compartidos, ni explicaciones. Sería como si jamás hubiera existido en sus vidas. Xavi aceptó, tragándose
-              el nudo de dolor y miedo que amenazaba con ahogarlo.</p>
-            <p class="chapter-text">Cuando Mishi llegó al mundo, la madre cruzó la puerta del hospital sin mirar atrás
-              ni una sola vez. Jamás volteó a ver el rostro de su hija. Dejó a un niño asustado de quince años
-              sosteniendo a un bebé que lloraba desconsoladamente, buscando un calor que le acababan de negar. Esa
-              primera noche, solo en un cuarto rentado que olía a encierro y humedad, Xavi se deslizó por la pared hasta
-              caer al suelo con su hija en brazos. Lloró de pánico, de soledad, de impotencia absoluta. Sentía que se
-              asfixiaba bajo una responsabilidad imposible para un cuerpo tan joven.</p>
-            <p class="chapter-text">Pero cuando la pequeña Mishi dejó de llorar y su diminuta mano se aferró con fuerza
-              a la camisa sudada de Xavi, él supo que no había marcha atrás. Esa misma noche en el piso frío, el niño
-              murió para que el padre pudiera nacer. Y así comenzó la historia de los Mascapitos: no con un himno de
-              gloria, sino con un llanto silencioso y un pacto entre un hombre que todavía no era hombre y una niña que
-              todavía no era nadie.</p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              Hay personas que marcan tu vida sin estar en ella. Ella lo hizo al irse.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Xavi, cuando Mishi preguntó por su madre siendo niña</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 2 -->
-        <div class="chapter" id="chapter-2">
-          <div class="chapter-header" onclick="toggleChapter(2)">
-            <div class="chapter-num">02</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">La familia</span>
-              <h3 class="chapter-title">El hombre que aguantó</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-2" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-2">
-            <div class="chapter-audio-player" data-src="audio/Capitulo2.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">Xavi creció criando a Mishi. No hay otra forma de decirlo. Trabajó turnos dobles en
-              empleos que lo doblaban por dentro: fábricas con olor a metal y aceite quemado, bodegas donde el frío de
-              las madrugadas le calaba los huesos, y luego, con el tiempo, un pequeño negocio que levantó con manos
-              callosas y años de cuentas al ras. Nunca pidió ayuda. El orgullo y el dolor son a veces la misma cosa.</p>
-            <p class="chapter-text">Mishi creció sin madre y sin lujos, pero nunca le faltó lo importante. Xavi aprendió
-              a trenzarle el cabello mirando videos en el teléfono. Aprendió a preparar tamales porque a ella le
-              gustaban. Asistió a cada festival escolar con la camisa planchada aunque hubiera llegado del trabajo tres
-              horas antes. Era torpe en las cosas que los padres aprenden de sus propios padres, y exquisitamente
-              dedicado en las que nadie le había enseñado.</p>
-            <p class="chapter-text">Hubo noches en que Mishi lloraba sin razón aparente —esa tristeza sin nombre que
-              tienen los niños cuando sienten una ausencia que no saben cómo describir— y Xavi se quedaba sentado en el
-              borde de su cama en silencio, sin decir nada, simplemente presente. Porque no había palabras que llenaran
-              el hueco de una madre que eligió no serlo. Solo compañía. Solo el calor de no estar solo.</p>
-            <p class="chapter-text">Con los años, Mishi se convirtió en la mujer más viva de cualquier habitación en la
-              que entrara. Alegre, directa, traviesa. Con una risa que llenaba espacios y una honestidad que a veces
-              incomodaba. Y Xavi la miraba con esa mezcla extraña de orgullo y vértigo que solo entienden los padres que
-              saben que lo que construyeron es frágil y poderoso a la vez. <strong>Ella era su obra más importante. Y
-                también su mayor miedo.</strong></p>
-            <p class="chapter-text">A los catorce años, Mishi llegó a casa hablando de un chico. Xavi sintió algo helado
-              recorrerse por el pecho. No era celos. Era reconocimiento. Sabía perfectamente lo que significaba querer a
-              alguien con esa intensidad adolescente que no distingue entre entrega y destrucción. Lo había vivido. Lo
-              había pagado. Y había decidido, en silencio, que su hija no pagaría ese precio.</p>
-            <p class="chapter-text">El chico se llamaba Jorgito. Y Xavi lo sometió a meses de escrutinio silencioso. Le
-              hacía preguntas difíciles en la cena, lo dejaba incómodo a propósito, medía sus reacciones ante la
-              injusticia y el miedo. Y Jorgito aguantó. Siempre respondió con respeto. Nunca levantó la guardia de
-              manera defensiva. Y eso, para un hombre que había aprendido que el amor sin carácter destruye, valió más
-              que cualquier promesa.</p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              Yo sufrí por amor cuando era joven. Sufrí mucho. Y juré que mi hija no iba a pasar por eso. Si estás aquí
-              es porque veo algo en ti. No me falles. No le falles a ella.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Xavi a Jorgito, antes de darle su bendición</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 3 -->
-        <div class="chapter" id="chapter-3">
-          <div class="chapter-header" onclick="toggleChapter(3)">
-            <div class="chapter-num">03</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">El amor</span>
-              <h3 class="chapter-title">La noche que lo cambió todo</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-3" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-3">
-            <div class="chapter-audio-player" data-src="audio/Capitulo3.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">La noche de los dieciocho años de Mishi fue la noche más feliz en la vida de Xavi.
-              Había planeado cada detalle durante semanas con el presupuesto justo y la voluntad de quien sabe que el
-              dinero no alcanza pero el amor sí. La sala estaba llena de gente que quería de verdad a su hija. Había
-              música. Había risas. Y había un pastel que Xavi había encargado con un mes de anticipación porque quería
-              que todo estuviera perfecto.</p>
-            <p class="chapter-text">Entonces Jorgito pidió el micrófono. El silencio que cayó sobre la sala fue el tipo
-              de silencio que solo existe cuando algo importante está a punto de ocurrir. Se arrodilló frente a Mishi y
-              le preguntó si quería casarse con él. Ella dijo que sí antes de que él terminara la pregunta. Xavi tuvo
-              que salir al patio. Se quedó solo bajo el cielo nocturno con las manos en el rostro y los hombros
-              sacudiéndose en silencio. <em>No quería que lo vieran. Pero lloró como no había llorado desde aquella
-                primera noche en el cuarto rentado con Mishi recién nacida en brazos.</em></p>
-            <p class="chapter-text">Esa noche, cuando la fiesta comenzaba a apagarse y la música se volvía más lenta,
-              fue Mishi quien tomó a Jorgito de la mano. Con esa sonrisa traviesa que él nunca había podido resistir, le
-              susurró que quería que esa noche fuera solo de los dos. Jorgito intentó razonar. Le dijo que deberían
-              esperar. Mishi lo miró fijo y sonrió. Y él no pudo decir que no.</p>
-            <p class="chapter-text">Un hotel. Un cuarto con sábanas blancas y la ciudad de fondo. Una noche que ninguno
-              de los dos planeó y que los dos recordarían para siempre por razones completamente distintas.</p>
-            <p class="chapter-text">Semanas después, sola en el baño de su casa a las tres de la mañana con una prueba
-              de embarazo en la mano, Mishi vio dos líneas y sintió que el aire se le iba del cuerpo. No porque no
-              quisiera a ese bebé. Sino porque supo, en ese instante exacto, que tendría que decírselo a su padre. Y que
-              eso iba a romperle algo que tardó toda una vida en construir. <strong>Ensayó la conversación mil veces.
-                Mil veces se le cerró la garganta.</strong> Recordaba la cara de Xavi llorando de alegría en el patio. Y
-              no podía. No podía ser quien le borrara esa cara.</p>
-            <p class="chapter-text">Cargó sola con el secreto durante nueve meses. Nueve meses de miradas desviadas, de
-              conversaciones incompletas, de noches llorando en silencio con la cara enterrada en la almohada para que
-              Xavi no la escuchara. El embarazo casi no se notó. Hubo días que agradeció eso como nunca agradeció nada.
-              Y hubo días en que lo odió, porque la hacía sentir que estaba borrando a Leo antes de que existiera.</p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              Papá me salvó sin pedirme nada. Lo menos que puedo hacer es protegerlo… aunque sea de la verdad.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Mishi, acariciando su vientre en la oscuridad</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 4 -->
-        <div class="chapter" id="chapter-4">
-          <div class="chapter-header" onclick="toggleChapter(4)">
-            <div class="chapter-num">04</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">La traición</span>
-              <h3 class="chapter-title">El veneno en el oído</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-4" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-4">
-            <div class="chapter-audio-player" data-src="audio/Capitulo4.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">Jorgito no dormía. La desesperación no llegó de golpe; fue una humedad lenta que se
-              coló por las paredes de su cordura, manchando todo lo que tocaba. Trabajaba catorce horas diarias en el
-              puerto, descargando cajas que le reventaban la espalda y le dejaban las manos en carne viva. Regresaba a
-              casa oliendo a sudor y pescado podrido, solo para sentarse en la orilla de la cama y contar billetes
-              arrugados que nunca, jamás, sumaban lo suficiente. El bebé venía en camino. El alquiler de ese diminuto
-              departamento no daba tregua, y los médicos pedían adelantos para el parto que él simplemente no tenía.
-              Pero por encima del dinero, estaba el peso aplastante de la mirada de Xavi.</p>
-            <p class="chapter-text">Xavi no era un hombre de palabras suaves. Su amor era exigente. Había aceptado a
-              Jorgito, le había entregado a su única hija, pero bajo la promesa silenciosa de que él sería el muro que
-              la protegería de las miserias que Xavi mismo había sufrido. Cada vez que iba a cenar a la casa, Jorgito
-              sentía que los ojos de su suegro le escaneaban el alma, midiendo si era lo suficientemente hombre, lo
-              suficientemente fuerte. El miedo a fracasar, a ver la decepción en esos ojos y la lástima en los de Mishi,
-              lo estaba enloqueciendo. Había empezado a perder peso, a fumar compulsivamente y a mentir sobre horas
-              extras que en realidad pasaba caminando por la ciudad, buscando cualquier oportunidad que lo salvara de la
-              ruina.</p>
-            <p class="chapter-text">Ahí fue cuando Barto tendió la trampa. Barto no era el amigo leal de la infancia que
-              aparentaba; era un sociópata con una habilidad espeluznante para leer las fracturas en el alma de los
-              demás y meter el dedo en la herida hasta hacerla sangrar. Lo acorraló una noche, bajo la luz amarilla y
-              parpadeante de una farola rota, mientras Jorgito lloraba de pura impotencia tras ser rechazado para un
-              préstamo bancario. <em>«Te estás ahogando por seguir las reglas de un mundo que no está hecho para
-                nosotros, hermano»</em>, le susurró Barto, exhalando el humo de su cigarro lentamente, como si tuviera
-              todo el tiempo del mundo. <em>«Tú crees que Xavi te va a perdonar si dejas que su hija pase hambre? ¿Crees
-                que te va a respetar cuando nazca su nieto en un hospital público de mala muerte? Xavi te va a aplastar
-                en el momento en que se dé cuenta de que no sirves. Tienes que llegar con billetes en la mano, no con
-                los nudillos reventados por sueldos miserables.»</em></p>
-            <p class="chapter-text">Barto dejó que las palabras hicieran efecto, envenenando las inseguridades de
-              Jorgito durante semanas. Le pagaba las cervezas, le prestaba pequeñas cantidades para que Mishi no
-              sospechara, y poco a poco, lo fue aislando. Hasta que finalmente lanzó el anzuelo. <em>«Yo tengo el golpe
-                perfecto. Un empresario corrupto de la zona norte que guarda efectivo en su caja fuerte. Nadie sale
-                herido. Solo entramos, le damos un susto, cobramos nuestra parte de un dinero que de por sí es sucio, y
-                te aseguras el futuro de tu hijo. ¿Qué clase de padre vas a ser si ni siquiera tienes los huevos para
-                protegerlos?»</em></p>
-            <p class="chapter-text">Jorgito resistió hasta donde pudo. Su moral peleó una batalla campal contra su
-              desesperación, pero el cansancio extremo y el amor distorsionado por la urgencia nublaron su juicio por
-              completo. Aceptó. Lo que Barto no le dijo fue que, para él, Jorgito no era un cómplice; era su póliza de
-              seguro. El chico bueno, con cara de idiota y sin antecedentes penales. El chivo expiatorio perfecto si las
-              cosas salían mal. Barto le juró por su madre muerta que el arma que llevarían estaba vacía, que solo era
-              un trozo de metal frío para intimidar. Pero Barto mentía como respiraba: <strong>el cargador siempre
-                estuvo lleno, y él siempre, desde el primer segundo, estuvo dispuesto a jalar el gatillo.</strong></p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              La lealtad es un cuento que los idiotas se inventan para no sentirse tan solos cuando se hunden.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Barto, en la oscuridad del callejón</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 5 -->
-        <div class="chapter" id="chapter-5">
-          <div class="chapter-header" onclick="toggleChapter(5)">
-            <div class="chapter-num">05</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">La caída</span>
-              <h3 class="chapter-title">Un disparo en la oscuridad</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-5" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-5">
-            <div class="chapter-audio-player" data-src="audio/Capitulo5.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">La noche del golpe, el aire pesaba como plomo. La ciudad parecía contener la
-              respiración mientras Jorgito y Barto esperaban en el callejón trasero de las oficinas del empresario.
-              Jorgito temblaba incontrolablemente. La adrenalina le quemaba las venas y el sudor frío le empapaba la
-              camisa. Había vomitado dos veces antes de llegar. Quería echarse atrás, quería correr de vuelta a los
-              brazos de Mishi, confesarle a Xavi que era un fracasado y suplicar perdón. Pero Barto lo sujetaba del
-              brazo con una fuerza brutal, repitiéndole al oído que ya no había marcha atrás, que pensara en los fajos
-              de billetes que asegurarían la cuna de su bebé.</p>
-            <p class="chapter-text">Cuando el empresario finalmente salió, caminando despacio hacia su auto de lujo con
-              un maletín en la mano, todo se desmoronó en fracción de segundos. Barto saltó de las sombras empuñando el
-              arma. Pero el hombre, lejos de acobardarse, reaccionó llevado por el pánico. Empezó a gritar pidiendo
-              auxilio y se lanzó contra Barto. Jorgito sintió que el corazón se le detenía; la realidad lo abofeteó con
-              una violencia indescriptible. ¡Esto no era lo que habían planeado! En un arranque de desesperación ciega,
-              Jorgito se abalanzó sobre Barto intentando arrebatarle el revólver. Quería cancelar aquella locura, quería
-              salvar la vida de ese hombre y la suya propia.</p>
-            <p class="chapter-text">El forcejeo fue caótico, un remolino de brazos, insultos y respiraciones agitadas. Y
-              entonces... el estruendo. Un disparo seco, ensordecedor, que pareció rasgar el tejido mismo de la noche.
-              El fogonazo iluminó brevemente el callejón, revelando los rostros desfigurados por el horror. El olor acre
-              y metálico de la pólvora quemada inundó el aire de inmediato. El empresario retrocedió dos pasos,
-              llevándose las manos al pecho, antes de desplomarse como un peso muerto. Su cabeza golpeó el asfalto con
-              un sonido húmedo y terrible que Jorgito jamás podría borrar de su memoria.</p>
-            <p class="chapter-text">El silencio que le siguió fue el más atroz y espeso que haya existido. <em>La sangre
-                oscura, casi negra bajo la luz enferma de las lámparas de sodio, comenzó a extenderse rápidamente,
-                buscando las alcantarillas.</em> Jorgito cayó de rodillas, las manos hundidas en el cabello,
-              hiperventilando. «¡¿Qué hicimos?! ¡Por el amor de Dios, ¿qué hicimos?!», sollozaba con la voz destrozada.
-              A lo lejos, rompiendo la noche, el aullido histérico de las sirenas ya empezaba a acercarse.</p>
-            <p class="chapter-text">Barto no tembló. Su frialdad fue monstruosa, casi alienígena. Con movimientos
-              precisos, calculados y rápidos, limpió la empuñadura del revólver con el interior de su chaqueta. Se
-              acercó a Jorgito, lo tomó por la garganta con una fuerza que le cortó la respiración, y le metió el arma a
-              la fuerza en las manos, manchándolas con la sangre que ya cubría el suelo. La voz de Barto no era de
-              pánico, era hielo puro y afilado: <em>«Escúchame bien, escoria inútil. Tú tienes a una noviecita
-                embarazada en casa y a un suegro que te odia a muerte. Si abres la boca o intentas correr, la policía te
-                va a cazar como a un perro rabioso. Y si hablas de mí, te juro por Dios que yo mismo me encargo de ir a
-                buscar a Mishi esta misma noche y le saco a ese bebé del vientre a golpes. Te vas a quedar aquí. Vas a
-                decir que fue un robo que salió mal. Que estabas solo. Hazlo por ellos.»</em></p>
-            <p class="chapter-text">El terror absoluto paralizó a Jorgito. Antes de que su cerebro pudiera procesar la
-              magnitud de la condena, Barto se esfumó entre las sombras, saltando la barda con la agilidad de un
-              depredador. Lo dejó ahí, abandonado, hincado en un charco caliente de sangre, sosteniendo el arma aún
-              humeante. Cuando las luces rojas y azules de las patrullas inundaron el callejón, cegándolo, y los
-              oficiales le gritaron con las armas en alto que se tirara al suelo, Jorgito no opuso resistencia. Solo
-              cerró los ojos, soltó el arma y supo que su vida, y todo lo que amaba, acababa de terminar para siempre.</p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              El sonido de una bala no dura más que un segundo, pero su eco es capaz de destruir la vida de tres generaciones en una misma noche.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Reflexión del detective a cargo de la escena del crimen</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 6 -->
-        <div class="chapter" id="chapter-6">
-          <div class="chapter-header" onclick="toggleChapter(6)">
-            <div class="chapter-num">06</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">El quiebre</span>
-              <h3 class="chapter-title">La sentencia</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-6" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-6">
-            <div class="chapter-audio-player" data-src="audio/Capitulo6.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">El sonido del teléfono a las tres de la mañana fue el heraldo indiscutible de la
-              tragedia. Xavi contestó adormilado, frotándose los ojos, solo para escuchar al otro lado la voz de Mishi
-              hecha pedazos, aguda y casi irreconocible por el llanto ahogado que no le dejaba respirar: <em>«Papá... a
-                Jorgito se lo llevaron. La policía está en su departamento. Hay un muerto, papá... dicen que hay un
-                muerto.»</em> El mundo de Xavi se detuvo. Condujo hasta la comisaría sintiendo que el pecho le iba a
-              estallar, saltándose los semáforos en rojo en medio de la lluvia fina de la madrugada. Pero al llegar, no
-              logró entrar. Se quedó paralizado en la acera de enfrente, con el agua calándole los huesos, mirando las
-              puertas de cristal de la delegación manchadas por los destellos rojizos de las torretas. El hombre al que
-              le había entregado a su niña, la luz de sus ojos. El muchacho por el que había apostado todo su respeto.
-              Era un asesino.</p>
-            <p class="chapter-text">El dolor de Xavi no se convirtió en llanto, sino en un desprecio helado e
-              implacable. Se negó rotundamente a asistir al juicio. No dejó de trabajar un solo día; de hecho, trabajaba
-              más horas, con una furia silenciosa que mantenía a todos a raya. Cuando el abogado de oficio que le
-              asignaron a Jorgito lo interceptó en la calle días después, suplicándole que fuera a verlo porque el chico
-              estaba perdiendo la cabeza en su celda y rogaba hablar con él, Xavi no titubeó. Lo miró con una frialdad
-              cortante. <em>«Dile que le di mi confianza cuando no era nadie. Que lo traté como a un hijo. Y que, a
-                partir de hoy, él no existe para mí. Está tan muerto como el hombre al que le disparó.»</em> Con esas
-              palabras, Xavi dio media vuelta y no volvió a pronunciar su nombre. <strong>Para un hombre que creció
-                endurecido por la vida, la traición no te deprime; simplemente te cierra el corazón para
-                siempre.</strong></p>
-            <p class="chapter-text">Mishi, por el contrario, sí estuvo en el juicio. Soportó los horrores del proceso
-              judicial, las fotos de la escena del crimen y los testimonios con una firmeza estoica y casi aterradora.
-              Se sentaba todos los días en la segunda fila, sola, aferrando su bolso contra su vientre plano, donde
-              latía el secreto más pesado del mundo: llevaba dos meses de embarazo y los médicos le habían advertido que
-              el estrés estaba poniendo en riesgo al bebé. Miraba la nuca rapada de Jorgito, su espalda encorvada bajo
-              el traje naranja del penal, y sentía que el mundo giraba a una velocidad nauseabunda. El día de la
-              sentencia final, el aire en la sala era denso, asfixiante. Antes de que el juez bajara el martillo para
-              dictar los diez años de prisión sin derecho a fianza, a Jorgito le concedieron la última palabra.</p>
-            <p class="chapter-text">Él se levantó lentamente, arrastrando las cadenas de los pies. Primero, buscó la
-              mirada de la familia de la víctima, que lloraba desconsolada en la primera fila. Con la voz rota y los
-              ojos hundidos, se dirigió a ellos: <em>«No hay nada que pueda decir para devolverles lo que les quité. Fui
-                un cobarde y un imbécil. Llevo la sangre de su padre en mis manos, y les pido perdón, aunque sé que
-                no lo merezco. Ojalá mi vida en esta cárcel les traiga algo de paz.»</em> El murmullo en la sala se apagó
-              ante la crudeza de sus palabras. Luego, Jorgito giró el rostro. Buscó desesperadamente los ojos de Mishi
-              entre la multitud. <em>«Mishi...»</em>, su voz tembló aún más. <em>«El dinero que logré juntar antes de
-                esto, úsalo para el bebé. Es todo para Leo. Sé que nunca vas a perdonarme, y te juro por mi alma que no
-                te pido que lo hagas. Pero necesitaba que escucharas de mi propia boca que me equivoqué de camino, pero
-                la razón... la razón siempre fueron ustedes. Tenía tanto miedo de perderlos, que terminé arruinándolo todo.
-                Te amo.»</em></p>
-            <p class="chapter-text">El silencio en la corte fue absoluto, pesado como una lápida. Mishi no derramó una
-              sola lágrima ahí dentro. Aguantó la respiración, clavando las uñas en sus propias palmas hasta hacerse
-              sangre, mientras el juez leía la condena y los guardias procedían a esposarlo de las manos. Antes de que
-              se lo llevaran por el pasillo central, en medio del murmullo cargado de odio de los presentes y el
-              tintineo metálico de las cadenas, algo en Mishi se rompió por completo. Ignorando las advertencias del
-              juez, rompió el cordón de seguridad.</p>
-            <p class="chapter-text">Caminó hacia él con pasos ciegos, apartando a un guardia. Jorgito se encogió,
-              esperando un golpe, un reclamo, un escupitajo. Pero Mishi no pronunció palabra. Lo tomó del rostro con
-              ambas manos, arañándole las mejillas, cerró los ojos y lo besó frente a toda la corte. Fue un beso
-              desesperado, brutal, salado por las lágrimas que finalmente estallaron. Un adiós cargado de furia, de un
-              dolor infinito, de reclamos mudos y de la promesa silenciosa de un hijo que él no vería nacer ni crecer.
-              Los guardias los separaron a la fuerza, arrastrando a Jorgito hacia la puerta blindada. Él no dejó de
-              mirarla hasta que la puerta se cerró con un eco metálico. <em>Ella no lo perdonó ese día, y tal vez nunca
-                lo haría, pero simplemente no podía dejar que se pudriera una década en la oscuridad de una celda sin
-                saber que el amor que se tuvieron, a pesar de todo el horror, había sido genuinamente real.</em></p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              A veces, el mayor castigo no son las cadenas de hierro que te amarran las manos, sino la mirada rota de la mujer que amas cuando se cierran las puertas para siempre.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Jorgito, en su primera noche en la celda de aislamiento</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 7 -->
-        <div class="chapter" id="chapter-7">
-          <div class="chapter-header" onclick="toggleChapter(7)">
-            <div class="chapter-num">07</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">El nacimiento</span>
-              <h3 class="chapter-title">La gran mentira</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-7" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-7">
-            <div class="chapter-audio-player" data-src="audio/Capitulo7.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">Los meses que siguieron a la condena de Jorgito fueron un infierno silencioso, pero
-              quien cargó con el verdadero peso fue Mishi. Xavi se había vuelto más estricto, sumergido en su trabajo y
-              en su orgullo herido, convencido de que habían arrancado de raíz el problema. Mishi, en cambio, cargaba
-              con un dolor doble: la pérdida del hombre que amaba y el bebé que crecía en su vientre. Pero el cuerpo y
-              la mente a veces hacen pactos extraños para sobrevivir. El suyo fue un embarazo de los que no se notan.
-              Apenas subió de peso, su ropa seguía quedándole igual, y el terror de decepcionar aún más a su padre
-              eclipsaba cualquier síntoma. Xavi, concentrado en su propio rencor y asumiendo que Mishi solo necesitaba
-              tiempo para olvidar, jamás sospechó absolutamente nada. Para él, su hija solo estaba cerrando un mal
-              capítulo.</p>
-            <p class="chapter-text">El día que empezaron las contracciones, Mishi no le dijo a nadie. Inventó un viaje
-              de fin de semana con unas amigas del trabajo para despejar la mente, tomó un taxi sola y se internó en un
-              hospital público de la periferia bajo un nombre falso. El parto fue largo, brutal y solitario. Cuando
-              escuchó el primer llanto y le pusieron a su hijo en el pecho, Mishi lloró con una mezcla de amor infinito
-              y terror absoluto. Tenía los mismos ojos de Jorgito. La misma mirada. Si Xavi alguna vez descubría la
-              verdad, el impacto lo mataría. Ahí mismo, en esa camilla de hospital, Mishi forjó la mentira más grande y
-              dolorosa de su vida.</p>
-            <p class="chapter-text">No regresó a casa con el bebé. Con el poco dinero que tenía ahorrado, pagó a una
-              vecina mayor y discreta para que lo cuidara durante el día. Meses después, cuando Leo ya balbuceaba, Mishi
-              lo llevó por primera vez al negocio familiar. Le dijo a Xavi una historia cuidadosamente armada: <em>«Es
-                el hijo de una compañera del trabajo que falleció. No tiene a nadie más. Me ofrecí a cuidarlo algunas
-                tardes.»</em> Xavi, que siempre tuvo el instinto de proteger a los que no tenían nada —igual que hizo
-              con Mishi—, no dudó de su palabra.</p>
-            <p class="chapter-text">Y así comenzó la farsa. Xavi tomó cariño por el niño de inmediato. Le enseñó a
-              caminar, a jugar, sin saber que sostenía a su propia sangre. Mishi los miraba interactuar desde lejos,
-              sintiendo cómo el corazón se le partía en dos. Lo había salvado de una agonía insoportable, pero el precio
-              era obligar a su propio hijo a crecer como un "vecinito", como un agregado, y obligarse a sí misma a
-              esconder su maternidad en su propia casa. Si Jorgito había ido a la cárcel por salvarlos de la miseria,
-              ella condenaría su propio corazón a vivir en la sombra por salvar a su padre.</p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              Esconderle un hijo al mundo duele. Esconderle un nieto a tu propio padre te arranca el alma todos los días.
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Mishi, frente al espejo del hospital</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Capítulo 8 -->
-        <div class="chapter" id="chapter-8">
-          <div class="chapter-header" onclick="toggleChapter(8)">
-            <div class="chapter-num">08</div>
-            <div class="chapter-header-text">
-              <span class="chapter-kicker">El presente</span>
-              <h3 class="chapter-title">Diez años después</h3>
-            </div>
-            <svg class="chapter-chevron" id="chev-8" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="chapter-body" id="chapter-body-8">
-            <div class="chapter-audio-player" data-src="audio/Capitulo8.m4a">
-              <button class="audio-play-btn chapter-play-btn" title="Reproducir capitulo">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
-              <div class="audio-progress-wrap">
-                <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-                <div class="audio-time">0:00 / 0:00</div>
-              </div>
-            </div>
-            <p class="chapter-text">Leo tiene diez años y todavía cree que el mundo es justo. Es el tipo de niño que cae
-              bien a todo el mundo antes de abrir la boca: carismático, curioso, con energía suficiente para agotar a
-              tres adultos y una risa que su madre no puede escuchar sin sentir que se le aprieta el corazón de maneras
-              contradictorias. No sabe que es el centro de una bomba de tiempo familiar. Todavía no sabe nada.</p>
-            <p class="chapter-text">Sabe que tiene un papá. Mishi nunca le mintió en eso. Le dijo que estaba lejos, que
-              las cosas fueron complicadas, que algún día lo entendería. Leo tiene diez años y ya aprendió a no
-              preguntar dos veces sobre el mismo tema, porque ve lo que le hace a su mamá. Cómo cambia la cara. Cómo se
-              tensa la mandíbula. Cómo busca otra cosa en qué ocupar los ojos. <strong>Así que guarda la pregunta. La
-                guarda y la guarda y la guarda.</strong> Y por las noches, cuando no puede dormir, la saca y le da
-              vueltas en la oscuridad.</p>
-            <p class="chapter-text">Xavi ama a Leo con una intensidad que no puede explicar del todo. Lo lleva a donde
-              puede. Lo escucha. Le enseña cosas. Y a veces, cuando el niño sonríe de cierta forma, Xavi siente algo
-              extraño y familiar que no sabe de dónde viene. Si lo supiera, si supiera que ese niño lleva su sangre, el
-              mundo que conoce se derrumbaría y reconstruiría al mismo tiempo.</p>
-            <p class="chapter-text">Jorgito salió de prisión y fue directo al trabajo de Mishi. Se quedó parado en la
-              acera de enfrente, sin moverse, mirando a través del ventanal. La vio. Diez años después, seguía
-              trabajando en el mismo lugar. Y unos metros más allá, vio a un niño. Con la misma risa de ella. Con los
-              ojos que él venía imaginando durante una década. <em>El corazón se le fue al suelo. Y luego se le apretó
-                en el pecho. Y luego no supo qué era.</em></p>
-            <p class="chapter-text">Mishi lo vio. Se miraron desde los dos lados de la calle durante un segundo que duró
-              una eternidad. Luego ella entró al local. Jorgito se fue. Esa noche no pudo cenar. Y esa noche, Mishi no
-              pudo dormir porque tampoco lo ha olvidado, y eso, de alguna forma, duele más que el rechazo mismo.</p>
-            <p class="chapter-text">El secreto que Mishi carga tiene diez años y cada vez pesa más. Cada vez que Xavi
-              menciona que desea un nieto, algo en ella se tuerce por dentro. Cambia el tema. Se ríe. Desvía. Porque el
-              día que lo sepa, el mundo que construyeron juntos va a temblar. <strong>Y nadie sabe si va a
-                sostenerse.</strong></p>
-            <div class="chapter-quote">
-              <span class="quote-mark">"</span>
-              Mami... ¿por qué el señor Xavi a veces me mira como si se acordara de alguien más y se pusiera triste?
-              <span class="quote-mark">"</span>
-              <span class="quote-attr">— Leo, inocente e implacable</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer lore -->
-
+  <!-- =====================================================================
+       SITE FOOTER
+       ===================================================================== -->
   <footer class="site-footer">
-    <div class="footer-line"></div>
-    <p class="footer-text">⚜ <em>«Nos llaman Mascapitos... y con eso basta para saber quiénes somos»</em> ⚜</p>
+    <div class="footer-crest"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M8 14V10l4 4 4-4v4"/></svg></div>
+    <p class="footer-quote">«Nos llaman Mascapitos... y con eso basta para saber quiénes somos»</p>
+    <p class="footer-copy">Crónica de una familia forjada por el destino · Cadenas de Sangre</p>
   </footer>
 
-  <!-- ═══════════════════ MODALES ═══════════════════ -->
 
-  <!-- Modal Madre Desconocida -->
-  <div class="modal-overlay" id="modal-madre" onclick="closeModalOutside(event, 'madre')">
-    <div class="modal-card madre-modal">
-      <button class="modal-close" onclick="closeModal('madre')">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar-ring madre-ring">
-          <img src="img/mujer.png" alt="Madre" class="modal-avatar modal-avatar-unknown" />
-          <div class="modal-unknown-filter"></div>
-        </div>
-        <div class="modal-title-block">
-          <div class="modal-icon madre-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2L18 10L10 18L2 10Z" stroke="#8a7faa" stroke-width="1.5" fill="rgba(138,127,170,0.12)" />
-              <circle cx="10" cy="10" r="2" fill="rgba(138,127,170,0.5)" />
-            </svg>
-          </div>
-          <h2 class="modal-name">??? <span class="unknown-name-tag">Desconocida</span></h2>
-          <p class="modal-subtitle">La Madre — Identidad no revelada</p>
-          <div class="modal-badge madre-badge">LA AUSENTE</div>
+  <!-- =====================================================================
+       MODALES DE PERSONAJES (CHARACTER DOSSIERS)
+       ===================================================================== -->
+
+  <!-- Modal Xavi -->
+  <div class="modal-overlay" id="modal-xavi" onclick="closeModalOutside(event, 'xavi')">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('xavi')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/xavi.png" alt="Xavi" class="modal-avatar-lg" style="border-color: var(--char-xavi);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Xavi</h3>
+          <p class="modal-role-subtitle">El Padre · 43 años</p>
+          <span class="modal-tag-badge">EL PATRIARCA</span>
         </div>
       </div>
-      <div class="modal-divider"></div>
-      <div class="modal-body">
-        <p class="card-desc">Una mujer que eligió la libertad sobre la maternidad. Fría, calculadora y absolutamente
-          resuelta. Desapareció sin mirar atrás el día en que nació Mishi. No tiene nombre en esta historia porque
-          decidió no tenerlo.</p>
-        <div class="card-relations">
-          <div class="card-relation">
-            <span class="relation-label">Hija</span>
-            <span class="relation-name">Mishi</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Vínculo</span>
-            <span class="relation-name relation-broken">Abandonó a los 15 de Xavi</span>
-          </div>
-        </div>
+      <p class="modal-bio-text">
+        Padre ejemplar y trabajador incansable. A los quince años asumió la paternidad en soledad cuando la madre de Mishi la abandonó al nacer. Sacrificó su juventud en fábricas y bodegas para levantar su negocio. Confió en Jorgito y, tras el fatal crimen, su dolor se volvió un rechazo gélido. Años después, acogió y crio al pequeño Leo con devoción inquebrantable creyendo que era un niño huérfano, sin sospechar que lleva su propia sangre.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Hija</span><span class="rel-name">Mishi</span></div>
+        <div class="relation-entry"><span class="rel-role">Nieto Secreto</span><span class="rel-name" style="color: #e5b85c;">Leo (lo cría como nieto adoptivo sin saber la verdad)</span></div>
+        <div class="relation-entry"><span class="rel-role">Rechazo</span><span class="rel-name" style="color: #ff6666;">Jorgito (le cerró la puerta de la familia)</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Xavi -->
-  <div class="modal-overlay" id="modal-xavi" onclick="closeModalOutside(event, 'xavi')">
-    <div class="modal-card xavi-modal">
-      <button class="modal-close" onclick="closeModal('xavi')">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar-ring xavi-ring">
-          <img src="img/xavi.png" alt="Xavi" class="modal-avatar" />
-        </div>
-        <div class="modal-title-block">
-          <div class="modal-icon xavi-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2L18 10L10 18L2 10Z" fill="rgba(74,127,203,0.15)" stroke="#4a7fcb" stroke-width="1.3" />
-              <path d="M10 5L15 10L10 15L5 10Z" fill="rgba(74,127,203,0.25)" />
-            </svg>
-          </div>
-          <h2 class="modal-name">Xavi</h2>
-          <p class="modal-subtitle">El Padre — 43 años</p>
-          <div class="modal-badge xavi-badge">EL PATRIARCA</div>
+  <!-- Modal Madre Ausente -->
+  <div class="modal-overlay" id="modal-madre" onclick="closeModalOutside(event, 'madre')">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('madre')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/mujer.png" alt="Madre" class="modal-avatar-lg" style="border-color: var(--char-madre);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">??? Desconocida</h3>
+          <p class="modal-role-subtitle">La Madre — Identidad no revelada</p>
+          <span class="modal-tag-badge" style="color: var(--char-madre); background: rgba(138,127,170,0.15);">LA AUSENTE</span>
         </div>
       </div>
-      <div class="modal-divider"></div>
-      <div class="modal-body">
-        <p class="card-desc">Sobreprotector, leal y trabajador incansable. Sacrificó toda su juventud para criar a Mishi
-          solo desde los 15 años. Su mayor fortaleza y su mayor punto ciego es el amor que le tiene a su hija.</p>
-        <div class="card-relations">
-          <div class="card-relation">
-            <span class="relation-label">Hija</span>
-            <span class="relation-name">Mishi</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Nieto</span>
-            <span class="relation-name relation-secret">Leo (no lo sabe)</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Actitud</span>
-            <span class="relation-name relation-broken">Rechaza a Jorgito</span>
-          </div>
-        </div>
+      <p class="modal-bio-text">
+        La mujer que a los quince años dejó la prueba de embarazo en el lavabo y sentenció su desvinculación total. Tras dar a luz en el hospital, cruzó la puerta sin voltear ni mirar a su hija. Su ausencia es el cimiento de dolor sobre el que Xavi construyó a su familia.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Hija Biológica</span><span class="rel-name">Mishi (nunca la conoció)</span></div>
+        <div class="relation-entry"><span class="rel-role">Pacto Inicial</span><span class="rel-name" style="color: #ff6666;">Desapareció para siempre en el hospital</span></div>
       </div>
     </div>
   </div>
 
   <!-- Modal Mishi -->
   <div class="modal-overlay" id="modal-mishi" onclick="closeModalOutside(event, 'mishi')">
-    <div class="modal-card mishi-modal">
-      <button class="modal-close" onclick="closeModal('mishi')">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar-ring mishi-ring">
-          <img src="img/mishi.png" alt="Mishi" class="modal-avatar" />
-        </div>
-        <div class="modal-title-block">
-          <div class="modal-icon mishi-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.3)" transform="rotate(0  10 10)" />
-              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(60 10 10)" />
-              <ellipse cx="10" cy="5" rx="2.5" ry="4" fill="rgba(212,95,165,0.25)" transform="rotate(120 10 10)" />
-              <circle cx="10" cy="10" r="3" fill="rgba(212,95,165,0.5)" />
-            </svg>
-          </div>
-          <h2 class="modal-name">Mishi</h2>
-          <p class="modal-subtitle">La Hija — 28 años</p>
-          <div class="modal-badge mishi-badge">LA CHISPA</div>
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('mishi')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/mishi.png" alt="Mishi" class="modal-avatar-lg" style="border-color: var(--char-mishi);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Mishi</h3>
+          <p class="modal-role-subtitle">La Hija y Madre · 28 años</p>
+          <span class="modal-tag-badge" style="color: var(--char-mishi); background: rgba(212,95,165,0.15);">LA CHISPA</span>
         </div>
       </div>
-      <div class="modal-divider"></div>
-      <div class="modal-body">
-        <p class="card-desc">Alegre, directa y con una risa que llena habitaciones. Carga con el secreto más pesado de
-          la familia: su padre no sabe que Leo existe. Ama a Jorgito y lo odia al mismo tiempo.</p>
-        <div class="card-relations">
-          <div class="card-relation">
-            <span class="relation-label">Padre</span>
-            <span class="relation-name">Xavi</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Hijo</span>
-            <span class="relation-name relation-secret">Leo (secreto)</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Ex</span>
-            <span class="relation-name relation-broken">Jorgito</span>
-          </div>
-        </div>
+      <p class="modal-bio-text">
+        El corazón de la historia. Creció bajo el amor y el sacrificio de su padre Xavi. Se enamoró de Jorgito y quedó embarazada a los dieciocho años. Tras la tragedia y la condena de diez años de su pareja, dio a luz en soledad y cargó sobre sus hombros la mentira más desgarradora: decirle a su padre que el bebé no sobrevivió, para luego introducir a Leo en su vida como un niño huérfano y permitir que Xavi lo amara sin el estigma del crimen.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Padre</span><span class="rel-name">Xavi</span></div>
+        <div class="relation-entry"><span class="rel-role">Hijo</span><span class="rel-name" style="color: #4eb87a;">Leo (su mayor tesoro)</span></div>
+        <div class="relation-entry"><span class="rel-role">El Amor del Pasado</span><span class="rel-name" style="color: #ff6666;">Jorgito (recién salido de prisión)</span></div>
+        <div class="relation-entry"><span class="rel-role">Confidente</span><span class="rel-name">Hoondayx (Day)</span></div>
       </div>
     </div>
   </div>
 
   <!-- Modal Leo -->
   <div class="modal-overlay" id="modal-leo" onclick="closeModalOutside(event, 'leo')">
-    <div class="modal-card leo-modal">
-      <button class="modal-close" onclick="closeModal('leo')">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar-ring leo-ring">
-          <img src="img/Leo.png" alt="Leo" class="modal-avatar" />
-        </div>
-        <div class="modal-title-block">
-          <div class="modal-icon leo-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2l2.2 5h5.3l-4.3 3.1 1.6 5.2L10 12.4l-4.8 2.9 1.6-5.2L2.5 7h5.3z"
-                fill="rgba(78,184,122,0.25)" stroke="#4eb87a" stroke-width="1.2" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <h2 class="modal-name">Leo</h2>
-          <p class="modal-subtitle">El Nieto Secreto — 10 años</p>
-          <div class="modal-badge leo-badge">EL INOCENTE</div>
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('leo')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/Leo.png" alt="Leo" class="modal-avatar-lg" style="border-color: var(--char-leo);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Leo</h3>
+          <p class="modal-role-subtitle">El Hijo y Nieto · 10 años</p>
+          <span class="modal-tag-badge" style="color: var(--char-leo); background: rgba(78,184,122,0.15);">EL INOCENTE</span>
         </div>
       </div>
-      <div class="modal-divider"></div>
-      <div class="modal-body">
-        <p class="card-desc">Carismático, curioso e inocente. El tipo de niño que cae bien antes de abrir la boca.
-          Guarda en silencio la pregunta más pesada que puede cargar un niño de su edad.</p>
-        <div class="card-relations">
-          <div class="card-relation">
-            <span class="relation-label">Mamá</span>
-            <span class="relation-name">Mishi</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Papá</span>
-            <span class="relation-name relation-broken">Jorgito (ausente)</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Abuelo</span>
-            <span class="relation-name relation-secret">Xavi (sin saberlo)</span>
-          </div>
-        </div>
+      <p class="modal-bio-text">
+        Curioso, carismático y con la risa exacta de su padre. Tiene diez años y cree la versión de que fue adoptado por Mishi tras morir su madre biológica. Ha aprendido a no preguntar dos veces para no ver sufrir a su mamá. Pasa los domingos aprendiendo en el mostrador junto a su abuelo Xavi, ignorando que es el heredero de sangre de los Mascapitos.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Madre</span><span class="rel-name">Mishi</span></div>
+        <div class="relation-entry"><span class="rel-role">Abuelo</span><span class="rel-name" style="color: #e5b85c;">Xavi (lo adora y desconoce su parentesco)</span></div>
+        <div class="relation-entry"><span class="rel-role">Padre Biológico</span><span class="rel-name">Jorgito (a quien nunca ha visto)</span></div>
+        <div class="relation-entry"><span class="rel-role">Tía y Cuidadora</span><span class="rel-name">Hoondayx (Day)</span></div>
       </div>
     </div>
   </div>
 
   <!-- Modal Jorgito -->
   <div class="modal-overlay" id="modal-jorgito" onclick="closeModalOutside(event, 'jorgito')">
-    <div class="modal-card jorgito-modal">
-      <button class="modal-close" onclick="closeModal('jorgito')">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar-ring jorgito-ring">
-          <img src="img/jorgito.png" alt="Jorgito" class="modal-avatar" />
-        </div>
-        <div class="modal-title-block">
-          <div class="modal-icon jorgito-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <line x1="3" y1="3" x2="17" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round" />
-              <line x1="17" y1="3" x2="3" y2="17" stroke="#b84a4a" stroke-width="2" stroke-linecap="round" />
-              <circle cx="10" cy="10" r="3.5" stroke="#b84a4a" stroke-width="1.2" fill="rgba(184,74,74,0.1)" />
-            </svg>
-          </div>
-          <h2 class="modal-name">Jorgito</h2>
-          <p class="modal-subtitle">El Arrepentido — 28 años</p>
-          <div class="modal-badge jorgito-badge">EL CAÍDO</div>
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('jorgito')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/jorgito.png" alt="Jorgito" class="modal-avatar-lg" style="border-color: var(--char-jorgito);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Jorgito</h3>
+          <p class="modal-role-subtitle">El Padre Ausente · 28 años</p>
+          <span class="modal-tag-badge" style="color: var(--char-jorgito); background: rgba(184,74,74,0.15);">EL CAÍDO</span>
         </div>
       </div>
-      <div class="modal-divider"></div>
-      <div class="modal-body">
-        <p class="card-desc">Un hombre bueno que tomó el camino equivocado por desesperación. Pagó 10 años en prisión
-          por un crimen que no planeó. Sabe que Leo existe y que Xavi no lo sabe.</p>
-        <div class="card-relations">
-          <div class="card-relation">
-            <span class="relation-label">Ex</span>
-            <span class="relation-name relation-broken">Mishi</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Hijo</span>
-            <span class="relation-name">Leo</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Traicionado por</span>
-            <span class="relation-name relation-broken">Barto</span>
-          </div>
-        </div>
+      <p class="modal-bio-text">
+        Prometió a Xavi en la cocina no fallarle a Mishi. Trabajó hasta reventarse la espalda en el puerto, pero la desesperación económica por el parto y la manipulación de Barto lo llevaron a aquel fatídico callejón. Durante el forcejeo se disparó el arma y, amenazado con la muerte de su familia, asumió toda la culpa en solitario. Cumplió diez años en prisión sosteniéndose solo con una foto anual de su hijo. Al quedar libre, acaba de descubrir a Mishi y a Leo tras el ventanal de un café.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">El Amor de su Vida</span><span class="rel-name">Mishi</span></div>
+        <div class="relation-entry"><span class="rel-role">Hijo</span><span class="rel-name">Leo (lo acaba de ver por primera vez en 10 años)</span></div>
+        <div class="relation-entry"><span class="rel-role">Hermanos</span><span class="rel-name" style="color: var(--wp-gold);">Blacktubbie & Karfie (Próximamente)</span></div>
+        <div class="relation-entry"><span class="rel-role">Traidor</span><span class="rel-name" style="color:#ff6666;">Barto</span></div>
       </div>
     </div>
   </div>
 
   <!-- Modal Barto -->
   <div class="modal-overlay" id="modal-barto" onclick="closeModalOutside(event, 'barto')">
-    <div class="modal-card barto-modal">
-      <button class="modal-close" onclick="closeModal('barto')">✕</button>
-      <div class="modal-header">
-        <div class="modal-avatar-ring barto-ring">
-          <img src="img/barto.png" alt="Barto" class="modal-avatar" />
-        </div>
-        <div class="modal-title-block">
-          <div class="modal-icon barto-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M14.5 5.5L5.5 14.5M14.5 5.5C15.5 6.5 15.5 8 14.5 9L9 14.5C8 15.5 6.5 15.5 5.5 14.5M14.5 5.5C13.5 4.5 12 4.5 11 5.5L5.5 11C4.5 12 4.5 13.5 5.5 14.5M5.5 14.5L3 17"
-                stroke="#d48c3b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                fill="rgba(212,140,59,0.2)" />
-            </svg>
-          </div>
-          <h2 class="modal-name">Barto</h2>
-          <p class="modal-subtitle">El Asesino — 29 años</p>
-          <div class="modal-badge barto-badge">EL VILLANO</div>
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('barto')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/barto.png" alt="Barto" class="modal-avatar-lg" style="border-color: var(--char-barto);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Barto</h3>
+          <p class="modal-role-subtitle">El Traidor y Falso Amigo</p>
+          <span class="modal-tag-badge" style="color: var(--char-barto); background: rgba(212,140,59,0.15);">EL TRAIDOR</span>
         </div>
       </div>
-      <div class="modal-divider"></div>
-      <div class="modal-body">
-        <p class="card-desc">Manipulador nato sin rastro de culpa. Usó a Jorgito como escudo y lo abandonó con un muerto
-          a los pies. Se adaptó a la cárcel como si fuera su hábitat natural.</p>
-        <div class="card-relations">
-          <div class="card-relation">
-            <span class="relation-label">Traicionó a</span>
-            <span class="relation-name relation-broken">Jorgito</span>
-          </div>
-          <div class="card-relation">
-            <span class="relation-label">Vínculo</span>
-            <span class="relation-name relation-broken">"Amigo" de la infancia de Jorgito</span>
-          </div>
-        </div>
+      <p class="modal-bio-text">
+        Falso amigo de la infancia de Jorgito. Manipuló sus inseguridades y su miedo a defraudar a Xavi para arrastrarlo al asalto. Portaba el arma homicida y, tras matar al empresario, colocó el revólver en las manos ensangrentadas de Jorgito amenazándolo con asesinar a Mishi y al bebé si decía su nombre. Asistió con cinismo al juicio como espectador mientras Jorgito cargaba con la condena.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Traición</span><span class="rel-name" style="color:#ff6666;">Destruyó la juventud de Jorgito</span></div>
+        <div class="relation-entry"><span class="rel-role">Amenaza</span><span class="rel-name">Chantajeó con dañar a Mishi y al bebé</span></div>
       </div>
     </div>
   </div>
 
+  <!-- Modal Blacktubbie -->
+  <div class="modal-overlay" id="modal-tubbie" onclick="closeModalOutside(event, 'tubbie')">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('tubbie')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/blacktubbie.png" alt="Blacktubbie" class="modal-avatar-lg" style="border-color: var(--char-tubbie);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Blacktubbie</h3>
+          <p class="modal-role-subtitle">Hermano de Jorgito</p>
+          <span class="modal-tag-badge" style="color: var(--wp-gold); background: rgba(229,184,92,0.15);">PRÓXIMAMENTE</span>
+        </div>
+      </div>
+      <p class="modal-bio-text">
+        Hermano de Jorgito. La figura fraterna y conciliadora que acompañó el dolor silencioso durante la década que Jorgito pasó encerrado. Próximamente se integrará en la historia tras el regreso de Jorgito a las calles.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Hermano</span><span class="rel-name">Jorgito</span></div>
+        <div class="relation-entry"><span class="rel-role">Hermano Mayor</span><span class="rel-name">Karfie</span></div>
+        <div class="relation-entry"><span class="rel-role">Estado</span><span class="rel-name" style="color: var(--wp-gold);">Próximamente en la trama</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Karfie -->
+  <div class="modal-overlay" id="modal-karfie" onclick="closeModalOutside(event, 'karfie')">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('karfie')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/karfie.png" alt="Karfie" class="modal-avatar-lg" style="border-color: var(--char-karfie);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Karfie</h3>
+          <p class="modal-role-subtitle">Hermano mayor de Jorgito</p>
+          <span class="modal-tag-badge" style="color: var(--wp-gold); background: rgba(229,184,92,0.15);">PRÓXIMAMENTE</span>
+        </div>
+      </div>
+      <p class="modal-bio-text">
+        Hermano mayor de Jorgito. Duro, protector y de pocas palabras. Soportó el estigma que cayó sobre la familia durante los diez años de encierro de su hermano menor. Próximamente entrará en acción frente a las consecuencias del retorno de Jorgito.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Hermano Menor</span><span class="rel-name">Jorgito</span></div>
+        <div class="relation-entry"><span class="rel-role">Hermano</span><span class="rel-name">Blacktubbie</span></div>
+        <div class="relation-entry"><span class="rel-role">Estado</span><span class="rel-name" style="color: var(--wp-gold);">Próximamente en la trama</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Hoondayx (Day) -->
+  <div class="modal-overlay" id="modal-day" onclick="closeModalOutside(event, 'day')">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeModal('day')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-header-block">
+        <img src="img/hoondayx.png" alt="Hoondayx" class="modal-avatar-lg" style="border-color: var(--char-day);">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title">Hoondayx (Day)</h3>
+          <p class="modal-role-subtitle">Confidente de Mishi · 32 años</p>
+          <span class="modal-tag-badge" style="color: var(--char-day); background: rgba(155,89,182,0.15);">LA GUARDIANA</span>
+        </div>
+      </div>
+      <p class="modal-bio-text">
+        Mejor amiga de Mishi desde la secundaria. Fue la única persona en quien Mishi pudo confiar la aterradora verdad tras salir del hospital. Sin pedir nada a cambio, cuidó a Leo en su cuarto durante sus primeros años para que Mishi pudiera trabajar y sostener la mentira frente a Xavi. Es el refugio moral y la guardiana incondicional del secreto.
+      </p>
+      <div class="modal-relations-list">
+        <div class="relation-entry"><span class="rel-role">Confidente</span><span class="rel-name">Mishi</span></div>
+        <div class="relation-entry"><span class="rel-role">Niño a su Cuidado</span><span class="rel-name">Leo (lo crio desde recién nacido)</span></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =====================================================================
+       MODAL: AJUSTES DE LECTURA
+       ===================================================================== -->
+  <div class="modal-overlay" id="modal-settings" onclick="if(event.target===this) closeSettingsModal()">
+    <div class="modal-card settings-modal-card">
+      <button class="modal-close-btn" onclick="closeSettingsModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      
+      <div class="modal-header-block" style="margin-bottom: 16px;">
+        <div class="modal-title-col">
+          <h3 class="modal-name-title" style="display: flex; align-items: center; gap: 8px;"><span class="ui-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Ajustes de Lectura</h3>
+          <p class="modal-role-subtitle">Personaliza tu experiencia de lectura</p>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <!-- Theme Selection -->
+        <div class="settings-group">
+          <span class="settings-label">Tema Visual</span>
+          <div class="theme-options-row">
+            <button class="theme-opt-btn btn-theme-dark active" data-theme="dark" onclick="applyTheme('dark')">Oscuro</button>
+            <button class="theme-opt-btn btn-theme-sepia" data-theme="sepia" onclick="applyTheme('sepia')">Sepia</button>
+            <button class="theme-opt-btn btn-theme-amoled" data-theme="amoled" onclick="applyTheme('amoled')">AMOLED</button>
+            <button class="theme-opt-btn btn-theme-light" data-theme="light" onclick="applyTheme('light')">Claro</button>
+          </div>
+        </div>
+
+        <!-- Typography Selection -->
+        <div class="settings-group">
+          <span class="settings-label">Tipografía</span>
+          <div class="font-options-row">
+            <button class="font-opt-btn active" data-font="Lora" onclick="applyFontFamily('Lora')">Lora (Serif)</button>
+            <button class="font-opt-btn" data-font="Inter" onclick="applyFontFamily('Inter')">Inter (Sans)</button>
+            <button class="font-opt-btn" data-font="Merriweather" onclick="applyFontFamily('Merriweather')">Merriweather</button>
+          </div>
+        </div>
+
+        <!-- Font Size Selection -->
+        <div class="settings-group">
+          <span class="settings-label">Tamaño de Texto</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-primary); padding: 10px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <button class="action-btn" onclick="adjustFontSize(-2)" style="height: 32px; padding: 0 12px;">A- Reducir</button>
+            <span id="settings-font-size-text" style="font-weight: 700; color: var(--wp-orange);">18px</span>
+            <button class="action-btn" onclick="adjustFontSize(2)" style="height: 32px; padding: 0 12px;">A+ Aumentar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- SCRIPTS -->
+  <script src="chapters-data.js"></script>
   <script src="script.js"></script>
 </body>
 

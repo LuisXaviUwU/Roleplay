@@ -1,439 +1,436 @@
-// =============================================
-//  MASCAPITOS — Árbol Genealógico · script.js
-// =============================================
+/**
+ * LOS MASCAPITOS — CADENAS DE SANGRE
+ * Lector Dinámico y Catálogo Oficial
+ */
 
-/* ---- Particles ---- */
-(function spawnParticles() {
-  const container = document.getElementById('particles');
-  const colors = [
-    'rgba(201,162,39,0.5)',
-    'rgba(74,127,203,0.4)',
-    'rgba(212,95,165,0.35)',
-    'rgba(78,184,122,0.35)',
-    'rgba(255,255,255,0.15)',
-  ];
+// Application State
+const state = {
+  currentView: 'portada',
+  currentSeason: 1,
+  currentChapter: 1,
+  theme: localStorage.getItem('mascapitos_theme') || 'dark',
+  fontSize: parseInt(localStorage.getItem('mascapitos_fontsize') || '18', 10),
+  fontFamily: localStorage.getItem('mascapitos_fontfamily') || 'Lora',
+  readHistory: JSON.parse(localStorage.getItem('mascapitos_read_history') || '[]')
+};
 
-  for (let i = 0; i < 55; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = Math.random() * 4 + 1;
-    p.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${Math.random() * 100}%;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      animation-duration: ${Math.random() * 18 + 12}s;
-      animation-delay: ${Math.random() * 12}s;
-      filter: blur(${Math.random() > 0.7 ? 1 : 0}px);
-    `;
-    container.appendChild(p);
-  }
-})();
+// =====================================================================
+// INITIALIZATION
+// =====================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(state.theme);
+  applyFontSize(state.fontSize);
+  applyFontFamily(state.fontFamily);
+  setupNavigation();
+  setupReadingProgress();
+  populateChapterDropdown();
+  renderTocGrid();
+  loadChapter(1, state.currentChapter, false);
+  switchView('portada'); // Start on Portada / Inicio view
+});
 
-/* ---- Modal Logic ---- */
-function openModal(id) {
-  const overlay = document.getElementById(`modal-${id}`);
-  if (!overlay) return;
+// =====================================================================
+// MULTI-VIEW NAVIGATION (SIDEBAR SUPERIOR)
+// =====================================================================
+function switchView(viewId) {
+  state.currentView = viewId;
 
-  // Close any other open modals first
-  document.querySelectorAll('.modal-overlay.open').forEach(el => {
-    el.classList.remove('open');
+  const validViews = ['portada', 'lector', 'indice', 'personajes'];
+  validViews.forEach(id => {
+    const sec = document.getElementById(id);
+    if (sec) {
+      if (id === viewId) {
+        sec.style.display = 'block';
+        sec.classList.add('active-view');
+      } else {
+        sec.style.display = 'none';
+        sec.classList.remove('active-view');
+      }
+    }
   });
 
-  // Small delay so closing animation is visible before opening new one
-  requestAnimationFrame(() => {
-    overlay.classList.add('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Update topbar navigation pills
+  document.querySelectorAll('.nav-link-btn').forEach(btn => {
+    const v = btn.dataset.view || (btn.getAttribute('href') || '').replace('#', '');
+    btn.classList.toggle('active', v === viewId);
+  });
+
+  // Update mobile drawer links
+  document.querySelectorAll('.drawer-link').forEach(btn => {
+    const v = btn.dataset.view || (btn.getAttribute('href') || '').replace('#', '');
+    btn.classList.toggle('active', v === viewId);
+  });
+}
+
+function setupNavigation() {
+  function handleHash() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['portada', 'lector', 'indice', 'personajes'].includes(hash)) {
+      switchView(hash);
+    }
+  }
+
+  window.addEventListener('hashchange', handleHash);
+  if (window.location.hash) {
+    handleHash();
+  }
+}
+
+function toggleMobileDrawer() {
+  const drawer = document.getElementById('mobile-drawer');
+  if (drawer) {
+    drawer.classList.toggle('open');
+  }
+}
+
+function closeMobileDrawer() {
+  const drawer = document.getElementById('mobile-drawer');
+  if (drawer) {
+    drawer.classList.remove('open');
+  }
+}
+
+// =====================================================================
+// LIVE READING PROGRESS TRACKER
+// =====================================================================
+function setupReadingProgress() {
+  const bar = document.getElementById('reading-progress-bar');
+  if (!bar) return;
+
+  window.addEventListener('scroll', () => {
+    if (state.currentView !== 'lector') {
+      bar.style.width = '0%';
+      return;
+    }
+    const docElem = document.documentElement;
+    const body = document.body;
+    const scrollTop = docElem.scrollTop || body.scrollTop;
+    const scrollHeight = (docElem.scrollHeight || body.scrollHeight) - docElem.clientHeight;
+    const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    bar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+  });
+}
+
+// =====================================================================
+// READER SETTINGS (THEMES, FONTS, SIZES)
+// =====================================================================
+function applyTheme(theme) {
+  state.theme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('mascapitos_theme', theme);
+
+  document.querySelectorAll('.theme-opt-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.theme === theme);
+  });
+}
+
+function adjustFontSize(delta) {
+  const newSize = Math.max(14, Math.min(26, state.fontSize + delta * 2));
+  applyFontSize(newSize);
+}
+
+function applyFontSize(size) {
+  state.fontSize = size;
+  document.documentElement.style.setProperty('--reader-font-size', `${size}px`);
+  localStorage.setItem('mascapitos_fontsize', size.toString());
+
+  const label = document.getElementById('current-font-size-label');
+  if (label) label.textContent = `${size}px`;
+
+  const modalLabel = document.getElementById('modal-font-size-label');
+  if (modalLabel) modalLabel.textContent = `${size}px`;
+}
+
+function applyFontFamily(font) {
+  state.fontFamily = font;
+  let cssFont = `'${font}', Georgia, serif`;
+  if (font === 'Inter') {
+    cssFont = `'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
+  }
+  document.documentElement.style.setProperty('--reader-font-family', cssFont);
+  localStorage.setItem('mascapitos_fontfamily', font);
+
+  document.querySelectorAll('.font-opt-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.font === font);
+  });
+}
+
+function openSettingsModal() {
+  const modal = document.getElementById('modal-settings');
+  if (modal) {
+    modal.classList.add('open');
     document.body.style.overflow = 'hidden';
-  });
-}
-
-function closeModal(id) {
-  const overlay = document.getElementById(`modal-${id}`);
-  if (!overlay) return;
-  overlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function closeModalOutside(event, id) {
-  // Only close if the click was directly on the overlay, not the card
-  if (event.target === event.currentTarget) {
-    closeModal(id);
   }
 }
 
-/* ---- Keyboard: Escape closes any open modal ---- */
+function closeSettingsModal() {
+  const modal = document.getElementById('modal-settings');
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// =====================================================================
+// CHAPTER LOADER & READER ENGINE (.TXT FETCHER & FALLBACK)
+// =====================================================================
+async function fetchChapterTxt(season, chapter) {
+  const path = `capitulos/temporada${season}/${chapter}.txt`;
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+    const text = await res.text();
+    if (text && text.trim().length > 10) {
+      return text;
+    }
+    throw new Error('Empty file content');
+  } catch (err) {
+    console.info(`[Reader Engine] Fallback used for ${path}:`, err.message);
+    const fallbackKey = `s${season}_c${chapter}`;
+    if (typeof CHAPTER_FALLBACK_TEXTS !== 'undefined' && CHAPTER_FALLBACK_TEXTS[fallbackKey]) {
+      return CHAPTER_FALLBACK_TEXTS[fallbackKey];
+    }
+    return `No se pudo cargar el capítulo ${chapter}. Asegúrate de que el archivo ${path} existe.`;
+  }
+}
+
+async function loadChapter(season, chapter, shouldSwitch = true) {
+  state.currentSeason = 1;
+  state.currentChapter = chapter;
+
+  const metaList = CHAPTERS_METADATA.temporada1 || [];
+  const meta = metaList.find(m => m.id === chapter) || {
+    id: chapter,
+    title: `Capítulo ${chapter}`,
+    kicker: 'Crónica',
+    cover: `img/capitulos/temporada1/${chapter}.png`,
+    time: '5 min'
+  };
+
+  // Update UI Meta
+  const badgeElem = document.getElementById('chapter-season-badge');
+  if (badgeElem) badgeElem.textContent = `Capítulo ${chapter} de 8`;
+
+  document.getElementById('chapter-main-title').textContent = meta.title;
+  document.getElementById('chapter-kicker-subtitle').textContent = meta.kicker || 'Crónica';
+  document.getElementById('chapter-read-time').textContent = meta.time || '5 min';
+
+  // Update Cover Image in Reader
+  const coverImg = document.getElementById('chapter-cover-img');
+  if (coverImg && meta.cover) {
+    coverImg.src = meta.cover;
+    coverImg.alt = `Portada de ${meta.title}`;
+  }
+
+  // Quote Box setup
+  const quoteBox = document.getElementById('chapter-quote-box');
+  if (meta.quote) {
+    quoteBox.style.display = 'block';
+    document.getElementById('quote-body-text').textContent = `«${meta.quote}»`;
+    document.getElementById('quote-attribution').textContent = meta.quoteAttr ? `— ${meta.quoteAttr}` : '';
+  } else {
+    quoteBox.style.display = 'none';
+  }
+
+  // Chapter Text Body Loading
+  const textContainer = document.getElementById('chapter-content-body');
+  textContainer.innerHTML = '<p class="loading-state">Cargando capítulo desde el archivo...</p>';
+
+  const rawText = await fetchChapterTxt(1, chapter);
+  renderChapterText(rawText);
+
+  // Update Selector Dropdown
+  const select = document.getElementById('reader-chapter-select');
+  if (select) {
+    select.value = `1-${chapter}`;
+  }
+
+  // Update Prev / Next Buttons
+  updatePrevNextButtons(1, chapter);
+
+  // Mark as Read in history
+  const chKey = `s1_c${chapter}`;
+  if (!state.readHistory.includes(chKey)) {
+    state.readHistory.push(chKey);
+    localStorage.setItem('mascapitos_read_history', JSON.stringify(state.readHistory));
+  }
+
+  if (shouldSwitch) {
+    switchView('lector');
+  }
+}
+
+function renderChapterText(text) {
+  const container = document.getElementById('chapter-content-body');
+  container.innerHTML = '';
+
+  const paragraphs = text.split(/\n\s*\n/);
+  paragraphs.forEach(rawP => {
+    const trimmed = rawP.trim();
+    if (!trimmed) return;
+    
+    const p = document.createElement('p');
+    let formatted = trimmed;
+    if (formatted.startsWith('-') || formatted.startsWith('—')) {
+      p.classList.add('is-dialogue');
+    }
+    p.textContent = formatted;
+    container.appendChild(p);
+  });
+}
+
+function updatePrevNextButtons(season, chapter) {
+  const metaList = CHAPTERS_METADATA.temporada1 || [];
+  const total = metaList.length;
+
+  const prevBtn = document.getElementById('btn-prev-chapter');
+  const nextBtn = document.getElementById('btn-next-chapter');
+  const prevCard = document.getElementById('prev-chapter-card');
+  const nextCard = document.getElementById('next-chapter-card');
+
+  // Prev
+  if (chapter > 1) {
+    const prevMeta = metaList.find(m => m.id === chapter - 1);
+    if (prevBtn) prevBtn.disabled = false;
+    if (prevCard) {
+      prevCard.style.visibility = 'visible';
+      document.getElementById('prev-card-title').textContent = prevMeta ? prevMeta.title : `Capítulo ${chapter - 1}`;
+    }
+  } else {
+    if (prevBtn) prevBtn.disabled = true;
+    if (prevCard) prevCard.style.visibility = 'hidden';
+  }
+
+  // Next
+  if (chapter < total) {
+    const nextMeta = metaList.find(m => m.id === chapter + 1);
+    if (nextBtn) nextBtn.disabled = false;
+    if (nextCard) {
+      nextCard.style.visibility = 'visible';
+      document.getElementById('next-card-title').textContent = nextMeta ? nextMeta.title : `Capítulo ${chapter + 1}`;
+    }
+  } else {
+    if (nextBtn) nextBtn.disabled = true;
+    if (nextCard) nextCard.style.visibility = 'hidden';
+  }
+}
+
+function prevChapter() {
+  if (state.currentChapter > 1) {
+    loadChapter(1, state.currentChapter - 1, true);
+  }
+}
+
+function nextChapter() {
+  const metaList = CHAPTERS_METADATA.temporada1 || [];
+  if (state.currentChapter < metaList.length) {
+    loadChapter(1, state.currentChapter + 1, true);
+  }
+}
+
+// Populate Quick Chapter Dropdown
+function populateChapterDropdown() {
+  const select = document.getElementById('reader-chapter-select');
+  if (!select) return;
+  select.innerHTML = '';
+
+  const list = CHAPTERS_METADATA.temporada1 || [];
+  list.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = `1-${c.id}`;
+    opt.textContent = `Cap. ${c.id}: ${c.title}`;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener('change', (e) => {
+    const [, c] = e.target.value.split('-').map(Number);
+    loadChapter(1, c, true);
+  });
+}
+
+// =====================================================================
+// TABLE OF CONTENTS (ÍNDICE)
+// =====================================================================
+function renderTocGrid() {
+  const grid = document.getElementById('toc-chapters-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  const list = CHAPTERS_METADATA.temporada1 || [];
+  list.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'toc-card';
+    card.onclick = () => loadChapter(1, c.id, true);
+
+    const isRead = state.readHistory.includes(`s1_c${c.id}`);
+
+    card.innerHTML = `
+      <div class="toc-cover-thumb">
+        <img src="${c.cover}" alt="${c.title}" class="toc-thumb-img" loading="lazy">
+        <span class="toc-chapter-number-pill">Cap. ${c.id}</span>
+      </div>
+      <div class="toc-info">
+        <div class="toc-title">${c.title}</div>
+        <div class="toc-kicker">${c.kicker || 'Crónica'}</div>
+        <div class="toc-meta">
+          <span class="toc-time-badge">${c.time}</span>
+          ${isRead ? '<span class="toc-read-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><polyline points="20 6 9 17 4 12"/></svg>Leído</span>' : ''}
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// =====================================================================
+// MODALES DE PERSONAJES
+// =====================================================================
+function openModal(charId) {
+  const modal = document.getElementById(`modal-${charId}`);
+  if (modal) {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal(charId) {
+  const modal = document.getElementById(`modal-${charId}`);
+  if (modal) {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function closeModalOutside(event, charId) {
+  if (event.target === event.currentTarget) {
+    closeModal(charId);
+  }
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(overlay => {
-      overlay.classList.remove('open');
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open');
       document.body.style.overflow = '';
     });
   }
 });
 
-/* ---- Subtle entrance animations for cards ---- */
-document.addEventListener('DOMContentLoaded', () => {
-  const cards = document.querySelectorAll('.member-card');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }, i * 120);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.2 });
-
-  cards.forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(.34,1.56,.64,1), box-shadow 0.35s ease, border-color 0.35s ease';
-    observer.observe(card);
-  });
-});
-
-/* ---- Text-to-Speech & Custom Audio Player ---- */
-
-// Mapping: "modalId-sectionIndex" → audio file path
-const customAudioMap = {
-  // Xavi
-  'xavi-0': 'audio/Capitulo1Xavi.m4a',
-  'xavi-1': 'audio/Capitulo2Xavi.m4a',
-  'xavi-2': 'audio/Capitulo3Xavi.m4a',
-  // Mishi
-  'mishi-0': 'audio/Capitulo1Mishi.m4a',
-  'mishi-1': 'audio/Capitulo2Mishi.m4a',
-  'mishi-2': 'audio/Capitulo3Mishi.m4a',
-  'mishi-3': 'audio/Capitulo4Mishi.m4a',
-  // Leo
-  'leo-0': 'audio/Capitulo1Leo.m4a',
-  'leo-1': 'audio/Capitulo2Leo.m4a',
-  'leo-2': 'audio/Capitulo3Leo.m4a',
-  // Jorgito
-  'jorgito-0': 'audio/Capitulo1Jorgito.m4a',
-  'jorgito-1': 'audio/Capitulo2Jorgito.m4a',
-  'jorgito-2': 'audio/Capitulo3Jorgito.m4a',
-  'jorgito-3': 'audio/Capitulo4Jorgito.m4a',
-  'jorgito-4': 'audio/Capitulo5Jorgito.m4a',
-  // La Madre
-  'madre-0': 'audio/Capitulo1Mujer.m4a',
-  // Barto
-  'barto-0': 'audio/Capitulo1Barto.m4a',
-  'barto-1': 'audio/Capitulo2Barto.m4a',
-  'barto-2': 'audio/Capitulo3Barto.m4a',
-  'barto-3': 'audio/Capitulo4Barto.m4a'
-};
-
-let voices = [];
-let activePlayer = null; // { audioEl, btn, progress, timeEl, ttsUtterance, isTTS }
-
-/* --- Voice selector population --- */
-function populateVoices() {
-  voices = window.speechSynthesis.getVoices();
-  const select = document.getElementById('voice-select');
-  if (!select) return;
-  select.innerHTML = '';
-  const def = document.createElement('option');
-  def.value = '';
-  def.textContent = 'Voz predeterminada (ES)';
-  select.appendChild(def);
-  voices.forEach((v, i) => {
-    if (v.lang.startsWith('es')) {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = `${v.name} (${v.lang})`;
-      select.appendChild(opt);
-    }
-  });
-}
-window.speechSynthesis.onvoiceschanged = populateVoices;
-document.addEventListener('DOMContentLoaded', populateVoices);
-
-/* --- Helpers --- */
-function formatTime(secs) {
-  if (!isFinite(secs)) return '0:00';
-  const m = Math.floor(secs / 60);
-  const s = Math.floor(secs % 60);
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-function stopActive() {
-  if (!activePlayer) return;
-  if (activePlayer.isTTS) {
-    window.speechSynthesis.cancel();
-  } else if (activePlayer.audioEl) {
-    activePlayer.audioEl.pause();
-  }
-  setPlayerState(activePlayer, false);
-  activePlayer = null;
-}
-
-function setPlayerState(player, playing) {
-  const { playerEl, btn } = player;
-  if (playing) {
-    playerEl.classList.add('active');
-    btn.classList.add('playing');
-    btn.innerHTML = pauseIcon();
-  } else {
-    playerEl.classList.remove('active');
-    btn.classList.remove('playing');
-    btn.innerHTML = playIcon();
-  }
-}
-
-function playIcon() {
-  return `<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/></svg>`;
-}
-function pauseIcon() {
-  return `<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/></svg>`;
-}
-
-/* --- Build inline players after DOM ready --- */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.story-section').forEach(section => {
-    const heading = section.querySelector('.section-heading');
-    if (!heading) return;
-
-    // Build player HTML
-    const playerEl = document.createElement('div');
-    playerEl.className = 'audio-player';
-    playerEl.innerHTML = `
-      <button class="audio-play-btn" title="Reproducir sección">${playIcon()}</button>
-      <div class="audio-progress-wrap">
-        <input type="range" class="audio-progress-bar" min="0" max="100" value="0" step="0.1">
-        <div class="audio-time">0:00 / 0:00</div>
-      </div>
-    `;
-
-    // Insert player after the heading div (inside story-section)
-    section.appendChild(playerEl);
-
-    const btn = playerEl.querySelector('.audio-play-btn');
-    const progressBar = playerEl.querySelector('.audio-progress-bar');
-    const timeEl = playerEl.querySelector('.audio-time');
-
-    btn.addEventListener('click', () => {
-      // Find modal id + section index
-      const modalWrap = section.closest('.modal-overlay');
-      const modalId = modalWrap ? modalWrap.id.replace('modal-', '') : '';
-      const allSections = Array.from(modalWrap.querySelectorAll('.story-section'));
-      const sectionIdx = allSections.indexOf(section);
-      const audioKey = `${modalId}-${sectionIdx}`;
-
-      // Already playing THIS player? Toggle pause/resume
-      if (activePlayer && activePlayer.playerEl === playerEl) {
-        if (activePlayer.isTTS) {
-          if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-            window.speechSynthesis.pause();
-            setPlayerState(activePlayer, false);
-          } else {
-            window.speechSynthesis.resume();
-            setPlayerState(activePlayer, true);
-          }
-        } else {
-          if (activePlayer.audioEl.paused) {
-            activePlayer.audioEl.play();
-            setPlayerState(activePlayer, true);
-          } else {
-            activePlayer.audioEl.pause();
-            setPlayerState(activePlayer, false);
-          }
-        }
-        return;
-      }
-
-      // Stop whatever was playing before
-      stopActive();
-
-      const player = { playerEl, btn, progressBar, timeEl, audioEl: null, isTTS: false };
-
-      if (customAudioMap[audioKey]) {
-        // Real audio file
-        const audio = new Audio(customAudioMap[audioKey]);
-        player.audioEl = audio;
-
-        audio.addEventListener('loadedmetadata', () => {
-          progressBar.max = audio.duration;
-          timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
-        });
-
-        audio.addEventListener('timeupdate', () => {
-          if (!audio.duration) return;
-          progressBar.value = audio.currentTime;
-          const pct = (audio.currentTime / audio.duration) * 100;
-          progressBar.style.setProperty('--progress', `${pct}%`);
-          timeEl.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-        });
-
-        audio.addEventListener('ended', () => {
-          setPlayerState(player, false);
-          progressBar.value = 0;
-          progressBar.style.setProperty('--progress', '0%');
-          timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
-          activePlayer = null;
-        });
-
-        progressBar.addEventListener('input', () => {
-          audio.currentTime = parseFloat(progressBar.value);
-        });
-
-        audio.play();
-        setPlayerState(player, true);
-        activePlayer = player;
-
-      } else {
-        // TTS fallback
-        player.isTTS = true;
-        const texts = [];
-        const titleEl = section.querySelector('.section-heading-text');
-        if (titleEl) texts.push(`Capítulo: ${titleEl.innerText}`);
-
-        let sibling = section.nextElementSibling;
-        while (sibling && !sibling.classList.contains('story-section')) {
-          if (sibling.classList.contains('modal-text')) texts.push(sibling.innerText);
-          else if (sibling.classList.contains('modal-quote')) texts.push(sibling.innerText.replace(/"/g, ''));
-          sibling = sibling.nextElementSibling;
-        }
-
-        const utterance = new SpeechSynthesisUtterance(texts.join('. '));
-        const select = document.getElementById('voice-select');
-        if (select && select.value !== '') {
-          utterance.voice = voices[select.value];
-        } else {
-          utterance.lang = 'es-ES';
-          const sv = voices.find(v => v.lang.startsWith('es'));
-          if (sv) utterance.voice = sv;
-        }
-        utterance.rate = 0.95;
-
-        utterance.onend = () => {
-          setPlayerState(player, false);
-          activePlayer = null;
-        };
-        utterance.onerror = () => {
-          setPlayerState(player, false);
-          activePlayer = null;
-        };
-
-        progressBar.style.setProperty('--progress', '0%');
-        timeEl.textContent = 'TTS — en curso';
-
-        window.speechSynthesis.speak(utterance);
-        player.ttsUtterance = utterance;
-        setPlayerState(player, true);
-        activePlayer = player;
-      }
-    });
-  });
-});
-
-/* Stop audio when closing modals */
-const _origClose = closeModal;
-closeModal = function(id) {
-  stopActive();
-  _origClose(id);
-};
-
-/* ---- Story Accordion ---- */
-function toggleStory() {
-  const wrapper = document.getElementById('story-chapters-wrapper');
-  const chevron = document.getElementById('story-chevron');
-  const text    = document.getElementById('story-toggle-text');
-  const isOpen  = wrapper.classList.toggle('story-open');
-  chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-  text.textContent = isOpen ? 'Cerrar historia' : 'Leer la historia';
-}
-
-function toggleChapter(n) {
-  const body   = document.getElementById('chapter-body-' + n);
-  const chev   = document.getElementById('chev-' + n);
-  const header = body.previousElementSibling;
-  const isOpen = body.classList.toggle('chapter-open');
-  chev.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-  header.classList.toggle('chapter-header-active', isOpen);
-  if (isOpen) {
-    // Close other chapters
-    for (let i = 1; i <= 8; i++) {
-      if (i === n) continue;
-      const ob = document.getElementById('chapter-body-' + i);
-      const oc = document.getElementById('chev-' + i);
-      const oh = ob ? ob.previousElementSibling : null;
-      if (ob) ob.classList.remove('chapter-open');
-      if (oc) oc.style.transform = 'rotate(0deg)';
-      if (oh) oh.classList.remove('chapter-header-active');
-    }
-  }
-}
-
-/* ---- Chapter Audio Players ---- */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.chapter-audio-player').forEach(playerEl => {
-    const src = playerEl.dataset.src;
-    if (!src) return;
-
-    const btn = playerEl.querySelector('.chapter-play-btn');
-    const progressBar = playerEl.querySelector('.audio-progress-bar');
-    const timeEl = playerEl.querySelector('.audio-time');
-
-    btn.addEventListener('click', () => {
-      // Toggle pause/resume if this player is already active
-      if (activePlayer && activePlayer.playerEl === playerEl) {
-        if (activePlayer.audioEl.paused) {
-          activePlayer.audioEl.play();
-          playerEl.classList.add('active');
-          btn.classList.add('playing');
-          btn.innerHTML = pauseIcon();
-        } else {
-          activePlayer.audioEl.pause();
-          playerEl.classList.remove('active');
-          btn.classList.remove('playing');
-          btn.innerHTML = playIcon();
-        }
-        return;
-      }
-
-      // Stop any currently playing audio
-      stopActive();
-
-      const audio = new Audio(src);
-      const player = { playerEl, btn, progressBar, timeEl, audioEl: audio, isTTS: false };
-
-      audio.addEventListener('loadedmetadata', () => {
-        progressBar.max = audio.duration;
-        timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
-      });
-
-      audio.addEventListener('timeupdate', () => {
-        if (!audio.duration) return;
-        progressBar.value = audio.currentTime;
-        const pct = (audio.currentTime / audio.duration) * 100;
-        progressBar.style.setProperty('--progress', `${pct}%`);
-        timeEl.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
-      });
-
-      audio.addEventListener('ended', () => {
-        playerEl.classList.remove('active');
-        btn.classList.remove('playing');
-        btn.innerHTML = playIcon();
-        progressBar.value = 0;
-        progressBar.style.setProperty('--progress', '0%');
-        timeEl.textContent = `0:00 / ${formatTime(audio.duration)}`;
-        activePlayer = null;
-      });
-
-      progressBar.addEventListener('input', () => {
-        audio.currentTime = parseFloat(progressBar.value);
-      });
-
-      audio.play();
-      playerEl.classList.add('active');
-      btn.classList.add('playing');
-      btn.innerHTML = pauseIcon();
-      activePlayer = player;
-    });
-  });
-});
-
+// Explicit Global Window API for inline HTML event handlers
+window.switchView = switchView;
+window.loadChapter = loadChapter;
+window.prevChapter = prevChapter;
+window.nextChapter = nextChapter;
+window.adjustFontSize = adjustFontSize;
+window.applyTheme = applyTheme;
+window.applyFontFamily = applyFontFamily;
+window.openSettingsModal = openSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+window.toggleMobileDrawer = toggleMobileDrawer;
+window.closeMobileDrawer = closeMobileDrawer;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.closeModalOutside = closeModalOutside;
