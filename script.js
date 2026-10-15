@@ -49,7 +49,8 @@ function switchView(viewId) {
     }
   });
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Instant top scroll on view change to prevent layout jumping on mobile
+  window.scrollTo(0, 0);
 
   // Update topbar navigation pills
   document.querySelectorAll('.nav-link-btn').forEach(btn => {
@@ -93,24 +94,31 @@ function closeMobileDrawer() {
 }
 
 // =====================================================================
-// LIVE READING PROGRESS TRACKER
+// LIVE READING PROGRESS TRACKER (OPTIMIZED WITH RAF & PASSIVE LISTENER)
 // =====================================================================
 function setupReadingProgress() {
   const bar = document.getElementById('reading-progress-bar');
   if (!bar) return;
 
+  let ticking = false;
   window.addEventListener('scroll', () => {
-    if (state.currentView !== 'lector') {
-      bar.style.width = '0%';
-      return;
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (state.currentView !== 'lector') {
+          bar.style.width = '0%';
+        } else {
+          const docElem = document.documentElement;
+          const body = document.body;
+          const scrollTop = window.scrollY || docElem.scrollTop || body.scrollTop || 0;
+          const scrollHeight = (docElem.scrollHeight || body.scrollHeight) - window.innerHeight;
+          const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+          bar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
+        }
+        ticking = false;
+      });
+      ticking = true;
     }
-    const docElem = document.documentElement;
-    const body = document.body;
-    const scrollTop = docElem.scrollTop || body.scrollTop;
-    const scrollHeight = (docElem.scrollHeight || body.scrollHeight) - docElem.clientHeight;
-    const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-    bar.style.width = `${Math.min(100, Math.max(0, percent))}%`;
-  });
+  }, { passive: true });
 }
 
 // =====================================================================
@@ -368,7 +376,7 @@ function renderTocGrid() {
 
     card.innerHTML = `
       <div class="toc-cover-thumb">
-        <img src="${c.cover}" alt="${c.title}" class="toc-thumb-img" loading="lazy">
+        <img src="${c.cover}" alt="${c.title}" class="toc-thumb-img" loading="lazy" decoding="async">
         <span class="toc-chapter-number-pill">Cap. ${c.id}</span>
       </div>
       <div class="toc-info">

@@ -111,8 +111,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 901px) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -122,7 +127,8 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: clip;
+  transition: background-color 0.2s ease, color 0.2s ease;
   position: relative;
   /* iOS safe area support (notch/home bar) */
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -362,7 +368,7 @@ button, a, [role="button"] {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, var(--wp-orange), var(--wp-gold));
-  transition: width 0.1s linear;
+  will-change: width;
 }
 
 /* Mobile Slide-Down Drawer (Sidebar Superior Extensible) */
@@ -431,17 +437,15 @@ main.app-content {
 
 .content-section.active-view {
   display: block;
-  animation: fadeInSection 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: fadeInSection 0.18s ease-out;
 }
 
 @keyframes fadeInSection {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -1655,6 +1659,23 @@ main.app-content {
 
 /* ── Tablet ── */
 @media (max-width: 900px) {
+  /* Disable heavy GPU compositing to eliminate mobile stutter & visual tearing */
+  .top-sidebar-nav,
+  .reader-floating-toolbar,
+  .book-hero-card,
+  .modal-overlay {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .top-sidebar-nav {
+    background: rgba(14, 14, 19, 0.98) !important;
+  }
+
+  .ambient-glow-mesh {
+    display: none !important;
+  }
+
   .nav-menu-links {
     display: none;
   }
@@ -1732,7 +1753,7 @@ main.app-content {
   }
 }
 
-/* ── Mobile ── */
+/* ── Mobile (≤ 600px) ── */
 @media (max-width: 600px) {
   /* Nav bar */
   .nav-container {
@@ -1757,7 +1778,7 @@ main.app-content {
     display: none;
   }
 
-  /* Full-width content sections */
+  /* Full-width content sections with safe padding */
   .content-section {
     padding: 16px 12px 60px;
   }
@@ -1801,17 +1822,21 @@ main.app-content {
     justify-content: center;
   }
 
-  /* Reader: max readability on phone */
+  /* Reader: max readability on phone. 
+     Toolbar is RELATIVE (not sticky) so it never covers text or cuts off paragraphs */
   .reader-wrapper {
     padding: 0;
   }
 
   .reader-floating-toolbar {
     flex-wrap: wrap;
-    gap: 8px;
-    padding: 10px 12px;
-    position: sticky;
-    top: 58px;
+    gap: 10px;
+    padding: 12px 14px;
+    position: relative !important;
+    top: auto !important;
+    margin-bottom: 22px;
+    border-radius: var(--radius-md);
+    box-shadow: none;
   }
 
   .reader-chapter-dropdown-wrap {
@@ -1857,8 +1882,8 @@ main.app-content {
   }
 
   .chapter-meta-header {
-    padding-bottom: 20px;
-    margin-bottom: 24px;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
   }
 
   .chapter-main-title {
@@ -1867,7 +1892,7 @@ main.app-content {
   }
 
   .chapter-kicker-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
 
   .chapter-info-tags {
@@ -1875,14 +1900,14 @@ main.app-content {
     gap: 10px;
   }
 
-  /* Reader body text */
+  /* Reader body text: smooth reading, no cutting off */
   .chapter-content-body {
     font-size: 16px;
     line-height: 1.8;
     gap: 20px;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
-
-
 
   /* Quote box */
   .chapter-quote-box {
@@ -1891,10 +1916,11 @@ main.app-content {
   }
 
   .quote-body-text {
-    font-size: 1rem;
+    font-size: 0.98rem;
+    line-height: 1.6;
   }
 
-  /* Prev/Next chapter cards */
+  /* Prev/Next chapter cards: never cut text with nowrap */
   .chapter-prev-next-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -1904,11 +1930,12 @@ main.app-content {
     padding: 14px 16px;
   }
 
+  .nav-ch-title {
+    white-space: normal !important;
+    line-height: 1.3;
+  }
 
-
-
-
-  /* Índice */
+  /* Índice: flexible titles that don't get truncated */
   .section-title-wrap {
     text-align: center;
   }
@@ -1921,68 +1948,86 @@ main.app-content {
     font-size: 0.9rem;
   }
 
-  .season-pills-bar {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .season-tab-btn {
-    width: 100%;
-    text-align: center;
-    padding: 12px 16px;
-  }
-
   .toc-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
-  .toc-chapter-card {
-    padding: 16px 14px;
+  .toc-card {
+    padding: 14px 12px;
+    min-width: 0;
   }
 
-  /* Personajes */
+  .toc-title {
+    white-space: normal !important;
+    line-height: 1.35;
+    font-size: 0.96rem;
+  }
+
+  .toc-kicker {
+    white-space: normal !important;
+    line-height: 1.3;
+    font-size: 0.78rem;
+  }
+
+  /* Personajes: 2 clean columns with wrapped labels */
   .cast-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
-  .char-card {
-    padding: 16px 10px;
+  .character-card {
+    padding: 16px 8px;
+    min-width: 0;
+    width: 100%;
   }
 
   .char-avatar-ring {
-    width: 70px !important;
-    height: 70px !important;
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
   }
 
   .char-avatar-img {
-    width: 62px !important;
-    height: 62px !important;
+    width: 64px !important;
+    height: 64px !important;
   }
 
   .char-name {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
   }
 
-  .char-role {
-    font-size: 0.73rem;
+  .char-role-title {
+    font-size: 0.74rem;
+    line-height: 1.3;
   }
 
-  /* Character modals */
+  .char-tag-pill {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+    padding: 4px 8px;
+    font-size: 0.68rem;
+    display: inline-block;
+  }
+
+  /* Character modals: full mobile screen fit */
   .modal-card {
     padding: 22px 16px;
-    margin: 16px;
-    max-height: 88vh;
+    margin: 12px;
+    max-height: 86vh;
+    max-height: calc(100dvh - 32px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
   /* Settings modal */
   .settings-modal-card {
-    margin: 16px;
-    max-width: calc(100% - 32px);
+    margin: 12px;
+    max-width: calc(100% - 24px);
     max-height: 85vh;
+    max-height: calc(100dvh - 32px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -2023,6 +2068,10 @@ main.app-content {
 
   .cast-grid {
     grid-template-columns: 1fr;
+  }
+
+  .character-card {
+    padding: 18px 12px;
   }
 
   .char-avatar-ring {
